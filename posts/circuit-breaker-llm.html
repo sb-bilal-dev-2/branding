@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Когда LLM падает, сервер не должен падать с ним</title>
+    <meta name="description" content="Что происходит, когда LLM-провайдер падает на 15 минут, и почему ваш клиент должен иметь предохранитель." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Circuit breaker для LLM-клиента: зачем нужен и как реализовать</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">15 августа 2024 · 4 минуты · надёжность, LLM, Python</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Сценарий, в котором простые ретраи делают только хуже</li>
+                <li>Три состояния circuit breaker и как они переключаются</li>
+                <li>Где разместить предохранитель — на клиенте или на эндпойнте</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>GIF · breaker · 800×300</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Анимация трёх состояний: closed (зелёный) → open (красный после серии ошибок) → half-open (жёлтый, пропускает один пробный) → обратно closed.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">~4s loop, ease-out: three state pills labeled "closed", "open", "half-open" transition in sequence. Closed = soft emerald glow, open = soft rose pulse, half-open = soft amber pulse. A small spark icon moves across to indicate "probe call". Transparent background, clean line work, 800x300, ~24fps.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Сценарий: LLM падает на 15 минут</h2>
+            <p>Провайдер ушёл в даунтайм. Без предохранителя ваш шлюз для каждого пользовательского запроса делает 3 ретрая с экспоненциальной задержкой. Это 12-30 секунд на запрос. Соединения копятся, воркеры заняты, веб-интерфейс висит. Пользователь нажимает «обновить», получает копию проблемы. Через минуту вы кладёте свой сервер раньше, чем восстановится провайдер.</p>
+            <p>Circuit breaker отвечает на это коротко: <i>«мы знаем, что не работает, не нагружаем сами себя».</i></p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Три состояния</h2>
+            <p><b>Closed.</b> Норма. Запросы идут к LLM. Считаем подряд идущие ошибки. Хорошо завершённый запрос обнуляет счётчик.</p>
+            <p><b>Open.</b> После N подряд идущих ошибок (5 — нормальная стартовая цифра) переключаемся. Любой новый запрос немедленно возвращает ошибку, не уходя к LLM. Длительность — фиксированный cooldown, скажем, 30 секунд.</p>
+            <p><b>Half-open.</b> Через 30 секунд пропускаем один запрос — пробный. Если он успешен — возвращаемся в closed. Если нет — снова open ещё на 30 секунд.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где разместить</h2>
+            <p>Не на эндпойнте, а на клиенте LLM. Один экземпляр breaker'а на процесс, общий для всех вызовов. Так его состояние агрегирует все ошибки, а не только текущего запроса.</p>
+            <p>Если у вас несколько разных LLM-провайдеров — у каждого свой breaker. Падение одного не должно гасить вызовы к другому.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ретраи vs предохранитель</h2>
+            <p>Это не «или». Это слои. Ретраи (с экспоненциальной задержкой через tenacity) защищают от одиночного сбоя — сети, кратковременного 503. Они работают <i>внутри</i> одного вызова. Breaker защищает от длительной деградации — когда провайдер лёг целиком. Он работает <i>между</i> вызовами. Оба нужны, и они не конфликтуют.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Поставьте tenacity на HTTP-вызов к LLM (3 попытки, экспоненциальный backoff, retry на TransportError + 5xx).</li>
+                <li>Оберните вызов в небольшой class CircuitBreaker — 40 строк кода, ничего страшного.</li>
+                <li>В демо ARA посмотрите панель «Предохранитель LLM» на странице <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">Система</a> — там видно, в каком он сейчас состоянии.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

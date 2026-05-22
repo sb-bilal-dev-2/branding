@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Кремниевая долина и Ташкент: где сейчас смотрит молодой инженер</title>
+    <meta name="description" content="Как ATS-отказ научил больше, чем некоторые офферы, и что Узбекистан может взять у американского IT — а что точно не стоит." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Кремниевая долина и Ташкент: куда смотрит молодой инженер</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">5 октября 2024 · 6 минут · карьера, индустрия, личное</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>История одного отказа, который оказался полезнее многих офферов</li>
+                <li>Три вещи, которым стоит научиться у американского IT</li>
+                <li>Две, от которых лучше держаться подальше — и где Узбекистан уже впереди</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Изометрия: открытый ноутбук с резюме, рядом две стрелки — одна на Сан-Франциско (мост Golden Gate), другая на Ташкент. Молодой инженер на фоне смотрит на обе.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: an open laptop showing an abstract resume document, two soft arrows curving out to San Francisco (Golden Gate Bridge silhouette) on one side and Tashkent (TV tower silhouette) on the other. A young engineer's silhouette stands in the background contemplating both. Calm violet-to-indigo gradient, no text, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Один отказ, который стоил больше офферов</h2>
+            <p>В 2023-м я ночью отправил резюме в небольшую американскую SaaS-компанию. Через час пришёл автомат-ответ: «ваше резюме получено, в ближайшие 5 рабочих дней вы получите либо приглашение на скрин, либо отказ; вот этапы интервью, вот пример задачи, вот их ожидания по культуре». На следующий день — отказ. Тоже структурированный: «не хватает опыта с distributed systems на 10K RPS, советуем посмотреть на эти ресурсы». Без эмодзи, без воды, по делу.</p>
+            <p>Я перечитал отказ три раза. В нём было больше полезной информации, чем в некоторых офферах, которые я получал дома. Это и есть то, что в Долине делают по умолчанию: <i>видят кандидата как взрослого, дают честную обратную связь, не тратят его время</i>.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Чему стоит научиться</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Структурированный найм.</b> Этапы прозрачны, критерии оценки опубликованы, отказ — это документ, а не молчание.</li>
+                <li><b>Внутренняя документация как продукт.</b> В Stripe есть гайды для джунов, написанные лучше, чем некоторые опубликованные книги.</li>
+                <li><b>Долгосрочное мышление.</b> Архитектурные решения принимаются «на 5 лет вперёд», даже если стартап существует 6 месяцев.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Чего точно не стоит копировать</h2>
+            <p><b>Хайр-и-фаер циклы.</b> 2022-2024 показали, что американский IT — это работа в постоянной готовности к увольнению. Это даёт скорость, но разрушает накопление институциональных знаний. Компании теряют людей именно тогда, когда они стали ценны.</p>
+            <p><b>Гонка за «10x engineer».</b> Понятие «senior» в США часто означает «человек, который работает 60 часов в неделю». Это не инженерная зрелость, это просто выгорание с зарплатой.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где Узбекистан уже впереди</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Стоимость жизни и качество жизни.</b> На senior-зарплату в Ташкенте можно жить значительно комфортнее, чем на ту же сумму в Сан-Франциско.</li>
+                <li><b>Меньше бюрократии при найме.</b> Открыть юр-лицо для собственного проекта — пара дней, не пара месяцев.</li>
+                <li><b>Близость к рынку.</b> Локальные продукты вроде Click, Payme, Uzum растут вместе с пользователями. Внутри американских корпораций такое уже редко увидишь.</li>
+                <li><b>IT Park как платформа.</b> Налоговые льготы плюс упрощённое визовое создают для иностранных инженеров условия, которых в США сейчас почти нет (H-1B квоты, лотерея).</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где можно стать лучше</h2>
+            <p>Главное узкое место — <b>культура отказа</b>. Когда местная компания не отвечает кандидату неделями, она теряет не только этого кандидата, но и пятерых его знакомых, которым он расскажет историю. Структурированный отказ — это самое дешёвое и самое недооценённое улучшение, которое можно сделать сейчас.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Если вы нанимаете — напишите шаблон отказа на одно предложение и зашлите его всем, кто не прошёл за последний месяц.</li>
+                <li>Если вы инженер — попробуйте отправить резюме хотя бы в одну зарубежную компанию ради качества фидбэка, даже если переезжать не планируете.</li>
+                <li>Прочитайте про <a href="/posts/china-vs-uz" class="text-indigo-600 hover:text-indigo-700">Китай и Узбекистан</a>, чтобы увидеть ещё один угол сравнения.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

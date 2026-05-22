@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Почему врач в поликлинике до сих пор записывает карту от руки</title>
+    <meta name="description" content="Где медицинская IT-инфраструктура страны сейчас, и что можно сделать без миллиардных проектов." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">IT в медицине Узбекистана: где мы — и куда нам идти</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">12 июня 2024 · 6 минут · здравоохранение, гос-IT, личное</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Один поход в клинику, после которого я перестал быть терпеливым</li>
+                <li>Где Узбекистан уже сделал серьёзные шаги в медицинском IT</li>
+                <li>Три конкретных проекта, которые можно запустить без миллиардных бюджетов</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Врач за столом: на одной стороне толстая папка с бумажной картой пациента, на другой — пустой современный планшет, ожидающий данных.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: a doctor at a desk. On the left side of the desk, a thick stack of paper patient records (folder with handwritten notes). On the right, a clean modern tablet with an empty patient-record interface waiting to be populated. Calm violet-to-indigo gradient background, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">15 минут в кабинете врача</h2>
+            <p>В 2023-м я пришёл на плановый приём в районную поликлинику Ташкента. Врач — нормальный, внимательный, опытный. Первые 15 минут приёма он молчал и заполнял в журнале мою карту от руки, потому что предыдущая карта оказалась в другом отделении. Я смотрел, как уходит четверть моего приёма на ввод того, что уже где-то записано.</p>
+            <p>Это не критика конкретного врача. Это про инфраструктуру: пока медицинские данные живут в бумажных журналах в каждом отделении, время самого ценного человека в системе — врача — тратится на роль секретаря.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где Узбекистан уже сделал серьёзный шаг</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>«Менинг шифокорим»</b> — приложение телемедицины, через которое можно получить онлайн-консультацию. Запущено и работает.</li>
+                <li><b>Электронная медицинская карта</b> внедряется в отдельных регионах и частных сетях. Не везде, но базис есть.</li>
+                <li><b>E-imzo для рецептов</b> — инфраструктура для цифровых рецептов в принципе готова. Осталось довести интеграцию до конца.</li>
+                <li><b>Цифровой полис ОМС.</b> Связь между гражданином и государственной медициной уже частично цифровая.</li>
+                <li><b>Покрытие 4G в городах</b> — у врача в районе всегда работает мобильный интернет. Это не само собой разумеется.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Чего ещё не хватает</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Единая медицинская карта на страну.</b> Чтобы карту, заведённую в Самарканде, видел врач в Ташкенте без отдельного запроса.</li>
+                <li><b>Стандартизированный обмен данными.</b> HL7/FHIR — международный протокол. У нас он пока не повсеместен.</li>
+                <li><b>AI-ассистент врача.</b> Простой инструмент, который из жалоб пациента сформировал бы черновик карты — экономит врачу 5-10 минут на приёме.</li>
+                <li><b>Аналитика на популяционном уровне.</b> Какие болезни растут, где, у каких возрастов. Сейчас данные есть, но они не сведены.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Три проекта, которые можно начать сейчас</h2>
+            <p><b>1. AI-черновик карты.</b> Врач говорит — модель транскрибирует и структурирует в шаблон карты. Open-source модели (Whisper для речи + 7B LLM для разбора) дают рабочее качество уже сейчас. Бюджет проекта — небольшой; ценность для каждого приёма — реальная.</p>
+            <p><b>2. Триаж-чат-бот в местных языках.</b> Перед записью на приём бот задаёт стандартные вопросы по симптомам и направляет к нужному специалисту. Снимает нагрузку с регистратуры. Узбекский + русский — обязательны.</p>
+            <p><b>3. Стандарт FHIR в одной частной сети как пилот.</b> Не «вся страна сразу». Одна сеть из 5-10 клиник, общая база данных в FHIR-формате. Через год — образец для гос-сектора.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где Узбекистан имеет преимущество</h2>
+            <p>Меньше масштаб, чем у России или США — это значит, что пилот в одной частной сети может покрыть значимую долю реальных кейсов быстрее. Сильное проникновение мобильного интернета — каждый пациент уже носит «терминал» в кармане. Молодая средняя возрастная группа врачей — быстрее принимает цифровые инструменты, чем в стареющих системах.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Если вы инженер и хотите большой социальный impact — медтех в Узбекистане сейчас открытое поле.</li>
+                <li>Если вы внутри клиники — спросите врачей, сколько времени на приёме уходит на ввод данных. Это ваша первая метрика.</li>
+                <li>Прочитайте про <a href="/posts/nano-ai-medicine" class="text-indigo-600 hover:text-indigo-700">нанотехнологии и будущее медицины</a> — то, к чему всё это идёт через 5-10 лет.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

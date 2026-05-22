@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Три ошибки, когда разносишь пайплайн в очередь</title>
+    <meta name="description" content="Когда пора выносить пайплайн в очередь, и три ошибки, которые легко допустить при миграции." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">От синхронной обработки к воркерам: как разнести пайплайн без боли</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">19 мая 2024 · 5 минут · архитектура, очереди, миграция</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Один сигнал, по которому пора переходить с синхронного пайплайна на очередь</li>
+                <li>Минимальная архитектура «шлюз + очередь + воркер»</li>
+                <li>Три ошибки миграции, которые легко допустить (и я их допускал)</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Изометрия: HTTP-шлюз слева, очередь посередине (визуально как пневмопочта), два воркера справа — один обрабатывает, второй ждёт.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: HTTP gateway on the left passing a small parcel into a horizontal queue (like a pneumatic tube), the queue feeding two worker servers on the right. One worker is glowing softly (processing), the other is idle. Calm slate and indigo gradient background, no text labels, clean line work, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Когда пора</h2>
+            <p>Сигнал ровно один: <b>обработка одного запроса занимает дольше, чем клиент готов ждать.</b> Для веб-API это обычно 2-3 секунды. Если внутри ваш OCR занимает 8 секунд, а эмбеддинги ещё 4 — клиент уже отвалился по таймауту. До этого порога синхронный пайплайн дешевле, проще и быстрее в разработке.</p>
+            <p>Не миграция ради миграции. Не «у всех очереди». Раздельные процессы — это операционная сложность. Платите её, когда выгода становится больше боли.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимальная архитектура</h2>
+            <p>Три компонента, ничего больше:</p>
+            <ol class="list-decimal list-inside space-y-1 ml-2">
+                <li><b>Шлюз (FastAPI).</b> Принимает запрос, валидирует, пишет в БД строку «задача создана» со статусом <code class="text-xs bg-slate-100 px-1 rounded">queued</code>, кладёт идентификатор задачи в очередь, возвращает клиенту 202 с этим идентификатором.</li>
+                <li><b>Очередь (RabbitMQ).</b> Один durable queue. Сообщение — JSON c <code class="text-xs bg-slate-100 px-1 rounded">job_id</code> и <code class="text-xs bg-slate-100 px-1 rounded">document_id</code>. Не сохраняйте в сообщении большой контент — он уже в БД и в объектном хранилище.</li>
+                <li><b>Воркер.</b> Читает сообщение, по id поднимает данные из БД, прогоняет пайплайн, обновляет статус задачи.</li>
+            </ol>
+            <p>Клиент пингует <code class="text-xs bg-slate-100 px-1 rounded">GET /jobs/{id}</code> или, лучше, дашборд сам опрашивает статус и обновляет UI. Никакого WebSocket с первого дня — это можно отложить.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Три ошибки, которые я делал</h2>
+            <p><b>1. Класть полезную нагрузку в сообщение.</b> Сообщение разрастается, кролик упирается в память, retries дорого тащить. Кладите id, всё остальное — в БД.</p>
+            <p><b>2. Не думать про идемпотентность.</b> Сообщение могут доставить дважды. Воркер должен проверять статус задачи и пропускать уже выполненные. Иначе на ретраях получаете дубликаты в индексе.</p>
+            <p><b>3. Молчаливое падение воркера.</b> Если воркер падает в середине, задача остаётся в статусе <code class="text-xs bg-slate-100 px-1 rounded">running</code> навсегда. Нужно либо heartbeat, либо «протухшие running старше N секунд можно подобрать другому».</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Замерьте p95 обработки одного запроса. Если меньше 2 секунд — не торопитесь с очередью.</li>
+                <li>Если уже больше — добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">processing_jobs</code> с явной state-машиной (queued / running / succeeded / failed).</li>
+                <li>Дальше читайте про <a href="/posts/circuit-breaker-llm" class="text-indigo-600 hover:text-indigo-700">circuit breaker</a> — он спасает воркер от каскадных падений.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Неделя в Шэньчжэне без банковской карты</title>
+    <meta name="description" content="Неделя в Шэньчжэне без банковской карты — что Узбекистан может перенять у Китая и что точно не стоит." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Китайские супер-приложения и узбекский цифровой переход</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">8 сентября 2025 · 6 минут · супер-приложения, финтех, личное</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Неделя жизни без банковской карты в Шэньчжэне — и что я увидел</li>
+                <li>Что такое супер-приложение и почему Click/Payme/Uzum — это правильное начало</li>
+                <li>Три вещи, которые Китай делает лучше, и две, которым подражать нельзя</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Чайный рынок в Шэньчжэне: продавец показывает QR-код на ламинированном листе, покупатель сканирует телефоном. На фоне — силуэт небоскрёбов района Футьян.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: a small Shenzhen street market scene. A vendor holds a laminated card showing an abstract QR pattern (no real codes), a customer scans it with a phone. In the soft background, a stylized Shenzhen skyline (Futian district silhouette). Calm violet-to-indigo gradient, no logos or text, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Неделя без карты</h2>
+            <p>В 2024-м я провёл неделю в Шэньчжэне на технологической конференции. К концу первого дня я перестал доставать кошелёк. Чай, такси, метро, ужин, такси обратно — всё через QR в одном приложении. Самое сильное впечатление было не от технологии. Меня поразила бабушка-уборщица в подъезде гостиницы: у неё на ламинированном листе с верёвочкой был свой QR. Чаевые принимаются. <i>Никто не остаётся за пределами цифровой системы — даже она.</i></p>
+            <p>Я вернулся в Ташкент, открыл Click. Он работает. Он умеет переводы, оплату ЖКХ, такси, заказ еды. Но это всё ещё отдельные сервисы, не одна экосистема. Контраст был полезен.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что такое супер-приложение</h2>
+            <p>Это не «приложение, которое умеет всё». Это <b>один логин, одна карточка, один кошелёк</b>, поверх которых живут сотни мини-приложений от разных команд. WeChat — это и мессенджер, и платежи, и такси, и госуслуги. Alipay — то же. Платформа берёт на себя identity и платёжный рельс; всё остальное — это партнёрская экосистема.</p>
+            <p>Uzum двигается в эту сторону. Click и Payme — близко. Это сильное начало, и в нашем регионе оно конкурентоспособно по любым меркам.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что Китай делает действительно хорошо</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Идентификация для всех.</b> Цифровая личность работает для безграмотных бабушек, не только для IT-публики. Это огромный социальный вклад.</li>
+                <li><b>Скорость развёртывания.</b> Метро Шэньчжэня перешло на лица-в-турникетах за полтора года. У нас в Ташкенте за это же время метро только разворачивало QR-оплату.</li>
+                <li><b>Производственная вертикаль.</b> Хуавэй делает чипы, серверы, сети — и AI на этих чипах. Это уровень суверенитета, которого нет нигде в постсоветском пространстве, включая Россию.</li>
+                <li><b>AI в масштабе.</b> DeepSeek в 2025-м показал, что Китай умеет делать топ-tier open-weight модели. Дешевле, чем американские лаборатории.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Чему подражать нельзя</h2>
+            <p><b>Слежение и социальный рейтинг.</b> Цена удобства WeChat — это полная прозрачность для государства. Каждая транзакция, каждое сообщение, каждое перемещение в одном профиле. Узбекистан сейчас имеет шанс построить аналогичное удобство <i>с приватностью по умолчанию</i> — это конкурентное преимущество, не ограничение.</p>
+            <p><b>Закрытый интернет.</b> Изолированные от глобальной сети сервисы выигрывают локально, но проигрывают, когда страна выходит за свои границы. Открытость — это база для экспорта IT-услуг, ради которой строится IT Park.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где Узбекистан правильно идёт</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Локальная разработка платежных систем.</b> Click, Payme, Humo, Uzcard — это не клоны WeChat Pay, это самостоятельные продукты, выросшие из местного контекста.</li>
+                <li><b>Uzum как супер-приложение.</b> E-commerce + платежи + такси в одном продукте — это движение в правильную сторону, и оно происходит сейчас.</li>
+                <li><b>Открытость рынка.</b> В Узбекистан можно зайти иностранному финтех-проекту, выпустить продукт, конкурировать. В Китае такого нет.</li>
+            </ul>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Если вы строите финтех — изучите, как WeChat onboard'ит пенсионеров. Большой рынок там, где не айтишники.</li>
+                <li>Если вы регулятор — задайте вопрос: «какая privacy-стратегия у нас на 2030?» Сейчас момент задать рамку, пока экосистема ещё не сформирована.</li>
+                <li>Прочитайте <a href="/posts/rus-gov-it-uroki" class="text-indigo-600 hover:text-indigo-700">«что российский гос-IT научил»</a> — третий угол того же сравнения.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

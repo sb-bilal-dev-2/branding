@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Аудит-журнал, который переживёт проверку</title>
+    <meta name="description" content="Что должно остаться в логе, когда систему смотрит регулятор — и почему обычного structlog недостаточно." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Аудит-журнал в эпоху LLM: что записывать, чтобы проверка не уничтожила</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">21 мая 2026 · 4 минуты · аудит, compliance, LLM</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Минимальный набор полей в аудит-таблице, без которых регулятор останется недоволен</li>
+                <li>Почему structlog в файл — это не аудит, а просто логи</li>
+                <li>Готовая схема таблицы <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> для документной системы с LLM</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Изометрия: длинная лента-журнал, на которой строки событий идут только вперёд (стрелки), а попытка стереть строку отмечается красным крестом.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a long horizontal ledger ribbon with rows of event entries scrolling left-to-right. An "eraser" icon attempting to remove a row is crossed out with a soft red mark. Calm violet-to-indigo gradient, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Почему structlog — это не аудит</h2>
+            <p>Логи в файл — это операционная история. Их можно отротировать, можно потерять при падении диска, можно поменять задним числом, если есть доступ к серверу. <b>Аудит</b> — это набор записей, которые: (а) живут в базе с теми же бэкапами и репликацией, что и бизнес-данные; (б) пишутся только <code class="text-xs bg-slate-100 px-1 rounded">INSERT</code>; (в) переживают удаление документов, к которым относятся. Регулятор спросит «покажите всё, что было с документом X» — у вас должен быть один SQL-запрос с ответом.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимум полей</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">occurred_at</code></b> — TIMESTAMPTZ с индексом DESC.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">actor</code></b> — кто действовал. У нас формат: <code class="text-xs bg-slate-100 px-1 rounded">dashboard:&lt;user&gt;</code> для веб-входа, <code class="text-xs bg-slate-100 px-1 rounded">api:&lt;key-hash&gt;</code> для API-вызовов (не хранить ключ, только префикс sha256), <code class="text-xs bg-slate-100 px-1 rounded">worker:&lt;name&gt;</code> для системных событий.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">action</code></b> — что произошло. Перечисление с CHECK-ограничением (<code class="text-xs bg-slate-100 px-1 rounded">document.uploaded</code>, <code class="text-xs bg-slate-100 px-1 rounded">document.asked</code>, ...), не свободный текст.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">document_id</code></b> с FK <code class="text-xs bg-slate-100 px-1 rounded">ON DELETE SET NULL</code> — чтобы запись пережила удаление документа.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">request_id</code></b> — связь с логами и трассировкой.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">details JSONB</code></b> — небольшой структурированный контекст (имя файла, обрезок вопроса, тип ошибки). НЕ полное содержимое — это уже в основной БД.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что специфично для LLM-систем</h2>
+            <p>Каждый вызов модели — это событие, которое нужно записать. Не сам ответ (он часто длинный и потенциально содержит чувствительное), а:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>Кто спросил (actor).</li>
+                <li>К какому документу относился вопрос.</li>
+                <li>Какой режим поиска использован (keyword / vector / hybrid).</li>
+                <li>Сколько цитат вернулось.</li>
+                <li>Опционально — первые 200 символов вопроса для контекста при разборе жалоб.</li>
+            </ul>
+            <p>В ARA это таблица <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> с action <code class="text-xs bg-slate-100 px-1 rounded">document.asked</code>. Через год вы сможете ответить на «кто пять раз спрашивал про этот контракт» одним SELECT.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Append-only — как инвариант кода</h2>
+            <p>В коде не должно быть <code class="text-xs bg-slate-100 px-1 rounded">UPDATE audit_events</code> и <code class="text-xs bg-slate-100 px-1 rounded">DELETE FROM audit_events</code> — никогда. На уровне БД желательно отозвать эти права у роли приложения. Но даже без БД-уровня инвариант поддерживается ревью кода: PR с UPDATE/DELETE на этой таблице — это сигнал «надо смотреть очень внимательно».</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Не блокирует пользователя</h2>
+            <p>Запись в аудит не должна валить запрос. Если БД временно недоступна — пользователь получает свой ответ; аудит-запись логируется как ошибка для оператора. Лучше пропустить одну запись, чем уронить весь трафик. В ARA это сделано через try/except в <code class="text-xs bg-slate-100 px-1 rounded">AuditService.record()</code>.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> к вашему текущему проекту. Шесть полей, шесть индексов, готово.</li>
+                <li>Пройдитесь по коду и найдите три бизнес-действия, после которых надо звать <code class="text-xs bg-slate-100 px-1 rounded">audit.record()</code>.</li>
+                <li>Откройте <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">журнал в демо ARA</a> — там виден живой пример.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

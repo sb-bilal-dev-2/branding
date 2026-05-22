@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>До миллиона эмбеддингов не уходите из Postgres</title>
+    <meta name="description" content="Когда pgvector — правильный стартовый выбор, и какой критерий говорит, что пора переезжать на выделенную БД." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Postgres + pgvector против выделенной векторной БД: когда что нужно</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">22 марта 2024 · 4 минуты · Postgres, векторы, архитектура</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Простой критерий: pgvector или выделенная векторная БД</li>
+                <li>Что реально проседает у pgvector, а что — миф</li>
+                <li>Сигнал, по которому пора переезжать на Qdrant / Milvus / Weaviate</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Изометрия: две базы рядом — большая «PostgreSQL» с маленьким векторным ящиком внутри, и отдельная «Qdrant» полностью векторная. На весах посередине.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: on the left a large PostgreSQL database icon with a small "vector" extension module attached, on the right a smaller dedicated vector-database icon glowing softly. A delicate balance scale in the middle. Calm slate and indigo palette, no text labels, clean line work, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Простой критерий</h2>
+            <p>До миллиона эмбеддингов — Postgres + pgvector. После — есть разговор. Не «надо переезжать», а «стоит подумать». На пяти миллионах pgvector часто всё ещё держится — если у вас приличные индексы и приличный сервер.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что pgvector делает хорошо</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Одна база на всё.</b> Транзакции на documents и chunks вместе с векторами. Никакой консистентности через два хранилища.</li>
+                <li><b>JOIN с метаданными.</b> «Найди ближайшие чанки в документах, подписанных в марте, с суммой > 1 млн» — одна SQL-строка.</li>
+                <li><b>Резервное копирование, репликация, права.</b> Всё, что уже выстроено для Postgres, работает и для векторов.</li>
+                <li><b>HNSW-индекс</b> с pgvector 0.5+ закрывает большинство практических нагрузок.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где pgvector реально проседает</h2>
+            <p><b>Фильтрация при поиске.</b> Если вам нужно «top-10 ближайших среди чанков с пометкой X», и у вас 10 миллионов чанков, pgvector часто проседает: HNSW плохо дружит с pre-filter. Qdrant с payload-фильтрами выигрывает кратно.</p>
+            <p><b>Hot-data sharding.</b> Qdrant умеет шардировать коллекции и держать горячие в памяти. С Postgres это будет ручная разбивка.</p>
+            <p><b>Гибридный поиск.</b> BM25 + векторы можно построить в Postgres (tsvector + pgvector), но это работа. Qdrant из коробки даёт sparse + dense.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Сигнал к переезду</h2>
+            <p>Не «миллион векторов в базе», а: <i>«p95 поискового запроса с фильтром по метаданным превысил 200 мс, и оптимизация индексов не помогает»</i>. До этого момента — pgvector. После — Qdrant / Milvus / Weaviate. И даже тогда лучше держать первичный source-of-truth в Postgres, а в векторной БД — производные данные, которые при беде восстанавливаются переиндексацией.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Включите pgvector в текущий Postgres — это одна команда <code class="text-xs bg-slate-100 px-1 rounded">CREATE EXTENSION vector</code>.</li>
+                <li>Замерьте p95 поискового запроса с типичным фильтром: меньше 200 мс — пока не переезжайте.</li>
+                <li>Прочитайте, как мы сделали <a href="/posts/hybrid-search-bm25" class="text-indigo-600 hover:text-indigo-700">гибридный поиск Postgres + Qdrant</a> — там реальные цифры.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

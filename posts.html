@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Статьи об архитектуре, AI/ML и гос-IT</title>
+    <meta name="description" content="Заметки по архитектуре систем, AI/ML-инфраструктуре, RAG и опыту гос-IT." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        body { overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <!-- Desktop nav -->
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-900 font-medium">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Связаться</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-4 sm:px-6 pt-10 pb-14 sm:pt-16 sm:pb-20">
+
+    <div class="mb-10 sm:mb-12">
+        <h1 class="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">Статьи</h1>
+        <p class="text-slate-500 mt-3 max-w-xl text-sm sm:text-base">
+            Короткие заметки об архитектуре систем, AI/ML-инфраструктуре и опыте работы
+            с государственными цифровыми сервисами.
+        </p>
+    </div>
+
+    <section>
+        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mono mb-4">2026</div>
+        <ol class="space-y-1 mb-12">
+            <li><a href="/posts/audit-log-llm" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Аудит-журнал, который переживёт проверку</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Что должно остаться в логе, когда систему смотрит регулятор — и почему обычного structlog недостаточно.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">21 мая 2026 · 4 мин · аудит, compliance, LLM</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+        </ol>
+    </section>
+
+    <section>
+        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mono mb-4">2025</div>
+        <ol class="space-y-1 mb-12">
+            <li><a href="/posts/nano-ai-medicine" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">AI-революция — это нанолитография, и никто не говорит вслух</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Почему нанометры внутри чипов скрытно двигают всё, что мы называем AI-революцией.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">4 декабря 2025 · 6 мин · нанотех, AI, медицина</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/on-prem-llm" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Когда стоит держать LLM у себя — и когда нет</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Три аргумента в защиту бюджета на свой GPU-сервер плюс одно скрытое преимущество.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">12 октября 2025 · 4 мин · LLM, архитектура, безопасность</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/china-vs-uz" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Неделя в Шэньчжэне без банковской карты</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Что Узбекистан может перенять у Китая, и две вещи, которым подражать точно не стоит.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">8 сентября 2025 · 6 мин · супер-приложения, финтех, личное</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/gov-doc-ai-cases" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Документный AI в гос-секторе: 4 кейса и где мы отстаём</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Что уже автоматизировано в российских ведомствах, какие из этих кейсов прямо применимы к Узбекистану.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">22 июля 2025 · 6 мин · гос-IT, документы, AI</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/api-design-gateway" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">7 решений в API, которые окупаются годами</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Идемпотентность, backpressure, версионирование, аудит — что закладывается в первый день и почему.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">15 апреля 2025 · 5 мин · API, архитектура, дизайн</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/hybrid-search-bm25" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Когда BM25 неожиданно уделывает векторный поиск</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Формула reciprocal rank fusion в одну строку и реальные числа MRR из эвал-сета.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">30 января 2025 · 5 мин · поиск, RAG, Postgres</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+        </ol>
+    </section>
+
+    <section>
+        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mono mb-4">2024</div>
+        <ol class="space-y-1 mb-12">
+            <li><a href="/posts/rus-gov-it-uroki" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Госуслуги, ЕИС закупок, ЦБ digital — конкретные системы, цена опыта, и почему такие же команды нужны здесь.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">10 декабря 2024 · 6 мин · гос-IT, стратегия, опыт</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/usa-vs-uz" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Кремниевая долина и Ташкент: где сейчас смотрит молодой инженер</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Как ATS-отказ научил больше, чем некоторые офферы, и что Узбекистан может взять у американского IT.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">5 октября 2024 · 6 мин · карьера, индустрия, личное</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/circuit-breaker-llm" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Когда LLM падает, сервер не должен падать с ним</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Три состояния circuit breaker, и почему ваш LLM-клиент должен иметь его до выхода в продакшен.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">15 августа 2024 · 4 мин · надёжность, LLM, Python</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/med-it-uz" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Почему врач в поликлинике до сих пор записывает карту от руки</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Где медицинская IT-инфраструктура страны сейчас, и что можно сделать без миллиардных проектов.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">12 июня 2024 · 6 мин · здравоохранение, гос-IT, личное</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/sync-to-workers" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Три ошибки, когда разносишь пайплайн в очередь</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Когда пора выносить пайплайн в очередь, и три ошибки, которые легко допустить при миграции.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">19 мая 2024 · 5 мин · архитектура, очереди, миграция</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/pgvector-vs-qdrant" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">До миллиона эмбеддингов не уходите из Postgres</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Откладывать выделенную векторную БД до последнего — нормальная стратегия. Разбираем критерий перехода.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">22 марта 2024 · 4 мин · Postgres, векторы, архитектура</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/ru-vs-uz" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Россия и Узбекистан в IT: пять лет наблюдений</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Лично пережитый контраст IT-культур и почему Ташкент в 2025 году неожиданно оказался в выигрыше.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">12 января 2024 · 6 мин · карьера, индустрия, личное</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+        </ol>
+    </section>
+
+    <section>
+        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mono mb-4">2023</div>
+        <ol class="space-y-1 mb-12">
+            <li><a href="/posts/rag-za-vyhodnye" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">RAG за два дня: что нужно, а что — нет</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Минимально работающий RAG за два дня — какие шаги обязательны, а какие можно отбросить.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">8 октября 2023 · 5 мин · RAG, эмбеддинги, начало</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+            <li><a href="/posts/llm-pervyy-mesyac" class="group flex items-baseline justify-between gap-4 py-5 border-t border-slate-100">
+                <div class="min-w-0 flex-1">
+                    <div class="font-medium text-slate-900 group-hover:text-indigo-600 transition">Три заблуждения первого месяца с LLM</div>
+                    <div class="text-sm text-slate-500 mt-1.5">Три уверенности, которые рассыпались на первой неделе — и какую рамку на них стоит надеть.</div>
+                    <div class="text-xs text-slate-400 mt-2 mono">14 мая 2023 · 3 мин · LLM, обучение, опыт</div>
+                </div>
+                <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a></li>
+        </ol>
+    </section>
+
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">
+        © 2026 Билол Саидумаров · Ташкент
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</title>
+    <meta name="description" content="Госуслуги, ЕИС закупок, ЦБ digital — что из российского опыта прямо применимо к Узбекистану и каких людей это требует." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">10 декабря 2024 · 6 минут · гос-IT, стратегия, опыт</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Три российские системы, которые реально изменили взаимодействие государства и граждан</li>
+                <li>Какие инженерные практики стоят за этими системами</li>
+                <li>Что из этого Узбекистан может и должен повторить — и какой команды это требует</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Минимализм: телефон в руке человека показывает абстрактный гос-сервис; на фоне силуэт городской панорамы Ташкента.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: a hand holds a smartphone showing an abstract government-services interface with simple icons (no real logos). In the soft background, a stylized Tashkent skyline silhouette. Calm slate and indigo gradient, no text, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Три системы, которые задали стандарт</h2>
+            <p><b>Госуслуги.</b> Единый портал, через который граждане получают доступ к сотням сервисов с одной авторизацией. Под капотом — единая система идентификации (ЕСИА), интеграция десятков ведомств через шину СМЭВ, мобильное приложение с биометрией. Опыт: централизованная аутентификация + строгие SLA на интеграции делают невозможное возможным.</p>
+            <p><b>ЕИС закупок.</b> Все государственные закупки — в одной системе, с открытыми данными, аудитом и электронными торгами. Снизила коррупционные риски, упростила малому бизнесу выход на гос-контракты. Опыт: прозрачность сама по себе — продукт.</p>
+            <p><b>Налоговая ФНС.</b> Личный кабинет, автоматическая декларация по 3-НДФЛ из работодательских отчётов, мобильное приложение для самозанятых. Опыт: государство может быть удобным, если оно делает интеграции за гражданина, а не требует их от него.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что стоит за этим в инженерии</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Серьёзные backend-команды.</b> Не подрядчики на разовых тендерах, а штат, который годами развивает одну систему. Senior python / golang / java инженеров — десятки в каждой.</li>
+                <li><b>Системные архитекторы как отдельная роль.</b> Кто-то должен думать, как 30 ведомств обмениваются данными без катастроф.</li>
+                <li><b>Жёсткие требования к надёжности.</b> SLA 99.9% на сервисы, через которые граждане платят налоги. Это диктует архитектуру.</li>
+                <li><b>Цифровые подписи, eDNS, единые идентификаторы.</b> Инфраструктурные слои, без которых сервисы не складываются.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что Узбекистан уже делает</h2>
+            <p>Платформа <i>my.gov.uz</i> существует. Е-имзо как технология электронной подписи работает. Налоговая интегрирована с банками. Но при сравнении заметна разница в зрелости: меньше сервисов, больше «походов в кабинет» там, где у России осталось три клика. И главное — команды, которые двигают эти системы, всё ещё малы.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что нужно повторить, и какой команды это требует</h2>
+            <p>Три приоритета на ближайшие 3-5 лет, если переносить опыт честно:</p>
+            <ol class="list-decimal list-inside space-y-1 ml-2">
+                <li><b>Единая идентификация граждан и бизнеса.</b> Один логин, доступ ко всем сервисам. Без этого каждое ведомство строит свою аутентификацию заново.</li>
+                <li><b>Сервисная шина между ведомствами.</b> «Я уже даю эти данные в одно ведомство — почему другое требует те же справки?» Решается единой шиной с правами и аудитом.</li>
+                <li><b>Документный AI в гос-документообороте.</b> Контракты, постановления, докладные — миллионы документов в год. <a href="/posts/gov-doc-ai-cases" class="text-indigo-600 hover:text-indigo-700">Что уже делают и где Узбекистан отстаёт →</a></li>
+            </ol>
+            <p>Для каждого из этих направлений нужно по полноценной команде: системный архитектор, 4-6 senior backend инженеров, devops, data engineer, аналитик безопасности. Это годовые проекты, не недельные внедрения. Государство должно нанимать таких людей в штат, а не закупать через тендер «под ключ».</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Если вы инженер — посмотрите вакансии в гос-IT Узбекистана. Сейчас редкая возможность строить с нуля то, что в РФ уже стоит.</li>
+                <li>Если вы внутри гос-структуры — спросите команду: «есть ли у нас системный архитектор?» Если нет — это первый найм.</li>
+                <li>Прочитайте про <a href="/posts/gov-doc-ai-cases" class="text-indigo-600 hover:text-indigo-700">документный AI в гос-секторе</a> — это самая близкая возможность.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Документный AI в гос-секторе: 4 кейса и где мы отстаём</title>
+    <meta name="description" content="Четыре рабочих кейса автоматизации документооборота в гос-секторе и где Узбекистан отстаёт." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Документный AI в гос-секторе: 4 рабочих кейса и где Узбекистан отстаёт</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">22 июля 2025 · 6 минут · гос-IT, документы, AI</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Четыре конкретных кейса AI в обработке гос-документов — что уже работает в мире</li>
+                <li>Где у Узбекистана уже есть базис, на котором это можно строить</li>
+                <li>Один кейс, с которого можно начать на следующей неделе</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Стопка официальных документов, через которые проходит мягкий световой поток, превращая их в структурированные карточки на дисплее.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: a stack of official-looking paper documents on the left, a soft beam of light passing through them transforms them into clean structured data cards floating on a digital screen on the right. Calm violet-to-indigo gradient, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Кейс 1. Автоматическая обработка налоговых деклараций</h2>
+            <p>В России ФНС за десять лет довела это до состояния, в котором большинство физических лиц вообще не подают декларацию — она формируется автоматически из данных работодателей, банков, нотариусов. AI-часть: классификация поступающих документов (договор / справка / решение), извлечение структурированных полей, сверка с реестрами.</p>
+            <p><b>Где Узбекистан:</b> налоговая давно интегрирована с банками; «Soliq» приложение работает. Следующий шаг — автоматическая классификация поступающих сканов и предзаполнение форм для индивидуальных предпринимателей и самозанятых.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Кейс 2. Анализ государственных закупок</h2>
+            <p>В Сингапуре и Эстонии алгоритмы анализируют тендерную документацию: подозрительно специфические требования, аффилированные участники, типовые «закладки» в техзаданиях. ML-часть — embeddings + ранжирование документов по похожести с «известными плохими» паттернами.</p>
+            <p><b>Где Узбекистан:</b> платформа закупок есть (xarid.uzex.uz). На ней можно построить мониторинг — нужны embeddings + люди, которые разметят 500 примеров «нормально» и «подозрительно». Это месячный проект, не годовой.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Кейс 3. Сортировка обращений граждан</h2>
+            <p>На my.gov.uz, на портале президента, на ведомственных страницах поступают сотни тысяч обращений в год. Сейчас они часто сортируются вручную операторами. AI-кейс: классификация по теме (ЖКХ / землеотвод / здравоохранение / и т.д.) и автоматическая маршрутизация в нужное ведомство.</p>
+            <p><b>Где Узбекистан:</b> данные уже собираются. AI-фильтр сократит время первого ответа в разы. С учётом многоязычности обращений (узбекский + русский), это место, где локальная экспертиза критична.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Кейс 4. Извлечение данных из старых сканов</h2>
+            <p>В архивах гос-учреждений — миллионы PDF-сканов договоров, постановлений, кадастровых записей. OCR + LLM-валидация позволяет превратить их в структурированную базу. В России это направление двигают «Контур» и Сбер OCR.</p>
+            <p><b>Где Узбекистан:</b> у нас часть архивов ещё не оцифрована. Кейс из двух этапов: сначала физическое сканирование, потом OCR с тремя алфавитами — узбекская кириллица, узбекская латиница, русский. PaddleOCR и Surya — открытые решения, которые с этим справляются.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где у Узбекистана уже есть преимущество</h2>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Цифровая подпись E-imzo</b> давно интегрирована в гос-процессы. Это решает половину compliance-проблем сразу.</li>
+                <li><b>my.gov.uz</b> уже централизованно обрабатывает многие услуги — есть платформа для добавления AI-слоя.</li>
+                <li><b>Сильная мобильная база.</b> Граждане готовы взаимодействовать со своим телефоном; не нужно строить «правильное окошко в кабинете».</li>
+                <li><b>Меньший масштаб</b> по сравнению с Россией или Китаем означает, что пилотный проект может покрыть значимую долю кейсов быстрее.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">С чего начать на следующей неделе</h2>
+            <p>Самый дешёвый и заметный кейс — <b>сортировка обращений граждан</b>. Нужно: 5000 размеченных обращений (теги темы), bge-m3 эмбеддинги, простой классификатор. Через месяц — пилот в одном ведомстве. Через три — рабочая система с измеримой метрикой времени первого ответа.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Если вы внутри гос-структуры — выберите один документный поток с большим volume'ом и измеряемым временем обработки.</li>
+                <li>Сделайте недельный аудит: сколько ручных операций можно убрать с минимальным риском.</li>
+                <li>Посмотрите архитектуру в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a> — это не финальный продукт, но рабочая каркасная модель.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

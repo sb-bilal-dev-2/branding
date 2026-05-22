@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Три заблуждения первого месяца с LLM</title>
+    <meta name="description" content="Три заблуждения, которые рассыпались на первой неделе работы с LLM, и какая рамка действительно работает." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        [x-cloak] { display: none !important; }
+        body { overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+        pre { overflow-x: auto; max-width: 100%; }
+        code { overflow-wrap: anywhere; word-break: break-word; }
+        article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; }
+        @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Что я понял про LLM за первый месяц: три заблуждения</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">14 мая 2023 · 3 минуты · LLM, обучение, опыт</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 3 минуты</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Три заблуждения, на которых я споткнулся в первую неделю</li>
+                <li>Рамка, по которой я теперь оцениваю любую идею с LLM</li>
+                <li>Конкретный совет: с чего начинать, если вы только запрыгиваете в тему</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Минималистичная иллюстрация: разработчик за столом, перед ним три разноцветных «облачка-заблуждения», уходящих вверх и рассыпающихся.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a developer at a desk staring at three soft cloud-shapes above the laptop, each cloud labeled with a question mark, the clouds dissolving into small particles. Calm violet-to-indigo gradient background, no harsh shadows, no logos, no text, 16:9, 1600x900, professional editorial style.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 1. «LLM понимает»</h2>
+            <p>Первая мысль: модель отвечает связно, значит, она поняла вопрос. На самом деле — нет. Она статистически достроила правдоподобное продолжение. В 80% случаев этого достаточно. В оставшихся 20% получаем уверенно неверный ответ, который выглядит правильно. Для бизнес-логики и регулируемой среды это убийственно.</p>
+            <p><b>Что делать:</b> к каждому ответу прикладывайте источник. Если ответа нет в источнике — система говорит «не знаю», а не выдумывает. Это и есть основной смысл RAG.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 2. «Чем больше параметров, тем лучше»</h2>
+            <p>На демо-сцене 70B бьёт 7B. На вашей задаче — почти никогда. Маленькая модель с правильными чанками, нормальным промптом и хорошим ретривером уделывает большую без контекста. Платить за токены GPT-4 на каждом запросе, когда вашей задаче хватит локального 7B, — дорогая привычка.</p>
+            <p><b>Что делать:</b> сначала соберите минимальный RAG поверх локальной 7B-модели. Замерьте качество на 20 ваших реальных вопросах. Только если не хватает — рассматривайте более тяжёлую модель.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 3. «Главное — промпт-инжиниринг»</h2>
+            <p>В первый месяц я искал «магические» формулировки. Прирост качества — на 5-10%. А правильный чанк-сайз и нормальный ретривер дали +40%. Промпт важен. Но в десять раз меньше, чем структура контекста и данные.</p>
+            <p><b>Что делать:</b> промпт пишется один раз и редко меняется. Время вкладывайте в чанкинг, ретривер, эвалы.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Рамка, по которой я теперь оцениваю идею с LLM</h2>
+            <p>Три вопроса в таком порядке: <b>(1) есть ли у меня источник правды?</b> Если нет — RAG не поможет. <b>(2) могу ли я измерить качество?</b> Без 20-30 размеченных примеров никакая модель не «лучше» другой. <b>(3) что я делаю, когда модель ошибается?</b> Если ответа нет — продукт ещё не готов.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Соберите эвал-сет на 20 вопросов из вашей предметной области до того, как трогать продакшен.</li>
+                <li>Попробуйте Llama 3 / Qwen 7B + RAG, прежде чем считать, что нужен GPT-4.</li>
+                <li>Прочитайте следующую заметку — <a href="/posts/rag-za-vyhodnye" class="text-indigo-600 hover:text-indigo-700">«Сборка простой RAG-системы за выходные»</a>.</li>
+            </ul>
+        </div>
+
+    </article>
+
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

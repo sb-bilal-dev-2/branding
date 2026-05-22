@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Билол Саидумаров — AI Tech Lead в Узбекистане</title>
+    <meta name="description" content="AI Tech Lead в Узбекистане. Строю ИИ-инфраструктуру, которая работает десятилетия — а не три года до следующего инвестраунда." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-feature-settings: 'cv11', 'ss01', 'ss03', 'cv01';
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-feature-settings: 'zero', 'ss01'; }
+
+        :root {
+            --accent: #c2410c;        /* orange-700, confident — not retail-bright */
+            --accent-deep: #9a3412;   /* orange-800 — for hover/active */
+            --accent-soft: #fed7aa;   /* orange-200 — for soft tints */
+        }
+
+        .mesh { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .mesh::before, .mesh::after {
+            content: ""; position: absolute; border-radius: 50%;
+            filter: blur(96px); opacity: 0.45;
+        }
+        .mesh::before { top: -10%; left: 5%; width: 480px; height: 480px;
+            background: radial-gradient(circle, #fed7aa 0%, transparent 60%); }
+        .mesh::after { top: 5%; right: -10%; width: 520px; height: 520px;
+            background: radial-gradient(circle, #ddd6fe 0%, transparent 60%); }
+        @media (max-width: 640px) {
+            .mesh::before { width: 320px; height: 320px; }
+            .mesh::after { width: 360px; height: 360px; }
+        }
+
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+            text-transform: uppercase; color: #64748b;
+        }
+        .eyebrow::before { content: ""; display: inline-block; width: 14px; height: 2px; background: var(--accent); border-radius: 1px; }
+
+        .display { letter-spacing: -0.025em; font-feature-settings: 'cv11', 'ss01'; }
+
+        .surface {
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;
+            transition: border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
+        }
+        .surface:hover { border-color: #cbd5e1; transform: translateY(-2px); }
+
+        .arrow-link svg { transition: transform 200ms ease; }
+        .arrow-link:hover svg { transform: translateX(2px); }
+
+        @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .rise { animation: rise 600ms ease-out both; }
+        .rise-2 { animation-delay: 80ms; }
+        .rise-3 { animation-delay: 160ms; }
+
+        .underline-grad { position: relative; display: inline; background-image: linear-gradient(90deg, var(--accent) 0%, #f97316 50%, transparent 100%); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 2px; padding-bottom: 6px; }
+        .underline-grad::after { content: none; }
+
+        .btn-primary {
+            background: var(--accent); color: #fff;
+            transition: background 200ms ease, transform 160ms ease, box-shadow 200ms ease;
+            box-shadow: 0 1px 0 rgba(154, 52, 18, 0.3), 0 4px 14px -4px rgba(194, 65, 12, 0.35);
+        }
+        .btn-primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+        .link-accent { color: var(--accent); }
+        .link-accent:hover { color: var(--accent-deep); }
+        .principle-num { color: var(--accent); }
+
+        .stat-num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+
+        /* Pull-quote style for the manifesto-ish "Зачем" section. */
+        .lede {
+            font-size: 1.25rem; line-height: 1.75; color: #334155;
+            font-weight: 400; letter-spacing: -0.005em;
+        }
+        .lede strong { color: #0f172a; font-weight: 600; }
+
+        /* ─── Soothing motion layer ─────────────────────────────────── */
+
+        /* Slow mesh drift — adds life without distraction. */
+        @keyframes meshDrift {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50%      { transform: translate3d(36px, -22px, 0) scale(1.05); }
+        }
+        .mesh::before { animation: meshDrift 34s ease-in-out infinite; }
+        .mesh::after  { animation: meshDrift 42s ease-in-out infinite reverse; }
+
+        /* Periodic shimmer across the hero underline — every ~7s. */
+        @keyframes shimmerSweep {
+            0%   { background-position: -150% 100%; }
+            100% { background-position: 250% 100%; }
+        }
+        .underline-grad {
+            background-image: linear-gradient(90deg,
+                transparent 0%, var(--accent) 25%, #f97316 50%, var(--accent) 75%, transparent 100%);
+            background-size: 220% 2px;
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            animation: shimmerSweep 7s ease-in-out infinite;
+        }
+
+        /* Living orange pulse on the dashed Биомед card. */
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.45; transform: scale(1); }
+            50%      { opacity: 0.95; transform: scale(1.45); }
+        }
+        .dashed-card { border-style: dashed !important; position: relative; }
+        .dashed-card::before {
+            content: ""; position: absolute; top: 14px; right: 14px;
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 4px rgba(194, 65, 12, 0.12);
+            animation: softPulse 2.6s ease-in-out infinite;
+        }
+
+        /* Section reveal on scroll — gentle, cubic ease. */
+        .reveal {
+            opacity: 0; transform: translateY(18px);
+            transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Refined surface hover — softer lift, ambient shadow. */
+        .surface {
+            transition: border-color 320ms ease, box-shadow 320ms ease, transform 320ms ease;
+        }
+        .surface:hover {
+            border-color: #cbd5e1; transform: translateY(-3px);
+            box-shadow: 0 12px 40px -12px rgba(15, 23, 42, 0.10),
+                        0 2px 6px -2px rgba(15, 23, 42, 0.04);
+        }
+
+        /* Selection — orange tint to match the brand. */
+        ::selection { background: var(--accent-soft); color: #7c2d12; }
+
+        /* Accessible focus rings. */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px;
+        }
+
+        /* Smooth anchor scrolling. */
+        html { scroll-behavior: smooth; }
+
+        /* ─── Mobile-first global hygiene ───────────────────────────── */
+
+        /* Russian compound words can be wider than 360px viewports at large sizes.
+           overflow-wrap lets long words break; hyphens add soft hyphenation. */
+        body { overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+
+        /* Hero neuron-graph canvas — lives between .mesh and content. */
+        .hero-graph {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* "Зачем" section — low-angle pencil sketch of an Uzbek madrasah.
+           Viewer is at the base, looking up: minarets converge inward, iwan towers. */
+        .zachem-relief {
+            position: absolute; inset: 0;
+            pointer-events: none;
+            color: #334155;
+            opacity: 0.16;
+            z-index: 0;
+        }
+        @media (min-width: 1024px) { .zachem-relief { opacity: 0.18; } }
+        /* On mobile, push the sketch up — viewport is taller relative to width,
+           so the building was sitting too low when fully centered. */
+        @media (max-width: 640px) {
+            .zachem-relief { top: -10%; bottom: auto; height: 48%; opacity: 0.20; }
+        }
+        .zachem-relief svg { width: 100%; height: 100%; display: block; }
+        .zachem-relief path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+            stroke-dasharray: 1400;
+            stroke-dashoffset: 1400;
+        }
+        @keyframes pencilDraw { to { stroke-dashoffset: 0; } }
+        .zachem-relief.drawing .layer-1 path { animation: pencilDraw 0.50s cubic-bezier(0.45, 0, 0.55, 1) 0.00s forwards; }
+        .zachem-relief.drawing .layer-3 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.15s forwards; }
+        .zachem-relief.drawing .layer-4 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.32s forwards; }
+        .zachem-relief.drawing .layer-5 path { animation: pencilDraw 0.70s cubic-bezier(0.45, 0, 0.55, 1) 0.46s forwards; }
+        .zachem-relief.drawing .layer-6 path { animation: pencilDraw 0.70s cubic-bezier(0.45, 0, 0.55, 1) 0.62s forwards; }
+        .zachem-relief.drawing .layer-7 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.78s forwards; }
+        .zachem-relief.drawing .layer-8 path { animation: pencilDraw 0.45s cubic-bezier(0.45, 0, 0.55, 1) 0.92s forwards; }
+        @media (prefers-reduced-motion: reduce) {
+            .zachem-relief path { stroke-dashoffset: 0 !important; animation: none !important; }
+        }
+
+        /* Mobile-first display scale — keep hero readable on 360px screens. */
+        .display-xl  { font-size: 2.125rem; line-height: 1.08; letter-spacing: -0.025em; }   /* 34px */
+        .display-lg  { font-size: 1.75rem;  line-height: 1.15; letter-spacing: -0.02em; }    /* 28px */
+        @media (min-width: 640px) {
+            .display-xl { font-size: 3rem;    }   /* 48px */
+            .display-lg { font-size: 2.25rem; }   /* 36px */
+        }
+        @media (min-width: 768px) {
+            .display-xl { font-size: 3.75rem; }   /* 60px */
+            .display-lg { font-size: 3rem;    }   /* 48px */
+        }
+
+        /* Touch targets — keep nav/footer links ≥ 44px tall on mobile. */
+        @media (max-width: 640px) {
+            .tap { min-height: 44px; display: inline-flex; align-items: center; }
+        }
+
+        /* Respect reduced-motion preference fully. */
+        @media (prefers-reduced-motion: reduce) {
+            .mesh::before, .mesh::after,
+            .underline-grad,
+            .dashed-card::before,
+            .reveal, .rise {
+                animation: none !important;
+                transition: none !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased relative">
+
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center gap-3">
+        <!-- Logo: takes remaining space, truncates if needed. -->
+        <a href="/" class="flex items-baseline gap-2.5 min-w-0 flex-1 group">
+            <span class="font-semibold text-slate-900 tracking-tight group-hover:text-orange-700 transition truncate">Билол Саидумаров</span>
+            <span class="hidden lg:inline text-[11px] text-slate-400 mono uppercase tracking-wider whitespace-nowrap">AI Tech · UZ</span>
+        </a>
+
+        <!-- Desktop nav -->
+        <nav class="hidden md:flex items-center gap-7 text-sm shrink-0">
+            <a href="#projects" class="text-slate-600 hover:text-slate-900 transition">Проекты</a>
+            <a href="#services" class="text-slate-600 hover:text-slate-900 transition">Что делаю</a>
+            <a href="/posts" class="text-slate-600 hover:text-slate-900 transition">Статьи</a>
+        </nav>
+
+        <!-- Primary CTA — persistent, with live pulse -->
+        <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium shrink-0">
+            <span class="relative flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full rounded-full bg-white opacity-75 animate-ping"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            </span>
+            <span>Написать</span>
+        </a>
+    </div>
+</header>
+
+<!-- HERO ------------------------------------------------------------------ -->
+<section class="relative">
+    <div class="mesh" aria-hidden="true"></div>
+    <canvas id="hero-graph" class="hero-graph" aria-hidden="true"></canvas>
+
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-20 sm:pb-28 z-10">
+        <div class="max-w-3xl">
+            <div class="eyebrow mb-5 sm:mb-8 rise">AI Tech · Ташкент · Узбекистан</div>
+
+            <h1 class="display display-xl font-semibold rise rise-2">
+                Не очередной стартап.<br />
+                <span class="underline-grad">Реальная инфраструктура</span><br />
+                <span class="text-slate-400">для страны, которой она нужна.</span>
+            </h1>
+
+            <p class="mt-6 sm:mt-10 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
+                <span class="text-slate-900 font-medium">Лид ИИ-технологий в Узбекистане.</span>
+                Восемь лет в инженерии. Четыре из них — в командах
+                <span class="text-slate-900 font-medium">России, США и Канады</span>.
+            </p>
+            <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
+                Строю системы, которые
+                <span class="text-slate-900 font-medium">работают двадцать лет —
+                а не три, до следующего раунда</span>.
+            </p>
+
+        </div>
+    </div>
+</section>
+
+<!-- RECENT WRITING -------------------------------------------------------- -->
+<section class="bg-white border-t border-slate-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+        <div class="flex items-end justify-between gap-4 mb-8 sm:mb-12">
+            <div class="min-w-0">
+                <div class="eyebrow mb-3">Недавнее</div>
+                <h2 class="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Из блога</h2>
+            </div>
+            <a href="/posts" class="arrow-link inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition shrink-0">
+                Все статьи
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a>
+        </div>
+
+        <ol class="space-y-1">
+            <li>
+                <a href="/posts/audit-log-llm" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
+                    <div>
+                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Аудит-журнал, который переживёт проверку</div>
+                        <div class="text-xs text-slate-400 mt-1 mono">21 мая 2026 · 4 мин</div>
+                    </div>
+                    <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </li>
+            <li>
+                <a href="/posts/nano-ai-medicine" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
+                    <div>
+                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">AI-революция — это нанолитография, и никто не говорит вслух</div>
+                        <div class="text-xs text-slate-400 mt-1 mono">4 декабря 2025 · 6 мин</div>
+                    </div>
+                    <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </li>
+            <li>
+                <a href="/posts/rus-gov-it-uroki" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
+                    <div>
+                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</div>
+                        <div class="text-xs text-slate-400 mt-1 mono">10 декабря 2024 · 6 мин</div>
+                    </div>
+                    <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </li>
+            <li>
+                <a href="/posts/med-it-uz" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
+                    <div>
+                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Почему врач в поликлинике до сих пор записывает карту от руки</div>
+                        <div class="text-xs text-slate-400 mt-1 mono">12 июня 2024 · 6 мин</div>
+                    </div>
+                    <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- ЗАЧЕМ ------------------------------------------------------------------ -->
+<section class="relative overflow-hidden bg-white">
+    <!-- Low-angle pencil sketch of an Uzbek madrasah: viewer at the base, looking up.
+         Minarets converge toward an upper vanishing point; the iwan towers. -->
+    <div class="zachem-relief" aria-hidden="true">
+        <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid meet">
+            <g class="layer-1">
+                <path d="M 0 500 L 1600 500"/>
+                <path d="M 60 510 L 1540 510"/>
+            </g>
+            <g class="layer-3">
+                <!-- Iwan outer frame — trapezoid converging upward -->
+                <path d="M 440 500 L 488 95"/>
+                <path d="M 488 95 L 1112 95"/>
+                <path d="M 1112 95 L 1160 500"/>
+                <path d="M 440 500 L 1160 500"/>
+                <path d="M 500 135 L 1100 135"/>
+            </g>
+            <g class="layer-4">
+                <!-- Pointed iwan arch + inner doorway -->
+                <path d="M 540 500 L 555 310 Q 585 145 800 130 Q 1015 145 1045 310 L 1060 500"/>
+                <path d="M 720 500 L 720 400 L 880 400 L 880 500"/>
+                <path d="M 750 400 L 750 500"/>
+                <path d="M 850 400 L 850 500"/>
+            </g>
+            <g class="layer-5">
+                <!-- Left minaret (strong upward convergence) -->
+                <path d="M 220 500 L 220 488 L 340 488 L 340 500"/>
+                <path d="M 235 488 L 268 70 L 312 70 L 345 488"/>
+                <path d="M 250 380 L 333 380"/>
+                <path d="M 256 280 L 326 280"/>
+                <path d="M 261 195 L 320 195"/>
+                <path d="M 265 130 L 316 130"/>
+                <path d="M 270 70 L 311 70 L 309 50 L 271 50 Z"/>
+                <path d="M 273 50 Q 290 22 308 50"/>
+                <path d="M 290 22 L 290 6"/>
+            </g>
+            <g class="layer-6">
+                <!-- Right minaret (mirrored) -->
+                <path d="M 1260 500 L 1260 488 L 1380 488 L 1380 500"/>
+                <path d="M 1255 488 L 1288 70 L 1332 70 L 1365 488"/>
+                <path d="M 1267 380 L 1350 380"/>
+                <path d="M 1274 280 L 1344 280"/>
+                <path d="M 1280 195 L 1339 195"/>
+                <path d="M 1284 130 L 1335 130"/>
+                <path d="M 1289 70 L 1330 70 L 1329 50 L 1291 50 Z"/>
+                <path d="M 1292 50 Q 1310 22 1327 50"/>
+                <path d="M 1310 22 L 1310 6"/>
+            </g>
+            <g class="layer-7">
+                <!-- Dome behind the iwan + drum line -->
+                <path d="M 610 95 Q 610 25 800 18 Q 990 25 990 95"/>
+                <path d="M 640 95 L 960 95"/>
+            </g>
+            <g class="layer-8">
+                <!-- Dome finial -->
+                <path d="M 800 18 L 800 -8"/>
+                <path d="M 790 -2 L 810 -2"/>
+            </g>
+        </svg>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-14 sm:pb-20 md:pb-24">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+            <div>
+                <div class="eyebrow mb-3">Зачем</div>
+                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                    Сейчас в Узбекистане <br class="hidden sm:inline" />редкое окно.
+                </h2>
+                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                    Закрывать это окно стартапами «как у всех» — значит<br class="hidden sm:inline" />упустить десятилетие.
+                </p>
+            </div>
+            <div class="lg:col-span-2 space-y-6">
+                <p class="lede">
+                    Государство строит цифровую инфраструктуру <strong>с нуля</strong>.
+                    Банки переходят на цифровые рельсы. Медицина — от бумаги к данным.
+                    То, что мы спроектируем сейчас, проработает двадцать лет.
+                </p>
+                <p class="lede">
+                    Я не верю в «давайте сделаем ещё один TikTok» или в стартап ради раунда.
+                    Я верю в <strong>скучные системы, которые работают, когда за ними
+                    никто не смотрит</strong>.
+                </p>
+                <p class="lede">
+                    Не теряют ни одной записи. Помнят каждое задание — даже если ночью
+                    выключили свет. Выдерживают проверку аудитора через десять лет.
+                </p>
+                <p class="lede">
+                    Этого здесь не хватает. <strong>Именно это я строю.</strong>
+                </p>
+                <p class="text-sm text-slate-500 leading-relaxed pt-2 border-t border-slate-100 mt-6">
+                    Я видел, как такая инфраструктура строится там, где её строят уже двадцать лет.
+                    Узбекистану повезло — мы можем не повторять их ошибки.
+                </p>
+                <p class="text-sm pt-4">
+                    <span class="text-slate-500">Согласны? </span>
+                    <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Поговорим в Telegram →</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRINCIPLES ------------------------------------------------------------ -->
+<section class="bg-slate-50 border-t border-slate-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+            <div>
+                <div class="eyebrow mb-3">Принципы</div>
+                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                    Как я работаю
+                </h2>
+                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                    Не каждое решение нужно объяснять.<br class="hidden sm:inline" />
+                    Но мои — должны.
+                </p>
+            </div>
+            <div class="lg:col-span-2 space-y-10">
+                <div>
+                    <div class="flex items-baseline gap-3 mb-2">
+                        <span class="stat-num text-xs principle-num mono font-semibold">01</span>
+                        <h3 class="font-semibold text-slate-900">ИИ — это инструмент, а не магия</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">
+                        Языковые модели иногда ошибаются и сочиняют факты. Поэтому в серьёзной
+                        системе ИИ всегда сопровождается классическим поиском, проверкой
+                        ответов и резервным сценарием на случай сбоя. Чудес здесь нет —
+                        есть инженерия.
+                    </p>
+                </div>
+                <div>
+                    <div class="flex items-baseline gap-3 mb-2">
+                        <span class="stat-num text-xs principle-num mono font-semibold">02</span>
+                        <h3 class="font-semibold text-slate-900">Готовность к продакшну — с первого дня</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">
+                        Любая система должна быть готова к реальной нагрузке и реальным проверкам
+                        сразу, а не «доделаем потом». Резервное копирование, мониторинг,
+                        журнал аудита, защита от сбоев, восстановление после аварий — это не
+                        вторая фаза проекта. Это фундамент. Без него через год система
+                        превращается в источник проблем, который страшно трогать.
+                    </p>
+                </div>
+                <div>
+                    <div class="flex items-baseline gap-3 mb-2">
+                        <span class="stat-num text-xs principle-num mono font-semibold">03</span>
+                        <h3 class="font-semibold text-slate-900">Сложность — только там, где без неё нельзя</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">
+                        Дополнительные серверы, очереди задач, резервные узлы — добавляются,
+                        когда без них действительно не справиться. Не потому, что «так модно».
+                        Простое решение, которое работает, лучше сложного, которое выглядит впечатляюще.
+                    </p>
+                </div>
+                <div>
+                    <div class="flex items-baseline gap-3 mb-2">
+                        <span class="stat-num text-xs principle-num mono font-semibold">04</span>
+                        <h3 class="font-semibold text-slate-900">Сначала данные, потом — всё остальное</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">
+                        Перед красивым интерфейсом и модным ИИ стоит правильно спроектированная база данных.
+                        Если данные хранятся аккуратно — система проработает десятилетия без переписывания.
+                        Если нет — каждое обновление становится болью.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- УГОЛ ЗРЕНИЯ ----------------------------------------------------------- -->
+<section class="bg-white border-t border-slate-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+            <div>
+                <div class="eyebrow mb-3">Угол зрения</div>
+                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                    Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.
+                </h2>
+                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                    Это база. Многие просто<br class="hidden sm:inline" />не знают.
+                </p>
+            </div>
+            <div class="lg:col-span-2 space-y-6">
+                <p class="lede">
+                    Я использую подходы, которые иногда выглядят непривычно.
+                    <strong>Например, музыку для изучения языка.</strong> Это не оригинальность —
+                    это фундамент. Английский алфавит взрослые помнят не из учебника, а из песенки
+                    «ABCDEFG». Считать дети учатся не по таблице, а через «раз-два-три-четыре-пять,
+                    вышел зайчик погулять». «Billie Jean» помнят миллиарды людей наизусть —
+                    а лекцию из университета не помнит почти никто. Это не случайность.
+                </p>
+                <p class="lede">
+                    Мозг изначально устроен под ритм, мелодию и повторение — а не под параграфы
+                    и таблицы. Ребёнок учит первый язык через песни и интонацию, не через
+                    грамматику. Просто <strong>взрослые забыли, как сами учились</strong>,
+                    и теперь дают друг другу советы, которые сами никогда не использовали.
+                </p>
+                <p class="lede">
+                    База часто кажется «слишком простой». Поэтому её обходят те, кто
+                    торопится сделать «как у умных людей». <strong>А она и есть то,
+                    что работает десятилетиями.</strong>
+                </p>
+                <p class="lede">
+                    Моё преимущество — не скорость кода. А
+                    <strong>умение видеть базу, которую остальные пропустили</strong>.
+                </p>
+                <p class="text-sm pt-2">
+                    <span class="text-slate-500">Резонирует? </span>
+                    <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Напишите в Telegram →</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -------------------------------------------------------------- -->
+<section id="projects" class="bg-slate-50 border-t border-slate-100 scroll-mt-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+        <div class="mb-14 max-w-2xl">
+            <div class="eyebrow mb-3">Сейчас</div>
+            <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                Над чем работаю
+            </h2>
+            <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                ARA должна работать без сбоев десятилетие. Vocoplay — удерживать
+                внимание три минуты в день. Биомед-направление — открытое приглашение
+                тем, кто читает это и узнаёт свою задачу.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- ARA card -->
+            <div class="surface p-6 sm:p-8 flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-slate-900 tracking-tight">ARA</h3>
+                    <span class="text-[11px] mono uppercase tracking-wider text-slate-400">Гос-сектор · ИИ</span>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    <strong class="text-slate-900">Загрузите 10 000 документов. Через час
+                    они проиндексированы, размечены и готовы к ИИ-вопросам.</strong>
+                    Три языка: узбекский, русский, английский. PDF, фотографии, сканы.
+                    Поиск по словам, по смыслу или вместе. Суммы, даты, реквизиты,
+                    номера договоров — извлекаются автоматически.
+                </p>
+                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                    Развёртывается на собственных серверах ведомства — документы не уходят
+                    в чужие облака. Журнал аудита фиксирует каждое действие пользователя
+                    и переживает проверку через десять лет.
+                </p>
+                <div class="mt-auto pt-6">
+                    <a href="https://t.me/mario981110?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D0%B4%D0%B5%D0%BC%D0%BE%20ARA." target="_blank" rel="noopener" class="arrow-link link-accent inline-flex items-center gap-2 text-sm font-medium transition">
+                        Запросить демо в Telegram
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                    <div class="text-xs text-slate-400 mt-1.5">доступ и логин — по запросу</div>
+                </div>
+            </div>
+
+            <!-- Vocoplay card -->
+            <div class="surface p-6 sm:p-8 flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-slate-900 tracking-tight">Vocoplay</h3>
+                    <span class="text-[11px] mono uppercase tracking-wider text-slate-400">Продукт · ИИ для людей</span>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    <strong class="text-slate-900">Учите язык так же, как ребёнок —
+                    через песни, которые ИИ генерирует под вас.</strong> Shadowing
+                    (повторение за носителем) превращает прослушивание в активную тренировку.
+                    Скучное упражнение становится тем, к чему возвращаются добровольно.
+                    Подход выглядит несерьёзно — а это именно та база, через которую
+                    каждый из нас выучил первый язык.
+                </p>
+                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                    Я сам учу через него китайский. Это про то самое — заметить очевидное,
+                    мимо которого все прошли, и превратить в продукт.
+                </p>
+                <div class="mt-auto pt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    <a href="https://vocoplay.com" target="_blank" rel="noopener" class="arrow-link link-accent inline-flex items-center gap-2 text-sm font-medium transition">
+                        vocoplay.com
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                    <a href="https://t.me/vocoplaybot" target="_blank" rel="noopener" class="text-sm text-slate-600 hover:text-slate-900 transition mono">
+                        t.me/vocoplaybot
+                    </a>
+                </div>
+            </div>
+
+            <!-- Biomed/Nano card -->
+            <div class="surface dashed-card p-6 sm:p-8 flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-slate-900 tracking-tight">Биомед · Нано</h3>
+                    <span class="text-[11px] mono uppercase tracking-wider" style="color: var(--accent);">Коллаборация</span>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    <strong class="text-slate-900">Получите единую систему для лаборатории:
+                    микроскоп → ИИ-обработка изображений → защищённое хранилище
+                    с журналом аудита.</strong> Результаты анализов, протоколы клинических
+                    испытаний, данные с приборов — всё в одном контуре, доступном команде
+                    и совместимом с международными стандартами обмена данных.
+                </p>
+                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                    Долго себе говорил: «я не врач и не инженер-механик, пусть этим занимаются
+                    специалисты». Но <strong class="text-slate-700">герой не выбирает быть
+                    героем — его выбирает обстановка</strong>. Если рядом стою я, вижу пробел
+                    и могу закрыть его инженерно — значит, мой выход. Поэтому ищу партнёров:
+                    врачей, исследователей, людей с медоборудованием. Цель — чтобы узбекские
+                    лаборатории имели тот же инструментарий, что и зарубежные. Нанотехнологии
+                    и медицина — следующая волна, и я не хочу, чтобы мы её пропустили.
+                </p>
+                <div class="mt-auto pt-6">
+                    <a href="mailto:saidbilol18@gmail.com?subject=%D0%91%D0%B8%D0%BE%D0%BC%D0%B5%D0%B4%20%D0%BA%D0%BE%D0%BB%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%86%D0%B8%D1%8F" class="arrow-link link-accent inline-flex items-center gap-2 text-sm font-medium transition">
+                        Написать о коллаборации
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                    <div class="text-xs text-slate-400 mt-1.5 mono">врачи · исследователи · медтех</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -------------------------------------------------------------- -->
+<section id="services" class="bg-white border-t border-slate-100 scroll-mt-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+        <div class="eyebrow mb-3">Что я делаю</div>
+        <h2 class="text-2xl font-semibold text-slate-900 tracking-tight">Направления работы</h2>
+        <p class="text-sm text-slate-500 mt-2 max-w-xl">Я не предлагаю «всё для всех». Это четыре области, где я отвечаю за результат целиком.</p>
+
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
+            <div>
+                <div class="flex items-baseline gap-3 mb-3">
+                    <span class="stat-num text-xs principle-num mono font-semibold">01</span>
+                    <h3 class="font-semibold text-slate-900">Цифровая инфраструктура</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Система должна работать в три ночи — без сисадмина на связи и без
+                    потерянных записей. Это уже не идея, это инженерия. Серверы,
+                    базы данных, резервы, восстановление после любой аварии.
+                </p>
+            </div>
+            <div>
+                <div class="flex items-baseline gap-3 mb-3">
+                    <span class="stat-num text-xs principle-num mono font-semibold">02</span>
+                    <h3 class="font-semibold text-slate-900">Документный ИИ</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Бумажный архив с фотокопиями договоров двадцатилетней давности —
+                    превращается в поисковую базу за выходные. Узбекский, русский,
+                    английский. Суммы, даты, реквизиты — извлекаются сами.
+                </p>
+            </div>
+            <div>
+                <div class="flex items-baseline gap-3 mb-3">
+                    <span class="stat-num text-xs principle-num mono font-semibold">03</span>
+                    <h3 class="font-semibold text-slate-900">Поиск и анализ</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Сотрудник вводит запрос, и за две секунды получает нужный документ
+                    среди миллионов. Ищет по слову, по смыслу или по условию.
+                    Задаёт вопрос — получает ответ со ссылкой на страницу и абзац.
+                </p>
+            </div>
+            <div>
+                <div class="flex items-baseline gap-3 mb-3">
+                    <span class="stat-num text-xs principle-num mono font-semibold">04</span>
+                    <h3 class="font-semibold text-slate-900">Безопасное развёртывание</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Данные не покидают сервер ведомства. ИИ-модель работает у вас,
+                    а не в чужом облаке. Журнал аудита, шифрование, разграничение
+                    доступа — готовы к проверке с первого дня.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-14 pt-8 border-t border-slate-100 text-sm">
+            <span class="text-slate-500">Узнаёте свою задачу в одном из направлений? </span>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Обсудим в Telegram →</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- FAQ ------------------------------------------------------------------- -->
+<section id="faq" class="bg-white border-t border-slate-100 scroll-mt-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-14">
+        <div class="mb-6 flex items-baseline justify-between gap-6">
+            <div>
+                <div class="eyebrow mb-2">Частые вопросы</div>
+                <h2 class="text-xl font-semibold text-slate-900 tracking-tight">Перед тем как написать</h2>
+            </div>
+        </div>
+
+        <div class="divide-y divide-slate-200 border-t border-b border-slate-200">
+            <details class="group py-3">
+                <summary class="flex items-center justify-between cursor-pointer list-none">
+                    <span class="text-sm font-medium text-slate-900 pr-6">Сколько стоит?</span>
+                    <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+                </summary>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Не fixed-price. Зависит от задачи и среды. <strong class="text-slate-900">Первый
+                    разговор — 30 минут, без обязательств</strong> — там и оцениваем.
+                </p>
+            </details>
+            <details class="group py-3">
+                <summary class="flex items-center justify-between cursor-pointer list-none">
+                    <span class="text-sm font-medium text-slate-900 pr-6">Какие сроки?</span>
+                    <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+                </summary>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Оценка — до недели. Прототип — 4–9 недель. Полная система — 2–9 месяцев.
+                    <strong class="text-slate-900">«MVP за неделю под раунд» не строю</strong> —
+                    за неделю можно собрать только то, что упадёт под нагрузкой.
+                </p>
+            </details>
+            <details class="group py-3">
+                <summary class="flex items-center justify-between cursor-pointer list-none">
+                    <span class="text-sm font-medium text-slate-900 pr-6">Удалённо или на месте?</span>
+                    <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+                </summary>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Гибридно. База — Ташкент. Для проектов с повышенными требованиями
+                    к безопасности — на месте, в защищённом контуре. Для остального — удалённо.
+                </p>
+            </details>
+            <details class="group py-3">
+                <summary class="flex items-center justify-between cursor-pointer list-none">
+                    <span class="text-sm font-medium text-slate-900 pr-6">Что если у нас нет команды?</span>
+                    <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
+                </summary>
+                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                    Соберу команду, подключусь к вашей или соберём комбинацию (ядро от меня + ваши
+                    люди с обучением). Главное — не оставить вас с системой, которую некому
+                    поддерживать.
+                </p>
+            </details>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT --------------------------------------------------------------- -->
+<section class="bg-slate-50 border-t border-slate-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-28">
+
+        <!-- Headline block -->
+        <div class="text-center mb-10 sm:mb-14">
+            <div class="eyebrow mb-5" style="justify-content: center;">Связь</div>
+            <h2 class="display display-lg font-semibold text-slate-900 max-w-3xl mx-auto">
+                Если вы строите что-то<br class="hidden sm:inline" />
+                <span class="underline-grad">реальное</span> в Узбекистане —<br class="hidden sm:inline" />
+                напишите.
+            </h2>
+            <p class="text-slate-500 mt-7 leading-relaxed max-w-xl mx-auto">
+                Архитектор, который не путает «серьёзное» со «сложным».
+                Отвечаю в течение 24 часов. Первый разговор — без обязательств.
+            </p>
+        </div>
+
+        <!-- Qualification grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-10 sm:mb-14 max-w-3xl mx-auto">
+            <div>
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 mb-4 mono">Это для вас, если</div>
+                <ul class="space-y-3 text-[15px] text-slate-700 leading-relaxed">
+                    <li class="flex gap-3">
+                        <span class="text-emerald-600 font-bold mt-0.5">✓</span>
+                        <span>Строите систему, которая должна работать десятилетия</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-emerald-600 font-bold mt-0.5">✓</span>
+                        <span>Запускаете продукт, где нужен архитектор с пониманием пользователя</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-emerald-600 font-bold mt-0.5">✓</span>
+                        <span>Фокус на продукте и боли пользователя — не на быстрых деньгах или «давай сделаем стартап»</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-emerald-600 font-bold mt-0.5">✓</span>
+                        <span>Хотите обсудить настоящую инженерную задачу</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-4 mono">Это не для вас, если</div>
+                <ul class="space-y-3 text-[15px] text-slate-500 leading-relaxed">
+                    <li class="flex gap-3">
+                        <span class="text-slate-300 font-bold mt-0.5">✗</span>
+                        <span>Нужен «MVP за неделю под рекламный раунд»</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-slate-300 font-bold mt-0.5">✗</span>
+                        <span>Ищете самого дешёвого, а не самого надёжного</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-slate-300 font-bold mt-0.5">✗</span>
+                        <span>Не готовы говорить про реальные сроки и реальные задачи</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-slate-300 font-bold mt-0.5">✗</span>
+                        <span>Ждёте, что ИИ «по магии» решит за вас всё</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Primary CTA + secondaries -->
+        <div class="text-center">
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="btn-primary arrow-link inline-flex items-center gap-3 px-8 py-4 rounded-xl text-base font-medium">
+                Написать в Telegram
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </a>
+            <div class="mt-6 text-xs text-slate-400 mono flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-3 gap-y-2">
+                <span>отвечаю в течение 24 часов</span>
+                <span class="text-slate-300 hidden sm:inline">·</span>
+                <a href="mailto:saidbilol18@gmail.com" class="hover:text-slate-700 transition break-all sm:break-normal">saidbilol18@gmail.com</a>
+                <span class="text-slate-300 hidden sm:inline">·</span>
+                <a href="https://github.com/sb-bilal-dev-2" target="_blank" rel="noopener" class="hover:text-slate-700 transition break-all sm:break-normal">github.com/sb-bilal-dev-2</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-white border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center sm:justify-between gap-3 text-xs text-slate-400 text-center sm:text-left">
+        <span>© 2026 Билол Саидумаров · Ташкент</span>
+        <a href="/posts" class="hover:text-slate-700 transition tap">/статьи</a>
+    </div>
+</footer>
+
+<script>
+// Scroll-reveal — sections fade in as they enter the viewport.
+(function() {
+    var prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduce || !('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('section').forEach(function(section, idx) {
+        if (idx === 0) return; // hero already animates via .rise
+        var content = section.querySelector('.max-w-5xl');
+        if (content) {
+            content.classList.add('reveal');
+            observer.observe(content);
+        }
+    });
+})();
+
+// Pencil-sketch draw on the Зачем madrasah — only fires once the user has
+// genuinely scrolled into the section, not when the section just starts approaching.
+// Observes the section itself (predictable box) instead of the variable-size relief,
+// so mobile and desktop trigger at the same scroll depth.
+(function() {
+    var relief = document.querySelector('.zachem-relief');
+    if (!relief) return;
+    var section = relief.closest('section');
+    if (!section) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+        relief.classList.add('drawing');
+        return;
+    }
+    var isMobile = window.matchMedia('(max-width: 640px)').matches;
+    // Mobile sections are shorter relative to viewport, so a lower threshold still
+    // means the user has clearly scrolled the section onto the screen.
+    var threshold = isMobile ? 0.22 : 0.32;
+    var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+            if (e.isIntersecting && e.intersectionRatio >= threshold) {
+                relief.classList.add('drawing');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: [threshold], rootMargin: '0px' });
+    io.observe(section);
+})();
+
+// Hero neuron graph — soft drifting nodes connected by lines.
+// Pointer hover (desktop) gently pushes nodes away and reveals interest-term labels.
+(function() {
+    var canvas = document.getElementById('hero-graph');
+    if (!canvas) return;
+    var section = canvas.parentElement;
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mqMobile = window.matchMedia('(max-width: 640px)');
+    var hasPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Mix of universal tech terms (English) and Russian descriptors —
+    // the things I actually think about. Short, mono-friendly.
+    var TERMS = [
+        'RAG', 'pgvector', 'гибридный поиск', 'BM25', 'LLM',
+        'эмбеддинги', 'аудит-журнал', 'structlog', 'гос-IT',
+        'on-prem', 'FastAPI', 'Postgres', 'OCR',
+        'генерация музыки', 'shadowing', 'нанотех', 'нейросети',
+        'биомед', 'архитектура', 'edge AI'
+    ];
+
+    var nodes = [];
+    var mouse = { x: -9999, y: -9999, active: false };
+    var W = 0, H = 0;
+    var rafId = null;
+
+    function shuffle(a) {
+        for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+    }
+
+    function resize() {
+        var rect = canvas.getBoundingClientRect();
+        W = Math.max(1, rect.width);
+        H = Math.max(1, rect.height);
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        initNodes();
+    }
+
+    function initNodes() {
+        var count = mqMobile.matches ? 32 : 70;
+        var terms = shuffle(TERMS.slice());
+        nodes = [];
+        for (var i = 0; i < count; i++) {
+            nodes.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.18,
+                vy: (Math.random() - 0.5) * 0.18,
+                r: 1.4 + Math.random() * 1.6,
+                term: terms[i % terms.length],
+                hover: 0
+            });
+        }
+    }
+
+    function frame() {
+        var maxDist = mqMobile.matches ? 80 : 115;
+        var mouseR = 110;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Update positions
+        for (var i = 0; i < nodes.length; i++) {
+            var n = nodes[i];
+            n.x += n.vx;
+            n.y += n.vy;
+            if (n.x < 0)    { n.x = 0;    n.vx = Math.abs(n.vx); }
+            if (n.x > W)    { n.x = W;    n.vx = -Math.abs(n.vx); }
+            if (n.y < 0)    { n.y = 0;    n.vy = Math.abs(n.vy); }
+            if (n.y > H)    { n.y = H;    n.vy = -Math.abs(n.vy); }
+
+            if (mouse.active) {
+                var dx = n.x - mouse.x;
+                var dy = n.y - mouse.y;
+                var d2 = dx*dx + dy*dy;
+                if (d2 < mouseR * mouseR) {
+                    var d = Math.sqrt(d2) || 1;
+                    var f = (mouseR - d) / mouseR;
+                    n.x += (dx / d) * f * 0.45;
+                    n.y += (dy / d) * f * 0.45;
+                    n.hover = Math.min(1, n.hover + 0.1);
+                } else {
+                    n.hover *= 0.92;
+                }
+            } else {
+                n.hover *= 0.9;
+            }
+        }
+
+        // Edges — every node connects to its K nearest neighbours, so nothing
+        // sits isolated. A Set of "i-j" keys dedupes the undirected pairs.
+        var K = 3;
+        var fadeDist = mqMobile.matches ? 160 : 220;
+        var drawn = new Set();
+        for (var i = 0; i < nodes.length; i++) {
+            var a = nodes[i];
+            var dists = [];
+            for (var j = 0; j < nodes.length; j++) {
+                if (j === i) continue;
+                var bx = nodes[j].x - a.x, by = nodes[j].y - a.y;
+                dists.push({ j: j, d: Math.sqrt(bx*bx + by*by) });
+            }
+            dists.sort(function(p, q) { return p.d - q.d; });
+            for (var k = 0; k < K && k < dists.length; k++) {
+                var jj = dists[k].j;
+                var key = i < jj ? (i + '-' + jj) : (jj + '-' + i);
+                if (drawn.has(key)) continue;
+                drawn.add(key);
+                var b = nodes[jj];
+                var d = dists[k].d;
+                var base = Math.max(0.08, (1 - d / fadeDist) * 0.22);
+                var boost = Math.max(a.hover, b.hover) * 0.35;
+                ctx.strokeStyle = 'rgba(99, 102, 241, ' + (base + boost).toFixed(3) + ')';
+                ctx.lineWidth = 0.6;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+            }
+        }
+
+        // Nodes — indigo-600 with hover glow in same hue
+        for (var i = 0; i < nodes.length; i++) {
+            var n = nodes[i];
+            if (n.hover > 0.2) {
+                var glowR = 12 + n.hover * 4;
+                var grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowR);
+                grad.addColorStop(0, 'rgba(79, 70, 229, ' + (n.hover * 0.09).toFixed(3) + ')');
+                grad.addColorStop(1, 'rgba(79, 70, 229, 0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, glowR, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            var alpha = 0.45 + n.hover * 0.45;
+            ctx.fillStyle = 'rgba(67, 56, 202, ' + alpha.toFixed(3) + ')';
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, n.r + n.hover * 1.2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Labels (top, only when sufficiently hovered)
+        ctx.font = '500 11px "JetBrains Mono", ui-monospace, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        for (var i = 0; i < nodes.length; i++) {
+            var n = nodes[i];
+            if (n.hover > 0.35) {
+                ctx.fillStyle = 'rgba(51, 65, 85, ' + ((n.hover - 0.25) * 0.95).toFixed(3) + ')';
+                ctx.fillText(n.term, n.x, n.y - 10);
+            }
+        }
+
+        if (!reduce) rafId = requestAnimationFrame(frame);
+    }
+
+    function onMove(e) {
+        var rect = section.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.active = true;
+    }
+    function onLeave() { mouse.active = false; }
+
+    window.addEventListener('resize', resize);
+    if (hasPointer && !mqMobile.matches) {
+        section.addEventListener('mousemove', onMove);
+        section.addEventListener('mouseleave', onLeave);
+    }
+
+    resize();
+    frame();
+})();
+</script>
+</body>
+</html>

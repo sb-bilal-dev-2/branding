@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Когда BM25 неожиданно уделывает векторный поиск</title>
+    <meta name="description" content="Когда BM25 неожиданно даёт точнее эмбеддингов, и как объединить оба ранкинга в одной формуле." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Гибридный поиск Postgres + Qdrant: когда BM25 побеждает векторный</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">30 января 2025 · 5 минут · поиск, RAG, Postgres</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Класс запросов, где векторный поиск проигрывает с разгромным счётом</li>
+                <li>Формула reciprocal rank fusion в одну строку и почему она работает</li>
+                <li>Реальные числа MRR из небольшого эвал-сета: BM25 vs vector vs hybrid</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>GIF · ranking · 800×400</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Анимация: две колонки top-5 (BM25 и Vector), затем третья колонка — Hybrid — собирается из обеих по очереди, подсвечивая, как RRF выбирает лучших.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">~5s loop, ease-out: three vertical columns titled "BM25", "Vector", "Hybrid". The first two show top-5 ranked items as small rectangles with different shades of indigo. The hybrid column populates in sequence, pulling rectangles from both source columns, with a small "RRF" formula floating above. Transparent background, clean line work, 800x400, ~24fps.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где BM25 побеждает векторный поиск</h2>
+            <p>Векторный поиск отлично улавливает смысл, но плохо — точную форму. Запросы, где BM25 неожиданно выигрывает:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Номер документа</b> — «договор ARA-2026-014». Эмбеддинги превращают номер в нечто среднее по всем номерам.</li>
+                <li><b>Имя собственное</b> — «ООО Бином Сервис». Часто проседает на близких по форме именах.</li>
+                <li><b>Точные цитаты</b> — «дата подписания 14.03.2026». Векторы дают близкое по контексту, не по содержанию.</li>
+                <li><b>Жаргон / редкая терминология</b> — то, чего мало в обучающем корпусе эмбеддера.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Reciprocal Rank Fusion в одну формулу</h2>
+            <p>RRF — простой способ объединить два разных ранкинга без необходимости их нормализовать. Для каждого документа считаем:</p>
+            <pre><code>score(d) = 1/(k + rank_BM25(d)) + 1/(k + rank_vector(d))</code></pre>
+            <p>где <code class="text-xs bg-slate-100 px-1 rounded">k</code> обычно 60. Что это даёт:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>Документ, попавший в топ обоих ранкингов, поднимается вверх.</li>
+                <li>Документ из топа только одного ранкинга — остаётся в результатах, но ниже.</li>
+                <li>Никаких настраиваемых весов — баланс задаётся самим <code class="text-xs bg-slate-100 px-1 rounded">k</code>.</li>
+            </ul>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Реальные числа</h2>
+            <p>Скрипт <code class="text-xs bg-slate-100 px-1 rounded">eval_search.py</code> в проекте ARA прогоняет 10 запросов против 10-документного корпуса (узбекский, русский, английский смешанные). Результаты на этом сэте:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li><b>Keyword (BM25):</b> MRR@5 = 1.000, Recall@5 = 1.000</li>
+                <li><b>Vector:</b> MRR@5 = 0.173, Recall@5 = 0.600</li>
+                <li><b>Hybrid (RRF):</b> MRR@5 = 0.950, Recall@5 = 1.000</li>
+            </ul>
+            <p>На этом маленьком фиксированном сэте BM25 выигрывает за счёт того, что многие запросы содержат точные формы (номера, имена). Vector проседает. Hybrid сохраняет выигрыш BM25 и при этом не теряет на смысловых запросах. <i>Это причина не выбирать одно из двух.</i></p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где это в Postgres</h2>
+            <p>BM25-подобный ранкинг в Postgres делается через <code class="text-xs bg-slate-100 px-1 rounded">ts_rank</code> поверх <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code>. Один GIN-индекс — и поиск работает на миллионах строк за миллисекунды. В ARA tsvector создан с конфигурацией <code class="text-xs bg-slate-100 px-1 rounded">simple</code> — без стемминга, чтобы одинаково обращаться с узбекским, русским и английским контентом.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Добавьте <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code> + GIN-индекс рядом с вашими эмбеддингами.</li>
+                <li>Реализуйте RRF — это 10 строк кода на Python.</li>
+                <li>Соберите эвал-сет из 20 ваших реальных запросов и замерьте все три режима.</li>
+                <li>Посмотрите переключатель «Hybrid / Vector / Keyword» в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a>.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Когда стоит держать LLM у себя — и когда нет</title>
+    <meta name="description" content="Три аргумента в защиту бюджета на свой GPU-сервер плюс одно скрытое преимущество." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Зачем государственной системе on-prem LLM вместо облачного API</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">12 октября 2025 · 4 минуты · LLM, архитектура, безопасность</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Чёткий критерий: когда on-prem LLM нужен, а когда нет</li>
+                <li>Три аргумента в защиту бюджета на свой GPU-сервер</li>
+                <li>Конкретная команда для переключения шлюза с облака на vLLM</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Изометрия: локальная стойка с GPU-сервером слева, удалённое облако с обозначением API — справа. Между ними весы.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a small on-premise GPU server rack glowing soft indigo on the left, a distant cloud icon (representing a remote API) on the right. A delicate balance scale in the middle. Calm violet-to-indigo gradient background, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 1. Данные не уезжают</h2>
+            <p>Контракты, переписка, кадровые документы не должны отправляться в API чужого облака. On-prem LLM (vLLM, llama.cpp, TGI) держит данные на ваших серверах от запроса до ответа. Это базовое требование любой регулируемой среды — от государственной до банковской.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 2. Стоимость становится предсказуемой</h2>
+            <p>Облачные API считаются токенами. Месяц с 200 пользователями превращается в счёт, который трудно защитить перед финдиректором. Свой сервер — одна капитальная закупка GPU плюс электричество. Видимый, фиксированный, контролируемый. Расчёт амортизации возможен. Расчёт «сколько мы заплатим OpenAI в следующем месяце» — нет.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 3. Контроль над версией модели</h2>
+            <p>Провайдер обновляет модель — ваши промпты, тесты и регрессии ломаются на следующий день. On-prem: вы решаете, когда поднимать новую версию. Можете держать стабильную модель два года, пока не созреет следующая, и переходить по плану, а не по чужому расписанию.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Скрытое преимущество: LoRA под ваши задачи</h2>
+            <p>С vLLM и параметром <code class="text-xs bg-slate-100 px-1 rounded">--enable-lora</code> можно дообучить адаптер на ваших документах (договоры, докладные, регламенты) и подгрузить его рядом с базовой моделью. Адаптер — мегабайты, не гигабайты. Базовая модель остаётся одна; адаптеров может быть несколько под разные задачи.</p>
+            <p>Это даёт специализацию без затрат на полный fine-tuning. Через облачное API такого контроля нет.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Когда облачный API всё ещё уместен</h2>
+            <p>Не на каждой задаче нужен on-prem. Если вы делаете прототип, и данные не чувствительны, начинать со своего GPU — преждевременная оптимизация. <b>Критерий:</b> данные регулируются (PII, гос. тайна, банковская), и/или объём вызовов делает облачный счёт неприлично большим. До этих порогов — спокойно используйте облако и не торопитесь.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Переключение на vLLM</h2>
+            <p>В ARA смена режима — одна переменная окружения:</p>
+            <pre><code>ARA_LLM_MODE=vllm
+ARA_VLLM_BASE_URL=http://vllm:8000/v1
+ARA_VLLM_MODEL=Qwen/Qwen2.5-7B-Instruct</code></pre>
+            <p>Шлюз сам перенастроит клиента и пойдёт к вашему серверу. Никаких изменений в коде, никаких пересборок образов.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Откройте свой <code class="text-xs bg-slate-100 px-1 rounded">.env</code> и проверьте, какой <code class="text-xs bg-slate-100 px-1 rounded">ARA_LLM_MODE</code> стоит сейчас.</li>
+                <li>Замерьте текущий месячный счёт за токены — это ваш базовый аргумент перед руководством.</li>
+                <li>Прочитайте <a href="/posts/audit-log-llm" class="text-indigo-600 hover:text-indigo-700">как мы делаем аудит-журнал</a> — это естественное продолжение для регулируемой среды.</li>
+            </ul>
+        </div>
+    </article>
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>
