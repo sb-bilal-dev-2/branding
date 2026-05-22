@@ -803,34 +803,6 @@
     });
 })();
 
-// Pencil-sketch draw on the Зачем madrasah — only fires once the user has
-// genuinely scrolled into the section, not when the section just starts approaching.
-// Observes the section itself (predictable box) instead of the variable-size relief,
-// so mobile and desktop trigger at the same scroll depth.
-(function() {
-    var relief = document.querySelector('.zachem-relief');
-    if (!relief) return;
-    var section = relief.closest('section');
-    if (!section) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-        relief.classList.add('drawing');
-        return;
-    }
-    var isMobile = window.matchMedia('(max-width: 640px)').matches;
-    // Mobile sections are shorter relative to viewport, so a lower threshold still
-    // means the user has clearly scrolled the section onto the screen.
-    var threshold = isMobile ? 0.22 : 0.32;
-    var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-            if (e.isIntersecting && e.intersectionRatio >= threshold) {
-                relief.classList.add('drawing');
-                io.unobserve(e.target);
-            }
-        });
-    }, { threshold: [threshold], rootMargin: '0px' });
-    io.observe(section);
-})();
-
 // Hero neuron graph — soft drifting nodes connected by lines.
 // Pointer hover (desktop) gently pushes nodes away and reveals interest-term labels.
 (function() {
