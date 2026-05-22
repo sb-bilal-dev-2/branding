@@ -164,44 +164,6 @@
             z-index: 1;
         }
 
-        /* "Зачем" section — low-angle pencil sketch of an Uzbek madrasah.
-           Viewer is at the base, looking up: minarets converge inward, iwan towers. */
-        .zachem-relief {
-            position: absolute; inset: 0;
-            pointer-events: none;
-            color: #334155;
-            opacity: 0.16;
-            z-index: 0;
-        }
-        @media (min-width: 1024px) { .zachem-relief { opacity: 0.18; } }
-        /* On mobile, push the sketch up — viewport is taller relative to width,
-           so the building was sitting too low when fully centered. */
-        @media (max-width: 640px) {
-            .zachem-relief { top: -10%; bottom: auto; height: 48%; opacity: 0.20; }
-        }
-        .zachem-relief svg { width: 100%; height: 100%; display: block; }
-        .zachem-relief path {
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            vector-effect: non-scaling-stroke;
-            stroke-dasharray: 1400;
-            stroke-dashoffset: 1400;
-        }
-        @keyframes pencilDraw { to { stroke-dashoffset: 0; } }
-        .zachem-relief.drawing .layer-1 path { animation: pencilDraw 0.50s cubic-bezier(0.45, 0, 0.55, 1) 0.00s forwards; }
-        .zachem-relief.drawing .layer-3 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.15s forwards; }
-        .zachem-relief.drawing .layer-4 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.32s forwards; }
-        .zachem-relief.drawing .layer-5 path { animation: pencilDraw 0.70s cubic-bezier(0.45, 0, 0.55, 1) 0.46s forwards; }
-        .zachem-relief.drawing .layer-6 path { animation: pencilDraw 0.70s cubic-bezier(0.45, 0, 0.55, 1) 0.62s forwards; }
-        .zachem-relief.drawing .layer-7 path { animation: pencilDraw 0.65s cubic-bezier(0.45, 0, 0.55, 1) 0.78s forwards; }
-        .zachem-relief.drawing .layer-8 path { animation: pencilDraw 0.45s cubic-bezier(0.45, 0, 0.55, 1) 0.92s forwards; }
-        @media (prefers-reduced-motion: reduce) {
-            .zachem-relief path { stroke-dashoffset: 0 !important; animation: none !important; }
-        }
-
         /* Mobile-first display scale — keep hero readable on 360px screens. */
         .display-xl  { font-size: 2.125rem; line-height: 1.08; letter-spacing: -0.025em; }   /* 34px */
         .display-lg  { font-size: 1.75rem;  line-height: 1.15; letter-spacing: -0.02em; }    /* 28px */
@@ -348,66 +310,6 @@
 
 <!-- ЗАЧЕМ ------------------------------------------------------------------ -->
 <section class="relative overflow-hidden bg-white">
-    <!-- Low-angle pencil sketch of an Uzbek madrasah: viewer at the base, looking up.
-         Minarets converge toward an upper vanishing point; the iwan towers. -->
-    <div class="zachem-relief" aria-hidden="true">
-        <svg viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid meet">
-            <g class="layer-1">
-                <path d="M 0 500 L 1600 500"/>
-                <path d="M 60 510 L 1540 510"/>
-            </g>
-            <g class="layer-3">
-                <!-- Iwan outer frame — trapezoid converging upward -->
-                <path d="M 440 500 L 488 95"/>
-                <path d="M 488 95 L 1112 95"/>
-                <path d="M 1112 95 L 1160 500"/>
-                <path d="M 440 500 L 1160 500"/>
-                <path d="M 500 135 L 1100 135"/>
-            </g>
-            <g class="layer-4">
-                <!-- Pointed iwan arch + inner doorway -->
-                <path d="M 540 500 L 555 310 Q 585 145 800 130 Q 1015 145 1045 310 L 1060 500"/>
-                <path d="M 720 500 L 720 400 L 880 400 L 880 500"/>
-                <path d="M 750 400 L 750 500"/>
-                <path d="M 850 400 L 850 500"/>
-            </g>
-            <g class="layer-5">
-                <!-- Left minaret (strong upward convergence) -->
-                <path d="M 220 500 L 220 488 L 340 488 L 340 500"/>
-                <path d="M 235 488 L 268 70 L 312 70 L 345 488"/>
-                <path d="M 250 380 L 333 380"/>
-                <path d="M 256 280 L 326 280"/>
-                <path d="M 261 195 L 320 195"/>
-                <path d="M 265 130 L 316 130"/>
-                <path d="M 270 70 L 311 70 L 309 50 L 271 50 Z"/>
-                <path d="M 273 50 Q 290 22 308 50"/>
-                <path d="M 290 22 L 290 6"/>
-            </g>
-            <g class="layer-6">
-                <!-- Right minaret (mirrored) -->
-                <path d="M 1260 500 L 1260 488 L 1380 488 L 1380 500"/>
-                <path d="M 1255 488 L 1288 70 L 1332 70 L 1365 488"/>
-                <path d="M 1267 380 L 1350 380"/>
-                <path d="M 1274 280 L 1344 280"/>
-                <path d="M 1280 195 L 1339 195"/>
-                <path d="M 1284 130 L 1335 130"/>
-                <path d="M 1289 70 L 1330 70 L 1329 50 L 1291 50 Z"/>
-                <path d="M 1292 50 Q 1310 22 1327 50"/>
-                <path d="M 1310 22 L 1310 6"/>
-            </g>
-            <g class="layer-7">
-                <!-- Dome behind the iwan + drum line -->
-                <path d="M 610 95 Q 610 25 800 18 Q 990 25 990 95"/>
-                <path d="M 640 95 L 960 95"/>
-            </g>
-            <g class="layer-8">
-                <!-- Dome finial -->
-                <path d="M 800 18 L 800 -8"/>
-                <path d="M 790 -2 L 810 -2"/>
-            </g>
-        </svg>
-    </div>
-
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-14 sm:pb-20 md:pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
