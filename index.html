@@ -177,18 +177,18 @@
             stroke-linecap: round;
             stroke-dasharray: 700;
             stroke-dashoffset: 700;
-            transition: stroke-dashoffset 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+            transition: stroke-dashoffset 2200ms cubic-bezier(0.22, 1, 0.36, 1);
         }
         .tree-rings.in-view circle.ring { stroke-dashoffset: 0; }
-        .tree-rings circle.ring:nth-of-type(1) { transition-delay: 220ms; }
-        .tree-rings circle.ring:nth-of-type(2) { transition-delay: 360ms; }
-        .tree-rings circle.ring:nth-of-type(3) { transition-delay: 500ms; }
-        .tree-rings circle.ring:nth-of-type(4) { transition-delay: 640ms; }
-        .tree-rings circle.ring:nth-of-type(5) { transition-delay: 780ms; }
-        .tree-rings circle.ring:nth-of-type(6) { transition-delay: 920ms; }
+        .tree-rings circle.ring:nth-of-type(1) { transition-delay: 320ms; }
+        .tree-rings circle.ring:nth-of-type(2) { transition-delay: 640ms; }
+        .tree-rings circle.ring:nth-of-type(3) { transition-delay: 960ms; }
+        .tree-rings circle.ring:nth-of-type(4) { transition-delay: 1280ms; }
+        .tree-rings circle.ring:nth-of-type(5) { transition-delay: 1600ms; }
+        .tree-rings circle.ring:nth-of-type(6) { transition-delay: 1920ms; }
         .tree-rings .core {
             opacity: 0;
-            transition: opacity 500ms ease 120ms;
+            transition: opacity 800ms ease 200ms;
         }
         .tree-rings.in-view .core { opacity: 1; }
 
@@ -907,7 +907,7 @@
                 drawObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0, rootMargin: '0px 0px 30% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px 5% 0px' });
 
     document.querySelectorAll('.tree-rings').forEach(function(el) {
         drawObserver.observe(el);
