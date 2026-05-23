@@ -168,7 +168,9 @@
         /* Both draw when the section's .max-w-5xl container picks up the
            .visible class from the existing IntersectionObserver. */
 
-        /* Tree rings — concentric arcs draw outward from a central orange dot. */
+        /* Tree rings — concentric arcs draw outward from a central orange dot.
+           Triggered by .in-view added by a dedicated IntersectionObserver, so
+           the draw starts only when the title is genuinely on-screen. */
         .tree-rings circle.ring {
             fill: none;
             stroke: currentColor;
@@ -177,7 +179,7 @@
             stroke-dashoffset: 700;
             transition: stroke-dashoffset 1200ms cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .reveal.visible .tree-rings circle.ring { stroke-dashoffset: 0; }
+        .tree-rings.in-view circle.ring { stroke-dashoffset: 0; }
         .tree-rings circle.ring:nth-of-type(1) { transition-delay: 220ms; }
         .tree-rings circle.ring:nth-of-type(2) { transition-delay: 360ms; }
         .tree-rings circle.ring:nth-of-type(3) { transition-delay: 500ms; }
@@ -188,42 +190,12 @@
             opacity: 0;
             transition: opacity 500ms ease 120ms;
         }
-        .reveal.visible .tree-rings .core { opacity: 1; }
-
-        /* Pulse line — EKG draws left-to-right, then the spike dot keeps beating. */
-        .pulse-line path {
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.4;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 720;
-            stroke-dashoffset: 720;
-            transition: stroke-dashoffset 1800ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
-        }
-        .reveal.visible .pulse-line path { stroke-dashoffset: 0; }
-        .pulse-line .pulse-dot {
-            transform-box: fill-box;
-            transform-origin: center;
-            opacity: 0;
-            transition: opacity 400ms ease 1900ms;
-        }
-        .reveal.visible .pulse-line .pulse-dot {
-            opacity: 1;
-            animation: pulseDotBeat 2.2s ease-in-out 2200ms infinite;
-        }
-        @keyframes pulseDotBeat {
-            0%, 100% { transform: scale(1);   opacity: 0.85; }
-            50%      { transform: scale(1.7); opacity: 1;    }
-        }
+        .tree-rings.in-view .core { opacity: 1; }
 
         @media (prefers-reduced-motion: reduce) {
             .tree-rings circle.ring,
-            .pulse-line path,
-            .tree-rings .core,
-            .pulse-line .pulse-dot {
+            .tree-rings .core {
                 transition: none !important;
-                animation: none !important;
                 stroke-dashoffset: 0 !important;
                 opacity: 1 !important;
             }
@@ -374,17 +346,28 @@
 
 <!-- ЗАЧЕМ ------------------------------------------------------------------ -->
 <section class="relative overflow-hidden bg-white">
-    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-14 sm:pb-20 md:pb-24">
+    <!-- OPTION A (now a backdrop): large tree rings, faint, absolutely positioned behind content.
+         Anchored to the upper-left where the title sits; outer rings extend across the section. -->
+    <div class="tree-rings absolute pointer-events-none text-slate-300"
+         aria-hidden="true"
+         style="left: -6%; top: 4rem; width: clamp(420px, 78%, 940px); aspect-ratio: 1; z-index: 0;">
+        <svg viewBox="0 0 200 200" class="block w-full h-full">
+            <g>
+                <circle class="ring" cx="100" cy="100" r="14" stroke-width="1.1"/>
+                <circle class="ring" cx="100" cy="100" r="28" stroke-width="1"/>
+                <circle class="ring" cx="100" cy="100" r="44" stroke-width="0.9"/>
+                <circle class="ring" cx="100" cy="100" r="62" stroke-width="0.85" opacity="0.85"/>
+                <circle class="ring" cx="100" cy="100" r="80" stroke-width="0.8"  opacity="0.65"/>
+                <circle class="ring" cx="100" cy="100" r="96" stroke-width="0.7"  opacity="0.4"/>
+            </g>
+            <!-- Origin dot: soft accent, very small — no more "screaming" orange -->
+            <circle class="core" cx="100" cy="100" r="2.6" fill="#fed7aa"/>
+        </svg>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 md:pt-28 pb-16 sm:pb-24 md:pb-28">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
-                <!-- OPTION B: pulse line above the eyebrow (EKG-style steady rhythm) -->
-                <div class="pulse-line mb-5 text-slate-500" aria-hidden="true">
-                    <svg viewBox="0 0 400 36" class="block w-full h-9">
-                        <path d="M 0,18 L 130,18 L 138,14 L 146,22 L 154,18 L 252,18 L 260,9 L 268,28 L 276,3 L 284,28 L 292,18 L 400,18"/>
-                        <circle class="pulse-dot" cx="276" cy="3" r="3" fill="#c2410c"/>
-                    </svg>
-                </div>
-
                 <div class="eyebrow mb-3">Зачем</div>
                 <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                     Почему<br class="hidden sm:inline" />именно сейчас.
@@ -393,22 +376,6 @@
                     Цифровая инфраструктура строится впервые&nbsp;—<br class="hidden sm:inline" />
                     от&nbsp;её&nbsp;качества зависят следующие двадцать лет.
                 </p>
-
-                <!-- OPTION A: tree rings below the description (concentric growth outward) -->
-                <div class="tree-rings mt-7 text-slate-500" aria-hidden="true">
-                    <svg viewBox="0 0 200 200" class="block w-32 h-32 sm:w-40 sm:h-40">
-                        <g>
-                            <circle class="ring" cx="100" cy="100" r="14" stroke-width="1.4"/>
-                            <circle class="ring" cx="100" cy="100" r="28" stroke-width="1.2"/>
-                            <circle class="ring" cx="100" cy="100" r="44" stroke-width="1.1"/>
-                            <circle class="ring" cx="100" cy="100" r="62" stroke-width="1"   opacity="0.8"/>
-                            <circle class="ring" cx="100" cy="100" r="80" stroke-width="0.9" opacity="0.55"/>
-                            <circle class="ring" cx="100" cy="100" r="96" stroke-width="0.8" opacity="0.35"/>
-                        </g>
-                        <!-- Origin: small orange dot, fades in immediately -->
-                        <circle class="core" cx="100" cy="100" r="3.2" fill="#c2410c"/>
-                    </svg>
-                </div>
             </div>
             <div class="lg:col-span-2 space-y-6">
                 <p class="lede">
@@ -884,6 +851,16 @@
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.04 11.04 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56C20.21 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
                     <span>GitHub</span>
                 </a>
+                <span class="text-slate-300 hidden sm:inline">·</span>
+                <a href="https://huggingface.co/bilalsaidumarov/" target="_blank" rel="noopener" aria-label="Профиль на Hugging Face" class="hover:text-slate-700 transition inline-flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 32 32" aria-hidden="true">
+                        <circle cx="16" cy="16" r="14" fill="#FFD21E"/>
+                        <ellipse cx="11.5" cy="14" rx="1.6" ry="2" fill="#3a3b45"/>
+                        <ellipse cx="20.5" cy="14" rx="1.6" ry="2" fill="#3a3b45"/>
+                        <path d="M 9.5 18.5 Q 16 24.5 22.5 18.5 Z" fill="#3a3b45"/>
+                    </svg>
+                    <span>Hugging Face</span>
+                </a>
             </div>
         </div>
     </div>
@@ -918,6 +895,22 @@
             content.classList.add('reveal');
             observer.observe(content);
         }
+    });
+
+    // Dedicated trigger for the ЗАЧЕМ tree-rings backdrop. Fires early — while
+    // the section is still ~30% of the viewport below the visible area — so the
+    // staggered draw is already in progress by the time the user reaches the title.
+    var drawObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                drawObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0, rootMargin: '0px 0px 30% 0px' });
+
+    document.querySelectorAll('.tree-rings').forEach(function(el) {
+        drawObserver.observe(el);
     });
 })();
 
