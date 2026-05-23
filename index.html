@@ -307,67 +307,9 @@
     </div>
 </section>
 
-<!-- ARCHITECTURE INTRO — classical drawing above ЗАЧЕМ, line drops into the section -->
-<section class="relative bg-white pt-20 sm:pt-28 pb-0 overflow-visible">
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 flex justify-center">
-        <svg viewBox="0 0 320 220" class="block w-56 sm:w-64 text-slate-500" aria-hidden="true">
-            <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Pediment -->
-                <path d="M50 55 L160 12 L270 55"/>
-                <path d="M105 53 L160 28 L215 53" stroke-width="0.7"/>
-                <!-- Pediment apex dot — small orange marker -->
-                <circle cx="160" cy="12" r="2.2" fill="#c2410c" stroke="none"/>
-
-                <!-- Entablature -->
-                <line x1="48" y1="55" x2="272" y2="55"/>
-                <line x1="48" y1="62" x2="272" y2="62"/>
-
-                <!-- Five columns: pair of vertical lines + capital + base -->
-                <!-- Column 1 -->
-                <line x1="65" y1="64" x2="65" y2="158"/>
-                <line x1="78" y1="64" x2="78" y2="158"/>
-                <line x1="62" y1="64" x2="81" y2="64"/>
-                <line x1="62" y1="158" x2="81" y2="158"/>
-                <!-- Column 2 -->
-                <line x1="105" y1="64" x2="105" y2="158"/>
-                <line x1="118" y1="64" x2="118" y2="158"/>
-                <line x1="102" y1="64" x2="121" y2="64"/>
-                <line x1="102" y1="158" x2="121" y2="158"/>
-                <!-- Column 3 (center) -->
-                <line x1="154" y1="64" x2="154" y2="158"/>
-                <line x1="167" y1="64" x2="167" y2="158"/>
-                <line x1="151" y1="64" x2="170" y2="64"/>
-                <line x1="151" y1="158" x2="170" y2="158"/>
-                <!-- Column 4 -->
-                <line x1="202" y1="64" x2="202" y2="158"/>
-                <line x1="215" y1="64" x2="215" y2="158"/>
-                <line x1="199" y1="64" x2="218" y2="64"/>
-                <line x1="199" y1="158" x2="218" y2="158"/>
-                <!-- Column 5 -->
-                <line x1="242" y1="64" x2="242" y2="158"/>
-                <line x1="255" y1="64" x2="255" y2="158"/>
-                <line x1="239" y1="64" x2="258" y2="64"/>
-                <line x1="239" y1="158" x2="258" y2="158"/>
-
-                <!-- Stylobate (three step layers descending in width) -->
-                <line x1="48" y1="164" x2="272" y2="164"/>
-                <line x1="42" y1="174" x2="278" y2="174"/>
-                <line x1="36" y1="184" x2="284" y2="184"/>
-                <line x1="30" y1="194" x2="290" y2="194" stroke-width="1.5"/>
-
-                <!-- Vertical thread dropping from center toward ЗАЧЕМ -->
-                <line x1="160" y1="194" x2="160" y2="220"/>
-            </g>
-        </svg>
-    </div>
-</section>
-
 <!-- ЗАЧЕМ ------------------------------------------------------------------ -->
 <section class="relative overflow-hidden bg-white">
-    <!-- Continuous vertical thread behind the content -->
-    <div aria-hidden="true" class="pointer-events-none absolute top-0 bottom-0 left-1/2 -translate-x-px w-px bg-slate-300/40"></div>
-
-    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 md:pt-24 pb-14 sm:pb-20 md:pb-24">
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-14 sm:pb-20 md:pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
                 <div class="eyebrow mb-3">Зачем</div>
@@ -406,76 +348,6 @@
                 </p>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- ADVANCED-TECH CONTINUATION — line emerging from ЗАЧЕМ morphs into graphene + neural lattice -->
-<section class="relative bg-white pt-0 pb-20 sm:pb-28 overflow-visible">
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 flex justify-center">
-        <svg viewBox="0 0 320 280" class="block w-72 sm:w-96 text-slate-500" aria-hidden="true">
-            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-
-                <!-- Continuation of the vertical thread from ЗАЧЕМ above -->
-                <line x1="160" y1="0" x2="160" y2="60" stroke-width="1.2"/>
-
-                <!-- Pivot node where the line transforms into the lattice -->
-                <circle cx="160" cy="60" r="3.5" fill="currentColor" stroke="none"/>
-
-                <!-- Graphene-style hexagonal lattice -->
-                <g stroke-width="0.9" opacity="0.75">
-                    <!-- Row centered around y=110 -->
-                    <polygon points="160,90 177.32,100 177.32,120 160,130 142.68,120 142.68,100"/>
-                    <polygon points="125.36,90 142.68,100 142.68,120 125.36,130 108.04,120 108.04,100"/>
-                    <polygon points="194.64,90 211.96,100 211.96,120 194.64,130 177.32,120 177.32,100"/>
-                    <polygon points="90.72,90 108.04,100 108.04,120 90.72,130 73.4,120 73.4,100"/>
-                    <polygon points="229.28,90 246.6,100 246.6,120 229.28,130 211.96,120 211.96,100"/>
-
-                    <!-- Upper row -->
-                    <polygon points="142.68,60 160,70 160,90 142.68,100 125.36,90 125.36,70"/>
-                    <polygon points="177.32,60 194.64,70 194.64,90 177.32,100 160,90 160,70"/>
-                    <polygon points="108.04,60 125.36,70 125.36,90 108.04,100 90.72,90 90.72,70"/>
-                    <polygon points="211.96,60 229.28,70 229.28,90 211.96,100 194.64,90 194.64,70"/>
-
-                    <!-- Lower row -->
-                    <polygon points="142.68,120 160,130 160,150 142.68,160 125.36,150 125.36,130"/>
-                    <polygon points="177.32,120 194.64,130 194.64,150 177.32,160 160,150 160,130"/>
-                    <polygon points="108.04,120 125.36,130 125.36,150 108.04,160 90.72,150 90.72,130"/>
-                    <polygon points="211.96,120 229.28,130 229.28,150 211.96,160 194.64,150 194.64,130"/>
-
-                    <!-- Bottom-center hex anchoring the trailing line -->
-                    <polygon points="160,150 177.32,160 177.32,180 160,190 142.68,180 142.68,160"/>
-                </g>
-
-                <!-- Neural overlay: indigo nodes at lattice intersections -->
-                <g fill="#4f46e5" stroke="none">
-                    <circle cx="125.36" cy="90" r="1.8"/>
-                    <circle cx="194.64" cy="90" r="1.8"/>
-                    <circle cx="160" cy="130" r="2.2"/>
-                    <circle cx="90.72" cy="110" r="1.4"/>
-                    <circle cx="229.28" cy="110" r="1.4"/>
-                    <circle cx="125.36" cy="150" r="1.6"/>
-                    <circle cx="194.64" cy="150" r="1.6"/>
-                    <circle cx="160" cy="170" r="1.8"/>
-                </g>
-
-                <!-- Neural connection lines (indigo, low opacity) -->
-                <g stroke="#4f46e5" stroke-width="0.7" opacity="0.5">
-                    <line x1="125.36" y1="90" x2="160" y2="130"/>
-                    <line x1="194.64" y1="90" x2="160" y2="130"/>
-                    <line x1="90.72" y1="110" x2="125.36" y2="150"/>
-                    <line x1="229.28" y1="110" x2="194.64" y2="150"/>
-                    <line x1="160" y1="130" x2="160" y2="170"/>
-                    <line x1="125.36" y1="150" x2="160" y2="170"/>
-                    <line x1="194.64" y1="150" x2="160" y2="170"/>
-                </g>
-
-                <!-- Trailing line continuing past the lattice — fading endpoints -->
-                <line x1="160" y1="190" x2="160" y2="232" stroke-width="0.8" opacity="0.55"/>
-                <line x1="160" y1="232" x2="138" y2="270" stroke-width="0.5" opacity="0.3"/>
-                <line x1="160" y1="232" x2="182" y2="270" stroke-width="0.5" opacity="0.3"/>
-                <line x1="160" y1="232" x2="160" y2="270" stroke-width="0.5" opacity="0.3"/>
-            </g>
-        </svg>
     </div>
 </section>
 
@@ -547,8 +419,23 @@
 </section>
 
 <!-- УГОЛ ЗРЕНИЯ ----------------------------------------------------------- -->
-<section class="bg-white border-t border-slate-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
+<section class="relative overflow-hidden bg-white border-t border-slate-100">
+    <!-- Background: nanotech photo, sepia/hue-shifted into the warm orange brand palette, then washed with amber to keep text legible -->
+    <div aria-hidden="true" class="absolute inset-0 z-0 pointer-events-none"
+         style="background-image: url('https://png.pngtree.com/background/20250201/original/pngtree-futuristic-fabrication-nanotechnology-s-atomic-scale-material-production-background-picture-image_15155170.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                filter: sepia(0.55) hue-rotate(-18deg) saturate(1.15) brightness(1.04) contrast(0.95);"></div>
+    <div aria-hidden="true" class="absolute inset-0 z-0 pointer-events-none"
+         style="background-image:
+                  linear-gradient(to bottom,
+                      rgba(255,247,237,0.96) 0%,
+                      rgba(255,247,237,0.82) 22%,
+                      rgba(255,247,237,0.82) 78%,
+                      rgba(248,250,252,0.96) 100%);"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
                 <div class="eyebrow mb-3">Угол зрения</div>
@@ -813,8 +700,23 @@
 </section>
 
 <!-- CONTACT --------------------------------------------------------------- -->
-<section class="bg-slate-50 border-t border-slate-100">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-28">
+<section class="relative overflow-hidden bg-slate-50 border-t border-slate-100">
+    <!-- Background: dual-OS / stability vs innovation photo, warmed and washed to match the orange brand palette -->
+    <div aria-hidden="true" class="absolute inset-0 z-0 pointer-events-none"
+         style="background-image: url('https://ahmedsobhan.com/wp-content/uploads/2025/09/dual-operating-system-balancing-stability-and-innovation.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                filter: sepia(0.5) hue-rotate(-15deg) saturate(1.1) brightness(1.02) contrast(0.95);"></div>
+    <div aria-hidden="true" class="absolute inset-0 z-0 pointer-events-none"
+         style="background-image:
+                  linear-gradient(to bottom,
+                      rgba(248,250,252,0.96) 0%,
+                      rgba(255,247,237,0.80) 18%,
+                      rgba(255,247,237,0.80) 82%,
+                      rgba(255,255,255,0.96) 100%);"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-28">
 
         <!-- Headline block -->
         <div class="text-center mb-10 sm:mb-14">
