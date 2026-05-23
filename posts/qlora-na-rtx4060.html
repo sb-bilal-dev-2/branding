@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LoRA, QLoRA, Qwen2.5 — почему этот стек, а не другой</title>
+    <meta name="description" content="Шесть PEFT-методов, три кандидата на базу, один спор про SFT vs RLHF — и почему 7B-модель помещается в 8 ГБ видеопамяти на RTX 4060." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        [x-cloak] { display: none !important; }
+        body { overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+        pre { overflow-x: auto; max-width: 100%; }
+        code { overflow-wrap: anywhere; word-break: break-word; }
+        article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; }
+        @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        th, td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+        th { font-weight: 600; color: #334155; background: #f8fafc; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">LoRA, QLoRA, Qwen2.5 — почему этот стек, а не другой</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">19 мая 2026 · 6 минут · LoRA, QLoRA, PEFT, fine-tuning</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 6 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Чем SFT, PEFT, LoRA и QLoRA отличаются друг от друга — и как они вкладываются</li>
+                <li>Почему из шести PEFT-методов выбрана именно LoRA</li>
+                <li>Как 7B-модель помещается в 8 ГБ VRAM на потребительском RTX 4060</li>
+                <li>Почему Qwen2.5, а не Llama 3 или Mistral</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Большой полупрозрачный куб (foundation-модель), а к нему сбоку подключается маленький лёгкий куб с надписью «LoRA» через две тонкие низкоранговые матрицы.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a large translucent indigo cube (a foundation model) with a small light-violet cube labeled "LoRA" attached to its side via two thin matrix grids labeled "A" and "B". Clean white background with very subtle grid. No harsh shadows, no logos, no readable text other than "LoRA", "A", "B". 16:9, 1600x900, professional editorial style.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <p>Перед обучением модели я перебирал шесть PEFT-методов, три кандидата на базу и спорил сам с собой про SFT vs RLHF. Ниже — на каком решении остановился и почему.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Сначала — что во что вкладывается</h2>
+            <p>Когда в одной вакансии пишут «SFT / LoRA / QLoRA / PEFT», это читается как четыре параллельных метода. На самом деле они вложены друг в друга:</p>
+            <pre class="bg-slate-900 text-slate-100 text-xs sm:text-sm p-4 rounded-lg overflow-x-auto mono">SFT             — парадигма обучения (supervised, размеченные input→output)
+ └── PEFT       — стратегия: обновляем только небольшой кусок параметров
+      ├── LoRA          — низкоранговые матрицы на attention-проекциях
+      ├── QLoRA         — LoRA поверх 4-битной квантизированной базы
+      ├── IA³           — мультипликативные векторы (~10× меньше LoRA)
+      ├── Prefix tuning — обучаемые «виртуальные» токены K/V
+      ├── Prompt tuning — обучаемый soft prompt на входе
+      └── Adapter-слои  — bottleneck-MLP между transformer-блоками</pre>
+            <p>SFT — это <i>что</i> мы учим (форма данных и loss). PEFT — это <i>как</i> распределяем градиенты. LoRA и его соседи — конкретные реализации PEFT.</p>
+            <p>Любой, кто запускает LoRA, по определению занимается PEFT. Эти слова в одной вакансии означают: «знай, что PEFT — это семейство, а не синоним LoRA».</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Почему SFT, а не RLHF</h2>
+            <p>RLHF требует пар «лучший / худший» — это совсем другой бюджет на разметку. Для structured extraction у нас уже есть «правильный JSON», и SFT-loss на нём работает прекрасно. RLHF имеет смысл, когда задача — про предпочтения и стиль («какой ответ кажется человеку лучше»). Для «достань три поля из контракта» — это лишняя ступень сложности.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Почему LoRA, а не пять других PEFT-методов</h2>
+            <div class="my-5 overflow-x-auto">
+                <table>
+                    <thead><tr><th>Метод</th><th>Почему не взяли</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>LoRA</b> (выбран)</td><td>Адаптер — мегабайты. Мерджится в базу при инференсе → 0 мс оверхеда. vLLM умеет <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">--enable-lora</code>. Самая зрелая тула.</td></tr>
+                        <tr><td>IA³</td><td>Адаптер ещё меньше, но по статье Liu 2022 хуже на генеративных задачах.</td></tr>
+                        <tr><td>Prefix / Prompt tuning</td><td>Потолок качества ниже LoRA, чувствителен к длине промпта, сложнее дебажить.</td></tr>
+                        <tr><td>Adapter-слои</td><td>Добавляют латентность на инференсе. LoRA — нет (после merge).</td></tr>
+                        <tr><td>Full fine-tuning</td><td>Полная копия 7B-модели на каждую задачу. ~14× больше VRAM. Зачем.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Главное преимущество LoRA — <b>мерджится в базу</b>. Это значит, что в проде модель ведёт себя как обычный single-checkpoint Qwen, без оверхеда на лишний forward-проход через адаптер. Для надёжного inference это критично.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Зачем QLoRA, если есть LoRA</h2>
+            <p>Простая арифметика. Qwen2.5-7B в fp16 — это ~14 ГБ только под веса. RTX 4060 — это 8 ГБ. Просто не помещается.</p>
+            <p>QLoRA — это LoRA, но базу мы загружаем не в fp16, а в 4-битной квантизации <b>nf4</b> с двойной квантизацией через <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">bitsandbytes</code>. Веса сжимаются до ~4 ГБ. LoRA-дельта остаётся в fp16, оптимизатор — paged AdamW 8-bit (его состояние пейджится между CPU и GPU). На обучении я видел пик в ~7,6 ГБ — впритык, но влезает.</p>
+            <p>Это и есть основная заявка статьи QLoRA: «можно дообучать 65B-модели на одной 48GB GPU». В нашем случае — «7B на 8GB домашней карте». Цифры повторяются.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Почему Qwen2.5, а не Llama 3 или Mistral</h2>
+            <p>Три простых критерия:</p>
+            <ol class="list-decimal list-inside space-y-1 ml-1">
+                <li><b>Лицензия Apache-2.0.</b> У Llama 3 — community-лицензия с ограничениями для крупных пользователей. Для государственного развертывания это уже препятствие.</li>
+                <li><b>Мультиязычность из коробки.</b> Qwen2.5 нативно сильна в китайском, русском и английском. Llama 3 — английский в первую очередь. Mistral 7B — европейские языки получше, узбекского нет ни у кого.</li>
+                <li><b>Размерная лесенка.</b> Qwen2.5 идёт линейкой 0.5B / 1.5B / 3B / 7B / 14B / 32B / 72B с одним и тем же tokenizer'ом. Это значит — один скрипт обучения, разные точки на кривой цена/качество.</li>
+            </ol>
+            <p>Я обучил две модели одним и тем же кодом: 0.5B LoRA — за 20 секунд на 4060, и 7B QLoRA — за 5 минут. Одна и та же команда, разный <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">--base-model</code>.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Гиперпараметры — где не выпендривался</h2>
+            <p>Я взял дефолты из оригинальной статьи LoRA (Hu et al., 2021) и не делал sweep:</p>
+            <ul class="list-disc list-inside ml-1 space-y-1">
+                <li><code class="mono text-[0.85em] bg-slate-100 px-1 rounded">r=16, alpha=32, dropout=0.05</code></li>
+                <li>Target modules: <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">q_proj, k_proj, v_proj, o_proj</code> (только attention, без MLP)</li>
+                <li>Learning rate 2e-4, AdamW (или paged-8bit для QLoRA)</li>
+                <li>3 эпохи, batch size 1 + grad accumulation 8 → эффективный batch 8</li>
+            </ul>
+            <p>На 95 примерах sweep не имеет смысла — нечего тюнить. На датасете в 5 000 примеров уже стоит сделать grid по <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">r ∈ {8, 16, 32}</code>, <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">lr ∈ {1e-4, 2e-4, 5e-4}</code>, числу эпох. И смотреть на eval-loss, а не на train-loss.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Один декорзум, который часто пропускают</h2>
+            <p>LoRA-адаптер можно <b>смержить</b> в базовые веса перед сохранением:</p>
+            <pre class="bg-slate-900 text-slate-100 text-xs sm:text-sm p-4 rounded-lg overflow-x-auto mono">merged = model.merge_and_unload()
+merged.save_pretrained("./qwen-merged")</pre>
+            <p>После этого на инференсе нет дополнительной матричной операции — модель ведёт себя как обычный single-checkpoint Qwen. Это и есть «0 мс оверхеда», ради которого мы выбирали LoRA, а не adapter-слои.</p>
+            <p>Минус — теряется возможность держать несколько адаптеров на одной базе. В ARA-продакшене мы храним <b>оба варианта</b>: смерженный — для быстрого инференса под одну задачу, отдельный адаптер — для vLLM с <code class="mono text-[0.85em] bg-slate-100 px-1 rounded">--enable-lora --max-loras 4</code>, чтобы переключаться между «извлеки поля» / «классифицируй» / «суммаризируй» без перезагрузки.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Скачать оба адаптера и попробовать самим: <a href="https://huggingface.co/sb-bilal-dev-2/ara-extract-v1" class="text-indigo-600 hover:text-indigo-700">0,5B LoRA</a>, <a href="https://huggingface.co/sb-bilal-dev-2/ara-extract-7b-qlora" class="text-indigo-600 hover:text-indigo-700">7B QLoRA</a>. Карточки содержат полный воспроизводимый рецепт.</li>
+                <li>Если RTX 4060 нет под рукой — попробуйте QLoRA на бесплатной T4 в Colab. Команда обучения и параметры — идентичные.</li>
+                <li>Прочитайте предыдущую заметку — <a href="/posts/llm-doobuchili-zachem" class="text-indigo-600 hover:text-indigo-700">«Зачем мы дообучили свою LLM для гос-документов»</a> — там разобрана продуктовая сторона того же решения.</li>
+            </ul>
+        </div>
+
+    </article>
+
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>

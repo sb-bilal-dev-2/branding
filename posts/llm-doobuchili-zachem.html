@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Зачем мы дообучили свою LLM для гос-документов</title>
+    <meta name="description" content="Почему GPT-4 не решает четыре конкретные проблемы министерских документов, и что меняет 40-мегабайтный LoRA-адаптер на Qwen2.5." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        [x-cloak] { display: none !important; }
+        body { overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+        pre { overflow-x: auto; max-width: 100%; }
+        code { overflow-wrap: anywhere; word-break: break-word; }
+        article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; }
+        @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        th, td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+        th { font-weight: 600; color: #334155; background: #f8fafc; }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased">
+
+<header class="border-b border-slate-100">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 h-14 sm:h-auto sm:py-5 flex items-center justify-between gap-3">
+        <a href="/" class="font-medium text-slate-900 truncate min-w-0 flex-1">Билол Саидумаров</a>
+        <nav class="hidden sm:flex items-center gap-5 text-sm">
+            <a href="/posts" class="text-slate-600 hover:text-slate-900">Статьи</a>
+            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-slate-600 hover:text-slate-900">Запросить демо</a>
+        </nav>
+    </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
+
+    <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        Все статьи
+    </a>
+
+    <article>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Зачем мы дообучили свою LLM для гос-документов</h1>
+        <div class="mt-4 text-xs text-slate-400 mono">22 мая 2026 · 5 минут · LLM, fine-tuning, гос-IT</div>
+
+        <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
+                <li>Четыре конкретные проблемы министерских документов, которые GPT-4 закрывает плохо</li>
+                <li>Что меняет 40-мегабайтный QLoRA-адаптер поверх Qwen2.5-7B</li>
+                <li>Реальные цифры до и после: JSON-валидность 0% → 100%, char-similarity ×3.7</li>
+            </ul>
+        </blockquote>
+
+        <figure class="my-8" x-data="{ copied: false }">
+            <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 mono">
+                    <span>Изображение · hero · 1600×900</span>
+                    <button type="button" @click="navigator.clipboard.writeText($refs.prompt.innerText); copied = true; setTimeout(() => copied = false, 1400)" class="px-2 py-1 rounded border border-slate-200 hover:bg-white text-slate-600">
+                        <span x-show="!copied">копировать prompt</span>
+                        <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
+                    </button>
+                </div>
+                <div class="text-sm text-slate-700">Стопка министерских бумаг на столе, рядом — маленький светящийся чип с надписью «LoRA», из которого тянутся ровные линии к листам и подсвечивают на них поля «сумма», «дата», «контрагент».</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a tidy stack of formal government paper documents on a wooden desk. Beside the stack, a small glowing microchip labeled "LoRA" sends thin precise light-lines into the pages, highlighting small rectangular fields labeled "amount", "date", "counterparty". Soft indigo-to-violet gradient background, no harsh shadows, no logos, no readable text, 16:9, 1600x900, professional editorial style.</pre>
+            </div>
+        </figure>
+
+        <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <p>Каждый раз, когда я объясняю проект ARA, первый вопрос звучит одинаково: «Зачем своя модель, если есть GPT-4?»</p>
+            <p>Хороший вопрос. Если бы министерские документы выглядели как английские твиты, мы бы и не трогали fine-tuning. Но они не выглядят. Ниже — четыре проблемы, на которых обычная foundation-модель спотыкается, и что меняет 40-мегабайтный адаптер поверх неё.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Проблема 1. Структурированный JSON, а не «творческий ответ»</h2>
+            <p>Когда из контракта надо вытащить три поля — сумма, дата, контрагент — нужен валидный JSON. Не «вот, я красиво описал договор», а <code class="mono text-[0.85em] bg-slate-100 px-1.5 py-0.5 rounded">{"amount": ..., "date": ..., "counterparty": ...}</code>. Без кавычек, без лишних слов, без markdown-блока.</p>
+            <p>Базовая Qwen2.5-7B, без обучения, на этой задаче выдаёт валидный JSON в <b>0 из 6</b> случаев на нашем эвал-сете. Не потому что «глупая» — у неё нет привычки к строгому формату. После 3 эпох обучения на 95 примерах с правильной разметкой — <b>6 из 6</b>. Не «лучше», а качественно другое поведение.</p>
+            <p>Это и есть единственный смысл fine-tuning, который реально окупается на маленьких датасетах: научить модель <b>форме ответа</b>, а не новым фактам.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Проблема 2. Узбекский, русский, английский в одном документе</h2>
+            <p>В реальном министерском документе встречается всё сразу: «Shartnoma 2026-yil 14-martda tuzildi», на следующей строке — «Сумма договора: 1 200 000 сум», в подписи — «Acme Logistics LLC». Foundation-модели часто отказываются от родного языка, отвечая на английском, либо переключаются туда-сюда внутри одного ответа.</p>
+            <p>Мы собрали датасет, в котором каждое из 15 семейств задач (классификация, извлечение полей, NER, language ID, перевод клауз) представлено на трёх языках. Модель видит вход на узбекском — отвечает на узбекском. Видит на русском — на русском. Это не звучит как чудо, но без обучения этого не получить.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Проблема 3. Данные не должны покидать министерство</h2>
+            <p>GPT-4 — это HTTP-запрос наружу. Документ с подписью и печатью улетает в чужой дата-центр, проходит через чужие логи, попадает в чужой биллинг. Для министерства это разговор, который заканчивается ещё до начала.</p>
+            <p>QLoRA-адаптер на Qwen2.5 решает это иначе: модель крутится на собственном GPU-сервере, документ не выходит за периметр, аудит-лог пишется в свою же PostgreSQL. И никакой ежемесячный счёт от поставщика не висит над проектом.</p>
+            <p>Я подробнее писал об этом раскладе в заметке <a href="/posts/on-prem-llm" class="text-indigo-600 hover:text-indigo-700">«Когда стоит держать LLM у себя»</a>. Дообучение усиливает аргумент: своя дообученная модель — это не просто инфраструктура, это уже актив.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Проблема 4. Стоимость на масштабе</h2>
+            <p>При 10 000 документов в месяц GPT-4 на extraction-задачу — это $300-500 на токенах. При миллионе документов — уже $30-50k. И эта цена линейно растёт.</p>
+            <p>Собственная модель — это один раз заплатить за GPU и потом обрабатывать любой объём по цене электричества. Один RTX 4060 за $300 тянет training, один T4 в облаке — продакшен-инференс. Дообучение тут — не самоцель, а способ выжать из маленькой модели качество, которое раньше требовало большой.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Цифры, которые мы получили</h2>
+            <p>Эвал на 19 удержанных примерах, жадная декодировка. Базовая Qwen2.5-7B в 4-битной квантизации против неё же плюс наш QLoRA-адаптер:</p>
+            <div class="my-5 overflow-x-auto">
+                <table>
+                    <thead><tr><th>Метрика</th><th>База 7B 4-bit</th><th>+ QLoRA</th></tr></thead>
+                    <tbody>
+                        <tr><td>JSON-валидность</td><td>0 / 6</td><td><b>6 / 6</b></td></tr>
+                        <tr><td>Exact match</td><td>0%</td><td><b>26,3%</b></td></tr>
+                        <tr><td>Char similarity</td><td>0,166</td><td><b>0,610</b></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Адаптер весит 40 МБ. Базовая модель не трогается — её можно скачать у Qwen один раз и переиспользовать под десяток разных адаптеров. Это и есть PEFT — обучаем дельту, а не всю модель.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что мы НЕ обещаем</h2>
+            <p>95 примеров — это демонстрация техники, а не продакшен-качество. Чтобы все 15 семейств задач шли уверенно, нужно <b>200-500 примеров на семейство</b>, и не из головы, а собранных из реального аудит-лога обработанных документов.</p>
+            <p>Дообучение не заменяет RAG. Если в документе есть факт, которого не было в train-сете, модель его не выдумает правильно — нужно подать контекст. Дообученная модель + RAG — это то, что должно стоять в продакшене.</p>
+        </div>
+
+        <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
+                <li>Скачать адаптеры с Hugging Face: <a href="https://huggingface.co/sb-bilal-dev-2/ara-extract-v1" class="text-indigo-600 hover:text-indigo-700">ara-extract-v1</a> (0,5B) и <a href="https://huggingface.co/sb-bilal-dev-2/ara-extract-7b-qlora" class="text-indigo-600 hover:text-indigo-700">ara-extract-7b-qlora</a> (7B QLoRA).</li>
+                <li>До того как считать «нужен GPT-4», прогоните 20 ваших реальных документов через Qwen 7B + extraction-промпт. Замерьте JSON-валидность. Цифра удивит.</li>
+                <li>Прочитайте следующую заметку — <a href="/posts/qlora-na-rtx4060" class="text-indigo-600 hover:text-indigo-700">«LoRA, QLoRA, Qwen2.5 — почему этот стек, а не другой»</a>.</li>
+            </ul>
+        </div>
+
+    </article>
+
+</main>
+
+<footer class="border-t border-slate-100 py-8 sm:py-10">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 text-xs text-slate-400 text-center sm:text-left">© 2026 Билол Саидумаров · Ташкент</div>
+</footer>
+
+</body>
+</html>
