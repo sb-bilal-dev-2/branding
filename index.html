@@ -164,6 +164,71 @@
             z-index: 1;
         }
 
+        /* ─── ЗАЧЕМ section illustrations ───────────────────────────── */
+        /* Both draw when the section's .max-w-5xl container picks up the
+           .visible class from the existing IntersectionObserver. */
+
+        /* Tree rings — concentric arcs draw outward from a central orange dot. */
+        .tree-rings circle.ring {
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-dasharray: 700;
+            stroke-dashoffset: 700;
+            transition: stroke-dashoffset 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible .tree-rings circle.ring { stroke-dashoffset: 0; }
+        .tree-rings circle.ring:nth-of-type(1) { transition-delay: 220ms; }
+        .tree-rings circle.ring:nth-of-type(2) { transition-delay: 360ms; }
+        .tree-rings circle.ring:nth-of-type(3) { transition-delay: 500ms; }
+        .tree-rings circle.ring:nth-of-type(4) { transition-delay: 640ms; }
+        .tree-rings circle.ring:nth-of-type(5) { transition-delay: 780ms; }
+        .tree-rings circle.ring:nth-of-type(6) { transition-delay: 920ms; }
+        .tree-rings .core {
+            opacity: 0;
+            transition: opacity 500ms ease 120ms;
+        }
+        .reveal.visible .tree-rings .core { opacity: 1; }
+
+        /* Pulse line — EKG draws left-to-right, then the spike dot keeps beating. */
+        .pulse-line path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 720;
+            stroke-dashoffset: 720;
+            transition: stroke-dashoffset 1800ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+        }
+        .reveal.visible .pulse-line path { stroke-dashoffset: 0; }
+        .pulse-line .pulse-dot {
+            transform-box: fill-box;
+            transform-origin: center;
+            opacity: 0;
+            transition: opacity 400ms ease 1900ms;
+        }
+        .reveal.visible .pulse-line .pulse-dot {
+            opacity: 1;
+            animation: pulseDotBeat 2.2s ease-in-out 2200ms infinite;
+        }
+        @keyframes pulseDotBeat {
+            0%, 100% { transform: scale(1);   opacity: 0.85; }
+            50%      { transform: scale(1.7); opacity: 1;    }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tree-rings circle.ring,
+            .pulse-line path,
+            .tree-rings .core,
+            .pulse-line .pulse-dot {
+                transition: none !important;
+                animation: none !important;
+                stroke-dashoffset: 0 !important;
+                opacity: 1 !important;
+            }
+        }
+
         /* Mobile-first display scale — keep hero readable on 360px screens. */
         .display-xl  { font-size: 2.125rem; line-height: 1.08; letter-spacing: -0.025em; }   /* 34px */
         .display-lg  { font-size: 1.75rem;  line-height: 1.15; letter-spacing: -0.02em; }    /* 28px */
@@ -312,6 +377,14 @@
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 md:pt-40 pb-14 sm:pb-20 md:pb-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
+                <!-- OPTION B: pulse line above the eyebrow (EKG-style steady rhythm) -->
+                <div class="pulse-line mb-5 text-slate-500" aria-hidden="true">
+                    <svg viewBox="0 0 400 36" class="block w-full h-9">
+                        <path d="M 0,18 L 130,18 L 138,14 L 146,22 L 154,18 L 252,18 L 260,9 L 268,28 L 276,3 L 284,28 L 292,18 L 400,18"/>
+                        <circle class="pulse-dot" cx="276" cy="3" r="3" fill="#c2410c"/>
+                    </svg>
+                </div>
+
                 <div class="eyebrow mb-3">Зачем</div>
                 <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                     Почему<br class="hidden sm:inline" />именно сейчас.
@@ -320,6 +393,22 @@
                     Цифровая инфраструктура строится впервые&nbsp;—<br class="hidden sm:inline" />
                     от&nbsp;её&nbsp;качества зависят следующие двадцать лет.
                 </p>
+
+                <!-- OPTION A: tree rings below the description (concentric growth outward) -->
+                <div class="tree-rings mt-7 text-slate-500" aria-hidden="true">
+                    <svg viewBox="0 0 200 200" class="block w-32 h-32 sm:w-40 sm:h-40">
+                        <g>
+                            <circle class="ring" cx="100" cy="100" r="14" stroke-width="1.4"/>
+                            <circle class="ring" cx="100" cy="100" r="28" stroke-width="1.2"/>
+                            <circle class="ring" cx="100" cy="100" r="44" stroke-width="1.1"/>
+                            <circle class="ring" cx="100" cy="100" r="62" stroke-width="1"   opacity="0.8"/>
+                            <circle class="ring" cx="100" cy="100" r="80" stroke-width="0.9" opacity="0.55"/>
+                            <circle class="ring" cx="100" cy="100" r="96" stroke-width="0.8" opacity="0.35"/>
+                        </g>
+                        <!-- Origin: small orange dot, fades in immediately -->
+                        <circle class="core" cx="100" cy="100" r="3.2" fill="#c2410c"/>
+                    </svg>
+                </div>
             </div>
             <div class="lg:col-span-2 space-y-6">
                 <p class="lede">
