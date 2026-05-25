@@ -20,7 +20,7 @@ Software engineer with 7+ years shipping production systems across web, mobile, 
 
 ## Experience
 
-### Founder — ARA (AI Resource Assistant)
+### Co-founder / CTO — ARA (AI Resource Assistant)
 *January 2026 – Present · Python, FastAPI, PyTorch, Hugging Face, PostgreSQL, Qdrant, RabbitMQ, vLLM, Docker*
 
 - Self-hosted document-intelligence platform for ministry-scale archives — OCR, hybrid search, structured extraction, and citation-grounded RAG. Closed-perimeter deployment, no paid-API dependency.
@@ -95,7 +95,7 @@ Uzbek — native · Russian — native · English — fluent
 
 ## Selected Projects
 
-**ARA (AI Resource Assistant)** — Self-hosted document-intelligence platform for government archives; OCR + hybrid search + structured extraction with custom Qwen 2.5 LoRA/QLoRA adapters published on Hugging Face (100% JSON validity on held-out eval, 7.6 GB peak VRAM training on an RTX 4060). Founder. 2026–present. [ara-production-baa8.up.railway.app](https://ara-production-baa8.up.railway.app/) (beta) · [huggingface.co/bilalsaidumarov/ara-extract-7b-qlora](https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora)
+**ARA (AI Resource Assistant)** — Self-hosted document-intelligence platform for government archives; OCR + hybrid search + structured extraction with custom Qwen 2.5 LoRA/QLoRA adapters published on Hugging Face (100% JSON validity on held-out eval, 7.6 GB peak VRAM training on an RTX 4060). Co-founder / CTO. 2026–present. [ara-production-baa8.up.railway.app](https://ara-production-baa8.up.railway.app/) (beta) · [huggingface.co/bilalsaidumarov/ara-extract-7b-qlora](https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora)
 
 **Vocoplay** — Uzbek-language AI tutor (app + bot) on self-hosted open-source LLMs. Founder. 2025–present. [vocoplay.com](https://vocoplay.com)
 
