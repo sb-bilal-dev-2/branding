@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <title>Резюме — Билол Саидумаров</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,7 +235,7 @@
     <!-- Header -->
     <header>
         <h1 data-i18n="name">Билол Саидумаров</h1>
-        <div class="role-line" data-i18n="role-line">Senior Software Engineer · Основатель</div>
+        <div class="role-line" data-i18n="role-line">AI Architect · Software Engineer</div>
         <div class="contact">
             <span>00bilal@gmail.com</span>
             <span class="dot">·</span>
@@ -278,7 +279,7 @@
                 <div class="role-meta" data-i18n="ara.dates">Январь 2026 — настоящее время</div>
             </div>
             <ul>
-                <li data-i18n="ara.b1">Self-hosted платформа document-intelligence для архивов ведомственного масштаба&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.</li>
+                <li data-i18n="ara.b1">Self-hosted платформа document-intelligence для крупных архивов&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.</li>
                 <li data-i18n="ara.b2">Дообучил Qwen 2.5 с&nbsp;LoRA и&nbsp;QLoRA на&nbsp;трёхъязычном (узбекский / русский / английский) корпусе из&nbsp;15 семейств задач&nbsp;— опубликовано как <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> и&nbsp;<a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. На&nbsp;7B QLoRA на&nbsp;отложенной выборке: JSON-валидность 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).</li>
                 <li data-i18n="ara.b3">QLoRA на&nbsp;7B помещается в&nbsp;~7.6 ГБ пика VRAM на&nbsp;одной RTX 4060&nbsp;— ~5 мин wall time, ~40 МБ адаптер; 0.5B LoRA обучается за&nbsp;~20 секунд.</li>
                 <li data-i18n="ara.b4">Асинхронный пайплайн end-to-end: FastAPI-шлюз (<200 мс p95), RabbitMQ-воркеры для OCR / embeddings / LLM, PostgreSQL как источник истины (3NF, Alembic), Qdrant + BGE-m3 гибридный BM25 / семантический поиск, append-only журнал аудита.</li>
@@ -410,7 +411,7 @@
     <section class="projects">
         <h2 data-i18n="section.projects">Избранные проекты</h2>
         <p>
-            <strong>ARA (AI Resource Assistant)</strong>&nbsp;— <span data-i18n="projects.ara">Self-hosted платформа document-intelligence для государственных архивов; OCR + гибридный поиск + структурированная экстракция с&nbsp;кастомными Qwen 2.5 LoRA/QLoRA адаптерами на&nbsp;Hugging Face (100% JSON-валидность на&nbsp;отложенной выборке, 7.6 ГБ пика VRAM на&nbsp;RTX 4060). Основатель. 2026 — настоящее время.</span> <a href="https://ara-production-baa8.up.railway.app/" target="_blank" rel="noopener">ara-production-baa8.up.railway.app</a> <span data-i18n="projects.beta">(бета)</span> · <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">huggingface.co/bilalsaidumarov/ara-extract-7b-qlora</a>
+            <strong>ARA (AI Resource Assistant)</strong>&nbsp;— <span data-i18n="projects.ara">Платформа document-intelligence. Модели на&nbsp;Hugging Face. Основатель. 2026 — настоящее время.</span> <a href="https://ara-production-baa8.up.railway.app/" target="_blank" rel="noopener">ara-production-baa8.up.railway.app</a> <span data-i18n="projects.beta">(бета)</span> · <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">huggingface.co/bilalsaidumarov/ara-extract-7b-qlora</a>
         </p>
         <p>
             <strong>Vocoplay</strong>&nbsp;— <span data-i18n="projects.vocoplay">ИИ-репетитор узбекского языка (приложение + бот) на&nbsp;self-hosted open-source LLM. Основатель. 2025 — настоящее время.</span> <a href="https://vocoplay.com" target="_blank" rel="noopener">vocoplay.com</a>
@@ -436,7 +437,7 @@ const I18N = {
         'nav.print': 'Скачать PDF',
         'nav.print-short': 'PDF',
         'name': 'Билол Саидумаров',
-        'role-line': 'Senior Software Engineer · Основатель',
+        'role-line': ' · ИИ Архитектор',
         'location': 'Ташкент, Узбекистан',
 
         'section.summary': 'Краткое резюме',
@@ -450,7 +451,7 @@ const I18N = {
 
         'ara.title': 'Основатель',
         'ara.dates': 'Январь 2026 — настоящее время',
-        'ara.b1': 'Self-hosted платформа document-intelligence для архивов ведомственного масштаба&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.',
+        'ara.b1': 'Self-hosted платформа document-intelligence для крупных архивов&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.',
         'ara.b2': 'Дообучил Qwen 2.5 с&nbsp;LoRA и&nbsp;QLoRA на&nbsp;трёхъязычном (узбекский / русский / английский) корпусе из&nbsp;15 семейств задач&nbsp;— опубликовано как <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> и&nbsp;<a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. На&nbsp;7B QLoRA на&nbsp;отложенной выборке: JSON-валидность 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
         'ara.b3': 'QLoRA на&nbsp;7B помещается в&nbsp;~7.6 ГБ пика VRAM на&nbsp;одной RTX 4060&nbsp;— ~5 мин wall time, ~40 МБ адаптер; 0.5B LoRA обучается за&nbsp;~20 секунд.',
         'ara.b4': 'Асинхронный пайплайн end-to-end: FastAPI-шлюз (&lt;200 мс p95), RabbitMQ-воркеры для OCR / embeddings / LLM, PostgreSQL как источник истины (3NF, Alembic), Qdrant + BGE-m3 гибридный BM25 / семантический поиск, append-only журнал аудита.',
@@ -515,7 +516,7 @@ const I18N = {
 
         'education.body': 'Самообразование',
 
-        'projects.ara': 'Self-hosted платформа document-intelligence для государственных архивов; OCR + гибридный поиск + структурированная экстракция с&nbsp;кастомными Qwen 2.5 LoRA/QLoRA адаптерами на&nbsp;Hugging Face (100% JSON-валидность на&nbsp;отложенной выборке, 7.6 ГБ пика VRAM на&nbsp;RTX 4060). Основатель. 2026 — настоящее время.',
+        'projects.ara': 'Платформа document-intelligence. Модели на&nbsp;Hugging Face. Основатель. 2026 — настоящее время.',
         'projects.beta': '(бета)',
         'projects.vocoplay': 'ИИ-репетитор узбекского языка (приложение + бот) на&nbsp;self-hosted open-source LLM. Основатель. 2025 — настоящее время.',
         'projects.xanavi': 'Автомобильные STT/TTS на&nbsp;кастомных моделях. 2023 — 2025.',
@@ -542,7 +543,7 @@ const I18N = {
 
         'ara.title': 'Founder',
         'ara.dates': 'January 2026 — Present',
-        'ara.b1': 'Self-hosted document-intelligence platform for ministry-scale archives&nbsp;— OCR, hybrid search, structured extraction, and citation-grounded RAG. Closed-perimeter deployment, no paid-API dependency.',
+        'ara.b1': 'Self-hosted document-intelligence platform for large-scale archives&nbsp;— OCR, hybrid search, structured extraction, and citation-grounded RAG. Closed-perimeter deployment, no paid-API dependency.',
         'ara.b2': 'Fine-tuned Qwen 2.5 with LoRA and QLoRA on a trilingual (Uzbek / Russian / English) corpus across 15 task families&nbsp;— published as <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> and <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. 7B QLoRA on held-out eval: JSON validity 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
         'ara.b3': 'QLoRA on the 7B fits in ~7.6 GB peak VRAM on a single RTX 4060&nbsp;— ~5 min wall time, ~40 MB adapter; 0.5B LoRA trains in ~20 sec.',
         'ara.b4': 'Async pipeline end-to-end: FastAPI gateway (&lt;200 ms p95), RabbitMQ workers for OCR / embedding / LLM, PostgreSQL as source of truth (3NF, Alembic), Qdrant + BGE-m3 hybrid BM25 / semantic retrieval, append-only audit log.',
@@ -607,7 +608,7 @@ const I18N = {
 
         'education.body': 'Self-taught',
 
-        'projects.ara': 'Self-hosted document-intelligence platform for government archives; OCR + hybrid search + structured extraction with custom Qwen 2.5 LoRA/QLoRA adapters published on Hugging Face (100% JSON validity on held-out eval, 7.6 GB peak VRAM training on an RTX 4060). Founder. 2026 — present.',
+        'projects.ara': 'Document-intelligence platform. Models on Hugging Face. Founder. 2026 — present.',
         'projects.beta': '(beta)',
         'projects.vocoplay': 'Uzbek-language AI tutor (app + bot) on self-hosted open-source LLMs. Founder. 2025 — present.',
         'projects.xanavi': 'In-car STT/TTS built on custom models. 2023 — 2025.',
@@ -630,11 +631,11 @@ const I18N = {
         'section.education': "Ta'lim",
         'section.projects': 'Tanlangan loyihalar',
 
-        'summary': "Veb, mobil va sun'iy intellekt sohalarida 7+ yillik tajribaga ega dasturchi. Hozir Vocoplay&nbsp;— o'z serveriga joylashtirilgan open-source modellar asosida o'zbek tilini o'rgatuvchi AI-tyutorni asoschisi. Parallel ravishda ARA&nbsp;— vazirliklar uchun hujjat-intellekt platformasini rivojlantiryapman. Avval Xanavi'da avtomobil ichi STT/TTS ovoz yordamchilarini va Python nutqni qayta ishlash pipeline'larini qurganman. O'zbek tili ona tili&nbsp;— kam-resursli tillar uchun NLP va nutq tanish bo'yicha mutaxassis, bunda tayyor modellar yetishmaydi.",
+        'summary': "Veb, mobil va sun'iy intellekt sohalarida 7+ yillik tajribaga ega dasturchi. Hozir Vocoplay&nbsp;— o'z serveriga joylashtirilgan open-source modellar asosida o'zbek tilini o'rgatuvchi AI-tyutorni asoschisi. Parallel ravishda ARA&nbsp;— vazirliklar uchun document-intelligence platformasini rivojlantiryapman. Avval Xanavi'da avtomobil ichi STT/TTS ovoz yordamchilarini va Python nutqni qayta ishlash pipeline'larini qurganman. O'zbek tili ona tili&nbsp;— kam-resursli tillar uchun NLP va nutq tanish bo'yicha mutaxassis, bunda tayyor modellar yetishmaydi.",
 
         'ara.title': 'Asoschisi',
         'ara.dates': 'Yanvar 2026 — hozirgi vaqt',
-        'ara.b1': "Vazirlik miqyosidagi arxivlar uchun o'z serveriga joylashtirilgan hujjat-intellekt platformasi&nbsp;— OCR, gibrid qidiruv, tuzilmali ekstraksiya va iqtibos asosli RAG. Yopiq perimetrda joylashtirish, pullik API'larga bog'liqliksiz.",
+        'ara.b1': "Yirik arxivlar uchun o'z serveriga joylashtirilgan document-intelligence platformasi&nbsp;— OCR, gibrid qidiruv, tuzilmali ekstraksiya va iqtibos asosli RAG. Yopiq perimetrda joylashtirish, pullik API'larga bog'liqliksiz.",
         'ara.b2': 'Qwen 2.5 ni LoRA va QLoRA bilan uch tilli (o\'zbek / rus / ingliz) korpusda 15 vazifa oilasi bo\'yicha fine-tune qildim&nbsp;— <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> va <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a> sifatida nashr etildi. 7B QLoRA test natijalari: JSON validligi 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
         'ara.b3': "7B uchun QLoRA bitta RTX 4060'da ~7.6 GB cho'qqi VRAM'ga sig'adi&nbsp;— ~5 daqiqa, ~40 MB adapter; 0.5B LoRA ~20 soniyada o'qitiladi.",
         'ara.b4': "End-to-end asinxron pipeline: FastAPI shlyuz (&lt;200 ms p95), OCR / embedding / LLM uchun RabbitMQ ishchilari, manba sifatida PostgreSQL (3NF, Alembic), Qdrant + BGE-m3 gibrid BM25 / semantik qidiruv, faqat qo'shish audit jurnali.",
@@ -699,7 +700,7 @@ const I18N = {
 
         'education.body': "Mustaqil ta'lim",
 
-        'projects.ara': "Davlat arxivlari uchun o'z serveriga joylashtirilgan hujjat-intellekt platformasi; OCR + gibrid qidiruv + tuzilmali ekstraksiya, Hugging Face'da nashr etilgan maxsus Qwen 2.5 LoRA/QLoRA adapterlari (test natijalarida 100% JSON validligi, RTX 4060'da 7.6 GB cho'qqi VRAM). Asoschisi. 2026 — hozirgi vaqt.",
+        'projects.ara': "Document-intelligence platformasi. Modellar Hugging Face'da. Asoschisi. 2026 — hozirgi vaqt.",
         'projects.beta': "(beta)",
         'projects.vocoplay': "O'z serveriga joylashtirilgan open-source LLM'lar asosida o'zbek tilini o'rgatuvchi AI tyutor (app + bot). Asoschisi. 2025 — hozirgi vaqt.",
         'projects.xanavi': "Maxsus modellar asosida avtomobil ichi STT/TTS. 2023 — 2025.",
