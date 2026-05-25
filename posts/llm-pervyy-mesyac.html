@@ -4,23 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Три заблуждения первого месяца с LLM</title>
-    <meta name="description" content="Три заблуждения, которые рассыпались на первой неделе работы с LLM, и какая рамка действительно работает." />
+    <meta name="description" content="В первую неделю я нашёл новый молоток. На второй молоток начал сам выбирать гвозди. Три удобных заблуждения, на которых легко зависнуть." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
-        [x-cloak] { display: none !important; }
-        body { overflow-wrap: break-word; }
-        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
-        pre { overflow-x: auto; max-width: 100%; }
-        code { overflow-wrap: anywhere; word-break: break-word; }
-        article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; }
-        @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }
-    </style>
+    <style>:root { font-family: 'Inter', system-ui, -apple-system, sans-serif; } .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; } [x-cloak] { display: none !important; } body { overflow-wrap: break-word; } h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; } pre { overflow-x: auto; max-width: 100%; } code { overflow-wrap: anywhere; word-break: break-word; } article .prose p, article .prose li { font-size: 0.9375rem; line-height: 1.7; } @media (min-width: 640px) { article .prose p, article .prose li { font-size: 1rem; } }</style>
 </head>
 <body class="bg-white text-slate-900 antialiased">
 
@@ -35,22 +25,21 @@
 </header>
 
 <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 pb-14 sm:pt-12 sm:pb-20">
-
     <a href="/posts" class="text-sm text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5 mb-8">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
         Все статьи
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Что я понял про LLM за первый месяц: три заблуждения</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Три заблуждения первого месяца с LLM</h1>
         <div class="mt-4 text-xs text-slate-400 mono">14 мая 2023 · 3 минуты · LLM, обучение, опыт</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 3 минуты</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Три заблуждения, на которых я споткнулся в первую неделю</li>
-                <li>Рамка, по которой я теперь оцениваю любую идею с LLM</li>
-                <li>Конкретный совет: с чего начинать, если вы только запрыгиваете в тему</li>
+                <li>Три удобных заблуждения, которые мне обошлись по неделе каждое.</li>
+                <li>Рамка из трёх вопросов, на которую я с тех пор сажу любую LLM-идею.</li>
+                <li>Один совет, с которого стоит начать, если в тему запрыгиваете сейчас.</li>
             </ul>
         </blockquote>
 
@@ -63,39 +52,49 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Минималистичная иллюстрация: разработчик за столом, перед ним три разноцветных «облачка-заблуждения», уходящих вверх и рассыпающихся.</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a developer at a desk staring at three soft cloud-shapes above the laptop, each cloud labeled with a question mark, the clouds dissolving into small particles. Calm violet-to-indigo gradient background, no harsh shadows, no logos, no text, 16:9, 1600x900, professional editorial style.</pre>
+                <div class="text-sm text-slate-700">Разработчик за столом. Над ноутбуком — три облачка-заблуждения, медленно рассыпающиеся на частицы.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a developer at a desk, three soft cloud shapes hovering above the laptop, each cloud labeled with a question mark, slowly dissolving into small particles. Calm violet-to-indigo gradient background, no harsh shadows, no logos, no text, 16:9, 1600x900, professional editorial style.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 1. «LLM понимает»</h2>
-            <p>Первая мысль: модель отвечает связно, значит, она поняла вопрос. На самом деле — нет. Она статистически достроила правдоподобное продолжение. В 80% случаев этого достаточно. В оставшихся 20% получаем уверенно неверный ответ, который выглядит правильно. Для бизнес-логики и регулируемой среды это убийственно.</p>
-            <p><b>Что делать:</b> к каждому ответу прикладывайте источник. Если ответа нет в источнике — система говорит «не знаю», а не выдумывает. Это и есть основной смысл RAG.</p>
+            <p>Первую неделю с LLM я ходил с молотком. Всё вокруг выглядело как гвоздь.</p>
+            <p>На второй неделе молоток начал сам решать, где забивать. Ниже — три уверенности, которые рассыпались в порядке поступления.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 2. «Чем больше параметров, тем лучше»</h2>
-            <p>На демо-сцене 70B бьёт 7B. На вашей задаче — почти никогда. Маленькая модель с правильными чанками, нормальным промптом и хорошим ретривером уделывает большую без контекста. Платить за токены GPT-4 на каждом запросе, когда вашей задаче хватит локального 7B, — дорогая привычка.</p>
-            <p><b>Что делать:</b> сначала соберите минимальный RAG поверх локальной 7B-модели. Замерьте качество на 20 ваших реальных вопросах. Только если не хватает — рассматривайте более тяжёлую модель.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 1. «Модель меня понимает»</h2>
+            <p>Ответ связный — значит, поняла. Так это устроено в людях. У моделей — нет.</p>
+            <p>Она статистически достроила правдоподобное продолжение. В 80% случаев этого хватает. В оставшихся 20 — получаете уверенно неверный ответ, который звучит, как правда. Для бизнес-логики это убийственно, для регулируемой среды — катастрофа.</p>
+            <p><b>Что делать.</b> К каждому ответу — источник. Если ответа нет в источнике, система говорит «не знаю», а не выдумывает. Это и есть смысл RAG, остальное — украшения.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 2. «Чем больше параметров — тем лучше»</h2>
+            <p>На демо-сцене 70B бьёт 7B. На <i>вашей</i> задаче — почти никогда.</p>
+            <p>Маленькая модель с правильными чанками, нормальным промптом и хорошим ретривером уделывает большую без контекста. Платить за токены GPT-4 на каждом запросе, когда вашей задаче хватит локального 7B, — это дорогая привычка, маскирующаяся под технический выбор.</p>
+            <p><b>Что делать.</b> Сначала минимальный RAG поверх локальной 7B. Замерьте качество на 20 ваших реальных вопросах. Только если не хватает — поднимайтесь к тяжёлой модели.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Заблуждение 3. «Главное — промпт-инжиниринг»</h2>
-            <p>В первый месяц я искал «магические» формулировки. Прирост качества — на 5-10%. А правильный чанк-сайз и нормальный ретривер дали +40%. Промпт важен. Но в десять раз меньше, чем структура контекста и данные.</p>
-            <p><b>Что делать:</b> промпт пишется один раз и редко меняется. Время вкладывайте в чанкинг, ретривер, эвалы.</p>
+            <p>В первый месяц я искал магическую формулировку. Прирост — 5-10%. А правильный размер чанка и нормальный ретривер дали +40%.</p>
+            <p>Промпт важен. Но в десять раз меньше, чем структура контекста и качество данных. Где-то на этом стыке погибла половина «AI-стартапов 2023» — они слишком долго полировали промпт, забыв собрать данные.</p>
+            <p><b>Что делать.</b> Промпт пишется один раз и редко меняется. Время — в чанкинг, ретривер, эвалы.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Рамка, по которой я теперь оцениваю идею с LLM</h2>
-            <p>Три вопроса в таком порядке: <b>(1) есть ли у меня источник правды?</b> Если нет — RAG не поможет. <b>(2) могу ли я измерить качество?</b> Без 20-30 размеченных примеров никакая модель не «лучше» другой. <b>(3) что я делаю, когда модель ошибается?</b> Если ответа нет — продукт ещё не готов.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Рамка, на которую я сажу любую LLM-идею</h2>
+            <p>Три вопроса по порядку:</p>
+            <ol class="list-decimal list-inside space-y-1 ml-2">
+                <li><b>Есть ли источник правды?</b> Нет — RAG не поможет.</li>
+                <li><b>Могу ли измерить качество?</b> Без 20-30 размеченных примеров никакая модель не «лучше» другой.</li>
+                <li><b>Что делаю, когда модель ошибается?</b> Если ответа нет — продукт не готов. Точка.</li>
+            </ol>
+            <p>Если хотя бы один из трёх — «не знаю», возвращайтесь не к коду, а к продукту.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Соберите эвал-сет на 20 вопросов из вашей предметной области до того, как трогать продакшен.</li>
-                <li>Попробуйте Llama 3 / Qwen 7B + RAG, прежде чем считать, что нужен GPT-4.</li>
-                <li>Прочитайте следующую заметку — <a href="/posts/rag-za-vyhodnye" class="text-indigo-600 hover:text-indigo-700">«Сборка простой RAG-системы за выходные»</a>.</li>
+                <li>Соберите эвал-сет на 20 вопросов до того, как трогать продакшен. Без него любые сравнения — вкусовщина.</li>
+                <li>Попробуйте Llama 3 / Qwen 7B + RAG раньше, чем решите, что нужен GPT-4.</li>
+                <li>Дальше — <a href="/posts/rag-za-vyhodnye" class="text-indigo-600 hover:text-indigo-700">«RAG за два дня: что нужно, а что — нет»</a>.</li>
             </ul>
         </div>
-
     </article>
-
 </main>
 
 <footer class="border-t border-slate-100 py-8 sm:py-10">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Когда LLM падает, сервер не должен падать с ним</title>
-    <meta name="description" content="Что происходит, когда LLM-провайдер падает на 15 минут, и почему ваш клиент должен иметь предохранитель." />
+    <meta name="description" content="Когда у провайдера падает GPU, ваш сервер не должен героически переспросить три раза и положить себя в придачу. Зачем нужен circuit breaker." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Circuit breaker для LLM-клиента: зачем нужен и как реализовать</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Когда LLM падает, сервер не должен падать с ним</h1>
         <div class="mt-4 text-xs text-slate-400 mono">15 августа 2024 · 4 минуты · надёжность, LLM, Python</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Сценарий, в котором простые ретраи делают только хуже</li>
-                <li>Три состояния circuit breaker и как они переключаются</li>
-                <li>Где разместить предохранитель — на клиенте или на эндпойнте</li>
+                <li>Один сценарий, в котором ретраи не лечат, а добивают.</li>
+                <li>Три состояния предохранителя: closed → open → half-open. Сорок строк кода.</li>
+                <li>Ретраи и breaker — это слои, не альтернативы. Без одного из них продакшен — лотерея.</li>
             </ul>
         </blockquote>
 
@@ -52,35 +52,43 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Анимация трёх состояний: closed (зелёный) → open (красный после серии ошибок) → half-open (жёлтый, пропускает один пробный) → обратно closed.</div>
+                <div class="text-sm text-slate-700">Анимация трёх состояний: closed (зелёный) → open после серии ошибок (красный) → half-open (жёлтый, проходит один пробный) → обратно closed.</div>
                 <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">~4s loop, ease-out: three state pills labeled "closed", "open", "half-open" transition in sequence. Closed = soft emerald glow, open = soft rose pulse, half-open = soft amber pulse. A small spark icon moves across to indicate "probe call". Transparent background, clean line work, 800x300, ~24fps.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Сценарий: LLM падает на 15 минут</h2>
-            <p>Провайдер ушёл в даунтайм. Без предохранителя ваш шлюз для каждого пользовательского запроса делает 3 ретрая с экспоненциальной задержкой. Это 12-30 секунд на запрос. Соединения копятся, воркеры заняты, веб-интерфейс висит. Пользователь нажимает «обновить», получает копию проблемы. Через минуту вы кладёте свой сервер раньше, чем восстановится провайдер.</p>
-            <p>Circuit breaker отвечает на это коротко: <i>«мы знаем, что не работает, не нагружаем сами себя».</i></p>
+            <p>Представьте официанта. Кухня сгорела. Он продолжает принимать заказы. Со столиков уже разносится дым, а он бегает между ними, обещая, что «скоро принесут».</p>
+            <p>Без circuit breaker ваш LLM-клиент во время чужого даунтайма ведёт себя ровно так.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Сценарий: провайдер лежит 15 минут</h2>
+            <p>API отвечает 503. Без предохранителя на каждый пользовательский запрос вы делаете три ретрая с экспоненциальной задержкой — 12-30 секунд. Соединения копятся, воркеры заняты, дашборд висит.</p>
+            <p>Пользователь нажимает «обновить». Получает копию проблемы. Через минуту вы успешно положили свой сервер раньше, чем восстановится чужой.</p>
+            <p>Circuit breaker говорит коротко: <i>«мы знаем, что не работает. Перестаём бить туда сами.»</i></p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Три состояния</h2>
-            <p><b>Closed.</b> Норма. Запросы идут к LLM. Считаем подряд идущие ошибки. Хорошо завершённый запрос обнуляет счётчик.</p>
-            <p><b>Open.</b> После N подряд идущих ошибок (5 — нормальная стартовая цифра) переключаемся. Любой новый запрос немедленно возвращает ошибку, не уходя к LLM. Длительность — фиксированный cooldown, скажем, 30 секунд.</p>
-            <p><b>Half-open.</b> Через 30 секунд пропускаем один запрос — пробный. Если он успешен — возвращаемся в closed. Если нет — снова open ещё на 30 секунд.</p>
+            <p><b>Closed.</b> Норма. Запросы уходят в LLM. Считаем подряд идущие ошибки. Один успешный ответ обнуляет счётчик.</p>
+            <p><b>Open.</b> После N подряд идущих ошибок (5 — нормальный старт) переключаемся. Любой новый запрос мгновенно возвращает ошибку, не уходя в LLM. Длится фиксированный cooldown — 30 секунд.</p>
+            <p><b>Half-open.</b> Через 30 секунд пропускаем <i>один</i> пробный запрос. Успешен — возвращаемся в closed. Нет — снова open, ещё на 30 секунд.</p>
+            <p>Три состояния, один счётчик, один таймер. Сорок строк Python.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где разместить</h2>
-            <p>Не на эндпойнте, а на клиенте LLM. Один экземпляр breaker'а на процесс, общий для всех вызовов. Так его состояние агрегирует все ошибки, а не только текущего запроса.</p>
-            <p>Если у вас несколько разных LLM-провайдеров — у каждого свой breaker. Падение одного не должно гасить вызовы к другому.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где живёт предохранитель</h2>
+            <p>На клиенте LLM, не на эндпойнте. Один экземпляр на процесс, общий для всех вызовов. Тогда состояние агрегирует все ошибки, а не одну конкретную сессию.</p>
+            <p>Несколько провайдеров — у каждого свой breaker. Падение одного не должно гасить вызовы к другому. Иначе вы изобрели единую точку отказа из попытки построить отказоустойчивость.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ретраи vs предохранитель</h2>
-            <p>Это не «или». Это слои. Ретраи (с экспоненциальной задержкой через tenacity) защищают от одиночного сбоя — сети, кратковременного 503. Они работают <i>внутри</i> одного вызова. Breaker защищает от длительной деградации — когда провайдер лёг целиком. Он работает <i>между</i> вызовами. Оба нужны, и они не конфликтуют.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ретраи против предохранителя — это не «или»</h2>
+            <p>Это слои.</p>
+            <p>Ретраи (tenacity, экспоненциальная задержка) защищают от одного сбоя — сети, мгновенного 503. Они работают <i>внутри</i> одного вызова.</p>
+            <p>Breaker защищает от длительной деградации — когда вся внешняя система легла. Он работает <i>между</i> вызовами.</p>
+            <p>Оба нужны. Конфликта нет. Без обоих в продакшене вы тренируете удачу, а не надёжность.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
                 <li>Поставьте tenacity на HTTP-вызов к LLM (3 попытки, экспоненциальный backoff, retry на TransportError + 5xx).</li>
-                <li>Оберните вызов в небольшой class CircuitBreaker — 40 строк кода, ничего страшного.</li>
-                <li>В демо ARA посмотрите панель «Предохранитель LLM» на странице <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">Система</a> — там видно, в каком он сейчас состоянии.</li>
+                <li>Оберните клиент в маленький <code class="text-xs bg-slate-100 px-1 rounded">CircuitBreaker</code> — это правда сорок строк.</li>
+                <li>В <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a> на странице «Система» виден живой индикатор состояния.</li>
             </ul>
         </div>
     </article>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>7 решений в API, которые окупаются годами</title>
-    <meta name="description" content="Семь архитектурных решений, заложенных в шлюз ARA, которые я бы повторил в любом следующем проекте." />
+    <meta name="description" content="Семь дешёвых решений на первой неделе, которые на третий год экономят клиенту полгода работы." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Дизайн API для документного шлюза: 7 решений, которые я бы повторил</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">7 решений в API, которые окупаются годами</h1>
         <div class="mt-4 text-xs text-slate-400 mono">15 апреля 2025 · 5 минут · API, архитектура, дизайн</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Семь решений, заложенных в API ARA с первого дня</li>
-                <li>Зачем каждое из них стоит лично вам и где оно окупится</li>
-                <li>Ровно два решения, которые я взял бы по-другому, имея опыт сейчас</li>
+                <li>Семь решений ценой в день. Возврат — годы спокойной интеграции.</li>
+                <li>Идемпотентность и request-ID — самые дешёвые. Версионирование и аудит — самые благодарные.</li>
+                <li>Плюс два решения, которые я бы сделал иначе, если бы пересобирал сейчас.</li>
             </ul>
         </blockquote>
 
@@ -52,44 +52,54 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Архитектурная схема: «дверь» (API шлюз) с семью пронумерованными слоями замка, каждый — отдельное решение (auth, idempotency, версия, аудит и т.д.).</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration: a stylized API gateway depicted as a glowing door with seven concentric layers labeled (subtly) as security pins. Each layer is a different soft shade of indigo or violet. Around the door, abstract icons of documents flowing in and out. Calm gradient background, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+                <div class="text-sm text-slate-700">Дом, в котором аккуратно разведена проводка. Семь розеток на стене подсвечены — каждая со своей функцией. Снаружи — мирно идущий дождь.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist editorial illustration of a tidy interior wall with seven distinct sockets/switches in a neat row, each glowing a different soft shade of indigo. Through a window, a soft rain falls calmly outside. Calm violet-to-indigo palette, no logos, no readable text, 16:9, 1600x900, professional editorial style.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">1. Возврат 202, а не 201 на тяжёлые операции</h2>
-            <p>Загрузка документа запускает OCR и эмбеддинг — это секунды. Шлюз возвращает 202 со ссылкой на ресурс и текущим статусом задачи. Клиент опрашивает статус (HTMX polling раз в 1.5 сек). Никаких висящих HTTP-соединений, никаких таймаутов.</p>
+            <p>В API всё похоже на проводку в доме. На черновой день решения занимают минуты. На второй год они либо незаметны, либо стоят клиенту трёх выходных.</p>
+            <p>Ниже — семь решений, которые мы закладывали в шлюз с первой недели. И два, которые я бы сегодня сделал иначе.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">2. Idempotency-Key для всех модифицирующих запросов</h2>
-            <p>Заголовок <code class="text-xs bg-slate-100 px-1 rounded">Idempotency-Key</code>. Один и тот же ключ дважды — один и тот же ответ. Клиенту нужно делать ретраи безопасно; серверу — не плодить дубликаты при сетевых сбоях. Это пять строк кода и спасение от классов багов.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">1. На тяжёлую операцию — 202, а не 201</h2>
+            <p>Загрузка файла запускает OCR и эмбеддинг. Это секунды, иногда десятки. Если клиент сидит на открытом соединении — он первый умрёт от таймаута, а вы — вторым, от чужих ретраев.</p>
+            <p>Шлюз отвечает 202, отдаёт ссылку на ресурс задачи и текущий статус. Клиент сам опрашивает — раз в полторы секунды, через простой HTMX-polling. Никаких висящих коннектов, никаких героических WebSocket'ов в первой версии.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">2. Idempotency-Key — пять строк, спасающих класс багов</h2>
+            <p>Заголовок <code class="text-xs bg-slate-100 px-1 rounded">Idempotency-Key</code>. Один и тот же ключ — один и тот же ответ, сколько бы раз клиент ни повторил запрос.</p>
+            <p>Сеть всегда подведёт. Клиент всегда переретраит. Без идемпотентности это означает три счёт-фактуры там, где должна была быть одна.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">3. Backpressure через 429 + Retry-After</h2>
-            <p>Глубина очереди превысила порог — шлюз отвечает 429 с заголовком <code class="text-xs bg-slate-100 px-1 rounded">Retry-After: 5</code>. Клиент видит, что система устала, и не давит. Это <i>контракт</i>, который позволяет масштабировать вниз без панических хаков.</p>
+            <p>Очередь раздулась — шлюз отвечает 429 с заголовком <code class="text-xs bg-slate-100 px-1 rounded">Retry-After: 5</code>. Это не отказ. Это <i>контракт</i>: «мы устали, вернись через пять секунд». Клиент видит и не давит.</p>
+            <p>Альтернатива — копить запросы в памяти и упасть всем вместе. Дешевле признаваться в усталости.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">4. Отдельная схема API-ключа и сессионной авторизации</h2>
-            <p>Веб-дашборд — HTTP Basic. Программный API — <code class="text-xs bg-slate-100 px-1 rounded">X-API-Key</code>. Два разных дерева ответственности: один для человека, второй для интеграции. Не пытайтесь совместить — обмен токенами получится кривым.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">4. Разные двери для человека и для машины</h2>
+            <p>Дашборд — HTTP Basic / сессия. Программные интеграции — <code class="text-xs bg-slate-100 px-1 rounded">X-API-Key</code>. Не пытайтесь скрестить: получится не велосипед, а гибрид с тремя колёсами.</p>
+            <p>Два дерева ответственности: одно про живого пользователя (с MFA, ролями, сроками сессии), другое про машину (с ротацией ключей, скоупом, лимитами per-key).</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">5. Версионирование внутри пути, не в заголовке</h2>
-            <p>Когда придёт время v2 — <code class="text-xs bg-slate-100 px-1 rounded">/v2/documents</code>, не <code class="text-xs bg-slate-100 px-1 rounded">Accept-Version: 2</code>. Видно в логах, видно в curl, видно в URL. v1 живёт рядом и обслуживается параллельно.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">5. Версия — в пути, не в заголовке</h2>
+            <p>Когда настанет момент v2, путь будет <code class="text-xs bg-slate-100 px-1 rounded">/v2/documents</code>, а не <code class="text-xs bg-slate-100 px-1 rounded">Accept-Version: 2</code>.</p>
+            <p>Видно в curl, видно в логах, видно в браузере. v1 живёт рядом, обслуживается параллельно, на неё можно сослаться без танцев с заголовками.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">6. Аудит-журнал сразу, не «потом»</h2>
-            <p>Каждое модифицирующее действие пишет строку в append-only таблицу <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code>: actor, action, document_id, request_id, details. Не «когда потребует регулятор», а с первого дня. Подробнее — <a href="/posts/audit-log-llm" class="text-indigo-600 hover:text-indigo-700">в отдельной статье</a>.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">6. Аудит-журнал с первого дня</h2>
+            <p>Каждое модифицирующее действие пишет строку в append-only таблицу: actor, action, resource, request_id, details. Не «добавим, когда придёт проверка», а сразу.</p>
+            <p>Журнал, написанный задним числом, никогда не догоняет реальную историю. Подробнее — <a href="/posts/audit-log-llm" class="text-indigo-600 hover:text-indigo-700">в отдельной заметке</a>.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">7. Один заголовок X-Request-ID для трассировки</h2>
-            <p>Клиент шлёт ID — шлюз использует. Не шлёт — генерирует. ID идёт через очередь во все воркеры (мы кладём его в <code class="text-xs bg-slate-100 px-1 rounded">IngestTask</code>). Каждая лог-строка содержит этот ID. Поддержка <i>становится</i> поиском по одному ключу через все компоненты.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">7. Один X-Request-ID на весь путь</h2>
+            <p>Клиент прислал ID — используем. Не прислал — генерируем. Идёт через очередь во все воркеры. Каждая лог-строка несёт его рядом с сообщением.</p>
+            <p>Через полгода поддержка превращается из «давайте посмотрим логи, может найдём» в «вот ID, держите всю трассу запроса». Это разница между «час разбираться» и «минута ответить».</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что я бы изменил</h2>
-            <p><b>1.</b> Сделал бы лимиты конфигурируемыми <i>per API-key</i>, а не глобальными. Сейчас все клиенты делят один порог; нормальная зрелость — разные тиры.</p>
-            <p><b>2.</b> Заранее бы выложил OpenAPI как первоклассный артефакт (с примерами), а не как побочный продукт FastAPI. SDK генерируется из этого; писать интеграцию без него — пытка.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что бы я сделал иначе</h2>
+            <p><b>Лимиты per-key, а не глобальные.</b> Сейчас все клиенты делят одну норму. На демо это норм, в зрелой системе — нет: один шумный клиент уносит остальных. Тарифные тиры стоят дешевле, когда их закладывают сразу.</p>
+            <p><b>OpenAPI как первоклассный артефакт, а не побочный продукт FastAPI.</b> С примерами, версионированием, генерируемыми SDK. Писать интеграцию без человеческой OpenAPI — это тренировка терпения, а не работы.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Откройте API вашей текущей системы и сверьте: какие из 7 уже есть, какие — нет.</li>
-                <li>Самое дешёвое в добавлении — Idempotency-Key и X-Request-ID. Начните с них.</li>
-                <li>Посмотрите OpenAPI в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a> по адресу <code class="text-xs bg-slate-100 px-1 rounded">/docs</code> — там видно, как это собирается.</li>
+                <li>Откройте свой API и поставьте крестики напротив семи пунктов. Считайте честно.</li>
+                <li>Начните с двух самых дешёвых — Idempotency-Key и X-Request-ID. Час работы, годы экономии.</li>
+                <li>Посмотрите OpenAPI в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a> на <code class="text-xs bg-slate-100 px-1 rounded">/docs</code>.</li>
             </ul>
         </div>
     </article>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Когда BM25 неожиданно уделывает векторный поиск</title>
-    <meta name="description" content="Когда BM25 неожиданно даёт точнее эмбеддингов, и как объединить оба ранкинга в одной формуле." />
+    <meta name="description" content="Векторы умеют смысл. Иногда нужен номер договора — и старушка BM25 спокойно забирает раунд. Формула RRF в одну строку и реальные цифры." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Гибридный поиск Postgres + Qdrant: когда BM25 побеждает векторный</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Когда BM25 неожиданно уделывает векторный поиск</h1>
         <div class="mt-4 text-xs text-slate-400 mono">30 января 2025 · 5 минут · поиск, RAG, Postgres</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Класс запросов, где векторный поиск проигрывает с разгромным счётом</li>
-                <li>Формула reciprocal rank fusion в одну строку и почему она работает</li>
-                <li>Реальные числа MRR из небольшого эвал-сета: BM25 vs vector vs hybrid</li>
+                <li>Класс запросов, где векторный поиск проигрывает с разгромом — и это не баг, а архитектура.</li>
+                <li>Reciprocal rank fusion — одна формула, ноль настроек, оба ранкинга остаются на равных.</li>
+                <li>Реальные числа из эвал-сета: BM25 vs vector vs hybrid.</li>
             </ul>
         </blockquote>
 
@@ -52,51 +52,57 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Анимация: две колонки top-5 (BM25 и Vector), затем третья колонка — Hybrid — собирается из обеих по очереди, подсвечивая, как RRF выбирает лучших.</div>
+                <div class="text-sm text-slate-700">Две колонки — BM25 и Vector — выдают свои топ-5. Третья колонка Hybrid собирается из обеих по очереди, подсвечивая, как RRF выбирает лучших.</div>
                 <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">~5s loop, ease-out: three vertical columns titled "BM25", "Vector", "Hybrid". The first two show top-5 ranked items as small rectangles with different shades of indigo. The hybrid column populates in sequence, pulling rectangles from both source columns, with a small "RRF" formula floating above. Transparent background, clean line work, 800x400, ~24fps.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <p>Векторный поиск — это умница. Понимает смысл, не путается в синонимах, спокойно достанет «расторжение договора», когда вы спросили про «прекращение соглашения».</p>
+            <p>А потом вы спрашиваете «договор № ARA-2026-014», и умница превращает номер в нечто среднее по всем номерам мира. Тогда из-за угла спокойно выходит старушка BM25 и забирает раунд.</p>
+
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Где BM25 побеждает векторный поиск</h2>
-            <p>Векторный поиск отлично улавливает смысл, но плохо — точную форму. Запросы, где BM25 неожиданно выигрывает:</p>
             <ul class="list-disc list-inside space-y-1 ml-2">
-                <li><b>Номер документа</b> — «договор ARA-2026-014». Эмбеддинги превращают номер в нечто среднее по всем номерам.</li>
-                <li><b>Имя собственное</b> — «ООО Бином Сервис». Часто проседает на близких по форме именах.</li>
-                <li><b>Точные цитаты</b> — «дата подписания 14.03.2026». Векторы дают близкое по контексту, не по содержанию.</li>
-                <li><b>Жаргон / редкая терминология</b> — то, чего мало в обучающем корпусе эмбеддера.</li>
+                <li><b>Номер документа</b> — «договор ARA-2026-014». Векторы усредняют, BM25 находит точное совпадение.</li>
+                <li><b>Имя собственное</b> — «ООО Бином Сервис». Эмбеддер сваливает в кучу всё похожее.</li>
+                <li><b>Точная цитата</b> — «дата подписания 14.03.2026». Векторы дают близкое по контексту, не по содержанию.</li>
+                <li><b>Редкая терминология / жаргон</b> — того, чего мало в обучающем корпусе эмбеддера, для него просто нет.</li>
             </ul>
+            <p>Заметьте — это не «иногда». Это <i>класс</i> запросов. На юридических и финансовых документах их доля считается десятками процентов.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Reciprocal Rank Fusion в одну формулу</h2>
-            <p>RRF — простой способ объединить два разных ранкинга без необходимости их нормализовать. Для каждого документа считаем:</p>
+            <p>Простой способ объединить два разных ранкинга, не пытаясь нормализовать их скоры:</p>
             <pre><code>score(d) = 1/(k + rank_BM25(d)) + 1/(k + rank_vector(d))</code></pre>
-            <p>где <code class="text-xs bg-slate-100 px-1 rounded">k</code> обычно 60. Что это даёт:</p>
+            <p>где <code class="text-xs bg-slate-100 px-1 rounded">k</code> обычно 60. Что получается:</p>
             <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Документ, попавший в топ обоих ранкингов, поднимается вверх.</li>
-                <li>Документ из топа только одного ранкинга — остаётся в результатах, но ниже.</li>
-                <li>Никаких настраиваемых весов — баланс задаётся самим <code class="text-xs bg-slate-100 px-1 rounded">k</code>.</li>
+                <li>Документ, попавший в топ обоих — поднимается вверх.</li>
+                <li>Документ только из одного топа — остаётся в выдаче, но ниже.</li>
+                <li>Настраиваемых весов нет — баланс задаётся одним <code class="text-xs bg-slate-100 px-1 rounded">k</code>.</li>
             </ul>
+            <p>Десять строк Python. Никаких ML, никаких re-rank'ов.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Реальные числа</h2>
-            <p>Скрипт <code class="text-xs bg-slate-100 px-1 rounded">eval_search.py</code> в проекте ARA прогоняет 10 запросов против 10-документного корпуса (узбекский, русский, английский смешанные). Результаты на этом сэте:</p>
+            <p>Скрипт <code class="text-xs bg-slate-100 px-1 rounded">eval_search.py</code> прогоняет 10 запросов против 10 документов (узбекский + русский + английский в одном корпусе):</p>
             <ul class="list-disc list-inside space-y-1 ml-2">
                 <li><b>Keyword (BM25):</b> MRR@5 = 1.000, Recall@5 = 1.000</li>
                 <li><b>Vector:</b> MRR@5 = 0.173, Recall@5 = 0.600</li>
                 <li><b>Hybrid (RRF):</b> MRR@5 = 0.950, Recall@5 = 1.000</li>
             </ul>
-            <p>На этом маленьком фиксированном сэте BM25 выигрывает за счёт того, что многие запросы содержат точные формы (номера, имена). Vector проседает. Hybrid сохраняет выигрыш BM25 и при этом не теряет на смысловых запросах. <i>Это причина не выбирать одно из двух.</i></p>
+            <p>На этом маленьком сэте BM25 выигрывает за счёт точных форм (номера, имена). Vector проседает. Hybrid сохраняет выигрыш BM25 и не теряет на смысловых запросах.</p>
+            <p>Это причина не выбирать одно из двух. На прод-сэте дисбаланс будет меньше, но гибрид всё равно остаётся правильным дефолтом.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где это в Postgres</h2>
-            <p>BM25-подобный ранкинг в Postgres делается через <code class="text-xs bg-slate-100 px-1 rounded">ts_rank</code> поверх <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code>. Один GIN-индекс — и поиск работает на миллионах строк за миллисекунды. В ARA tsvector создан с конфигурацией <code class="text-xs bg-slate-100 px-1 rounded">simple</code> — без стемминга, чтобы одинаково обращаться с узбекским, русским и английским контентом.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Где это живёт в Postgres</h2>
+            <p>BM25-подобный ранкинг — это <code class="text-xs bg-slate-100 px-1 rounded">ts_rank</code> поверх <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code>. Один GIN-индекс, и поиск на миллионах строк отвечает за миллисекунды.</p>
+            <p>tsvector создаём с конфигурацией <code class="text-xs bg-slate-100 px-1 rounded">simple</code> — без стемминга, чтобы одинаково обращаться с тремя языками. Стеммер для русского сломает узбекский, стеммер для английского сломает оба. Простой токенайзер — единственный честный вариант.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Добавьте <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code> + GIN-индекс рядом с вашими эмбеддингами.</li>
-                <li>Реализуйте RRF — это 10 строк кода на Python.</li>
-                <li>Соберите эвал-сет из 20 ваших реальных запросов и замерьте все три режима.</li>
-                <li>Посмотрите переключатель «Hybrid / Vector / Keyword» в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a>.</li>
+                <li>Добавьте <code class="text-xs bg-slate-100 px-1 rounded">tsvector</code> + GIN-индекс рядом с эмбеддингами.</li>
+                <li>Реализуйте RRF — это правда десять строк.</li>
+                <li>Соберите 20 реальных запросов и замерьте все три режима. Цифры расскажут больше, чем спор.</li>
+                <li>Переключатель «Hybrid / Vector / Keyword» можно потрогать в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a>.</li>
             </ul>
         </div>
     </article>

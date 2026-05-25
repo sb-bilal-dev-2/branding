@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Три ошибки, когда разносишь пайплайн в очередь</title>
-    <meta name="description" content="Когда пора выносить пайплайн в очередь, и три ошибки, которые легко допустить при миграции." />
+    <meta name="description" content="Когда HTTP-запрос длится дольше, чем у клиента хватает терпения — пора отдать тяжёлое воркеру. Звучит просто. Сделать чисто — нет." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">От синхронной обработки к воркерам: как разнести пайплайн без боли</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Три ошибки, когда разносишь пайплайн в очередь</h1>
         <div class="mt-4 text-xs text-slate-400 mono">19 мая 2024 · 5 минут · архитектура, очереди, миграция</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Один сигнал, по которому пора переходить с синхронного пайплайна на очередь</li>
-                <li>Минимальная архитектура «шлюз + очередь + воркер»</li>
-                <li>Три ошибки миграции, которые легко допустить (и я их допускал)</li>
+                <li>Один честный сигнал, после которого синхронный пайплайн становится дороже асинхронного.</li>
+                <li>Минимальная архитектура «шлюз + очередь + воркер» — три компонента, без героики.</li>
+                <li>Три ошибки миграции, которые делал я. Все три — про предположение, что «ничего не пойдёт не так».</li>
             </ul>
         </blockquote>
 
@@ -52,37 +52,47 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Изометрия: HTTP-шлюз слева, очередь посередине (визуально как пневмопочта), два воркера справа — один обрабатывает, второй ждёт.</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: HTTP gateway on the left passing a small parcel into a horizontal queue (like a pneumatic tube), the queue feeding two worker servers on the right. One worker is glowing softly (processing), the other is idle. Calm slate and indigo gradient background, no text labels, clean line work, 16:9, 1600x900.</pre>
+                <div class="text-sm text-slate-700">HTTP-шлюз слева; очередь — как пневмопочта; справа два воркера, один работает, второй ждёт.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: HTTP gateway on the left passing a small parcel into a horizontal queue (pneumatic-tube style), the queue feeding two worker servers on the right. One worker glows softly (processing), the other is idle. Calm slate-to-indigo gradient, no logos, no readable text, clean line work, 16:9, 1600x900.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <p>Сначала вы держите весь пайплайн в одном HTTP-обработчике. Это нормально. Это даже правильно — пока работает.</p>
+            <p>Потом однажды OCR занимает восемь секунд, эмбеддинг ещё четыре, и клиент честно отваливается до ответа. С этого момента синхронный пайплайн обходится дороже асинхронного — даже с учётом всей операционной боли.</p>
+
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Когда пора</h2>
-            <p>Сигнал ровно один: <b>обработка одного запроса занимает дольше, чем клиент готов ждать.</b> Для веб-API это обычно 2-3 секунды. Если внутри ваш OCR занимает 8 секунд, а эмбеддинги ещё 4 — клиент уже отвалился по таймауту. До этого порога синхронный пайплайн дешевле, проще и быстрее в разработке.</p>
-            <p>Не миграция ради миграции. Не «у всех очереди». Раздельные процессы — это операционная сложность. Платите её, когда выгода становится больше боли.</p>
+            <p>Сигнал один: <b>обработка одного запроса длится дольше, чем клиент готов ждать.</b> Для веб-API это 2-3 секунды.</p>
+            <p>Не миграция ради миграции. Не «у всех очереди — давайте и мы». Раздельные процессы — это операционная сложность. Платите её, когда выгода становится больше боли. Не раньше.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимальная архитектура</h2>
             <p>Три компонента, ничего больше:</p>
             <ol class="list-decimal list-inside space-y-1 ml-2">
-                <li><b>Шлюз (FastAPI).</b> Принимает запрос, валидирует, пишет в БД строку «задача создана» со статусом <code class="text-xs bg-slate-100 px-1 rounded">queued</code>, кладёт идентификатор задачи в очередь, возвращает клиенту 202 с этим идентификатором.</li>
-                <li><b>Очередь (RabbitMQ).</b> Один durable queue. Сообщение — JSON c <code class="text-xs bg-slate-100 px-1 rounded">job_id</code> и <code class="text-xs bg-slate-100 px-1 rounded">document_id</code>. Не сохраняйте в сообщении большой контент — он уже в БД и в объектном хранилище.</li>
-                <li><b>Воркер.</b> Читает сообщение, по id поднимает данные из БД, прогоняет пайплайн, обновляет статус задачи.</li>
+                <li><b>Шлюз (FastAPI).</b> Принимает запрос, валидирует, пишет в БД «задача создана» со статусом <code class="text-xs bg-slate-100 px-1 rounded">queued</code>, кладёт id в очередь, возвращает 202 с этим id.</li>
+                <li><b>Очередь (RabbitMQ).</b> Один durable queue. Сообщение — JSON с <code class="text-xs bg-slate-100 px-1 rounded">job_id</code> и <code class="text-xs bg-slate-100 px-1 rounded">document_id</code>. Никакого крупного контента — он уже в БД.</li>
+                <li><b>Воркер.</b> Читает сообщение, по id поднимает данные, прогоняет пайплайн, обновляет статус.</li>
             </ol>
-            <p>Клиент пингует <code class="text-xs bg-slate-100 px-1 rounded">GET /jobs/{id}</code> или, лучше, дашборд сам опрашивает статус и обновляет UI. Никакого WebSocket с первого дня — это можно отложить.</p>
+            <p>Клиент пингует <code class="text-xs bg-slate-100 px-1 rounded">GET /jobs/{id}</code> или (лучше) дашборд сам опрашивает статус и обновляет UI. WebSocket в первой версии — это понты, отложите.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Три ошибки, которые я делал</h2>
-            <p><b>1. Класть полезную нагрузку в сообщение.</b> Сообщение разрастается, кролик упирается в память, retries дорого тащить. Кладите id, всё остальное — в БД.</p>
-            <p><b>2. Не думать про идемпотентность.</b> Сообщение могут доставить дважды. Воркер должен проверять статус задачи и пропускать уже выполненные. Иначе на ретраях получаете дубликаты в индексе.</p>
-            <p><b>3. Молчаливое падение воркера.</b> Если воркер падает в середине, задача остаётся в статусе <code class="text-xs bg-slate-100 px-1 rounded">running</code> навсегда. Нужно либо heartbeat, либо «протухшие running старше N секунд можно подобрать другому».</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ошибка 1. Полезная нагрузка в сообщении</h2>
+            <p>Я начинал с того, что клал в сообщение «удобно всё, что пригодится воркеру».</p>
+            <p>Сообщение разрастается, RabbitMQ упирается в память, ретраи тащат гигабайты по сети — потому что «удобно». В сообщении должен быть только id. Всё остальное — поднимается из БД.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ошибка 2. Молчаливое предположение об «exactly once»</h2>
+            <p>Сообщение могут доставить дважды. Это нормально, это by design.</p>
+            <p>Воркер обязан проверять статус задачи и пропускать уже выполненные. Иначе на каждом ретрае получаете дубликаты в индексе и потом долго объясняете аналитикам, почему документов стало больше, чем было загружено.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ошибка 3. Воркер падает молча</h2>
+            <p>Если воркер уронился в середине, задача остаётся в статусе <code class="text-xs bg-slate-100 px-1 rounded">running</code> навсегда. Очередь думает, что её взяли, БД — что с ней работают. Все вежливо ждут.</p>
+            <p>Лечится одним из двух: heartbeat от воркера, либо правило «протухшие running старше N секунд может подобрать другой воркер». Без этого ваш самый страшный баг — отсутствие багов, при котором ничего не происходит.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Замерьте p95 обработки одного запроса. Если меньше 2 секунд — не торопитесь с очередью.</li>
-                <li>Если уже больше — добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">processing_jobs</code> с явной state-машиной (queued / running / succeeded / failed).</li>
-                <li>Дальше читайте про <a href="/posts/circuit-breaker-llm" class="text-indigo-600 hover:text-indigo-700">circuit breaker</a> — он спасает воркер от каскадных падений.</li>
+                <li>Замерьте p95 обработки одного запроса. Меньше 2 секунд — не торопитесь с очередью.</li>
+                <li>Больше — добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">processing_jobs</code> с явной state-машиной (queued / running / succeeded / failed).</li>
+                <li>Дальше — <a href="/posts/circuit-breaker-llm" class="text-indigo-600 hover:text-indigo-700">«Когда LLM падает, сервер не должен падать с ним»</a>: про каскадные падения внутри воркера.</li>
             </ul>
         </div>
     </article>

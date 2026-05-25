@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Аудит-журнал, который переживёт проверку</title>
-    <meta name="description" content="Что должно остаться в логе, когда систему смотрит регулятор — и почему обычного structlog недостаточно." />
+    <meta name="description" content="Когда приходит инспектор, он не верит API — он верит логу. Что должно быть в этом логе, чтобы он работал свидетелем." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Аудит-журнал в эпоху LLM: что записывать, чтобы проверка не уничтожила</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Аудит-журнал, который переживёт проверку</h1>
         <div class="mt-4 text-xs text-slate-400 mono">21 мая 2026 · 4 минуты · аудит, compliance, LLM</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Минимальный набор полей в аудит-таблице, без которых регулятор останется недоволен</li>
-                <li>Почему structlog в файл — это не аудит, а просто логи</li>
-                <li>Готовая схема таблицы <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> для документной системы с LLM</li>
+                <li>structlog — это дневник. Аудит — это свидетель в суде.</li>
+                <li>Шесть полей, append-only, и поведение, которое не валит запрос пользователя при сбое.</li>
+                <li>Один SQL-запрос на «покажите всё, что было с документом X».</li>
             </ul>
         </blockquote>
 
@@ -52,49 +52,62 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Изометрия: длинная лента-журнал, на которой строки событий идут только вперёд (стрелки), а попытка стереть строку отмечается красным крестом.</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a long horizontal ledger ribbon with rows of event entries scrolling left-to-right. An "eraser" icon attempting to remove a row is crossed out with a soft red mark. Calm violet-to-indigo gradient, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+                <div class="text-sm text-slate-700">Длинная лента-журнал на столе. Каждая строка добавляется в конец, ластик с надписью «UPDATE» лежит рядом — и нарисован крест-накрест.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a long horizontal ledger ribbon on a desk, new rows being added only at the rightmost end. A small eraser labeled "UPDATE" lies beside it, crossed out with a soft red mark. Calm violet-to-indigo gradient, no logos, no readable text, 16:9, 1600x900, professional editorial style.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Почему structlog — это не аудит</h2>
-            <p>Логи в файл — это операционная история. Их можно отротировать, можно потерять при падении диска, можно поменять задним числом, если есть доступ к серверу. <b>Аудит</b> — это набор записей, которые: (а) живут в базе с теми же бэкапами и репликацией, что и бизнес-данные; (б) пишутся только <code class="text-xs bg-slate-100 px-1 rounded">INSERT</code>; (в) переживают удаление документов, к которым относятся. Регулятор спросит «покажите всё, что было с документом X» — у вас должен быть один SQL-запрос с ответом.</p>
+            <p>Когда приходит инспектор, он не открывает Swagger. Он не верит вашему API. Он верит тому, что вы записали, когда не знали, что он придёт.</p>
+            <p>Это и есть аудит-журнал — отличающийся от обычных логов тем, что переживает диск, ротацию и неудобные вопросы.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимум полей</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">structlog — это не аудит</h2>
+            <p>structlog в файл — это операционный дневник. Полезный, но ненадёжный: его можно отротировать, потерять при падении диска, переписать с правами root, отфильтровать «лишнее» перед просмотром.</p>
+            <p>Аудит — это записи, которые:</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+                <li>живут в базе с теми же бэкапами и репликацией, что и бизнес-данные;</li>
+                <li>пишутся только <code class="text-xs bg-slate-100 px-1 rounded">INSERT</code>;</li>
+                <li>переживают удаление сущности, к которой относятся.</li>
+            </ul>
+            <p>На вопрос «покажите всё, что было с документом X» у вас должен быть один SQL-запрос с ответом. Не «давайте поднимем логи за прошлый квартал».</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимум полей — шесть</h2>
             <ul class="list-disc list-inside space-y-1 ml-2">
                 <li><b><code class="text-xs bg-slate-100 px-1 rounded">occurred_at</code></b> — TIMESTAMPTZ с индексом DESC.</li>
-                <li><b><code class="text-xs bg-slate-100 px-1 rounded">actor</code></b> — кто действовал. У нас формат: <code class="text-xs bg-slate-100 px-1 rounded">dashboard:&lt;user&gt;</code> для веб-входа, <code class="text-xs bg-slate-100 px-1 rounded">api:&lt;key-hash&gt;</code> для API-вызовов (не хранить ключ, только префикс sha256), <code class="text-xs bg-slate-100 px-1 rounded">worker:&lt;name&gt;</code> для системных событий.</li>
-                <li><b><code class="text-xs bg-slate-100 px-1 rounded">action</code></b> — что произошло. Перечисление с CHECK-ограничением (<code class="text-xs bg-slate-100 px-1 rounded">document.uploaded</code>, <code class="text-xs bg-slate-100 px-1 rounded">document.asked</code>, ...), не свободный текст.</li>
-                <li><b><code class="text-xs bg-slate-100 px-1 rounded">document_id</code></b> с FK <code class="text-xs bg-slate-100 px-1 rounded">ON DELETE SET NULL</code> — чтобы запись пережила удаление документа.</li>
-                <li><b><code class="text-xs bg-slate-100 px-1 rounded">request_id</code></b> — связь с логами и трассировкой.</li>
-                <li><b><code class="text-xs bg-slate-100 px-1 rounded">details JSONB</code></b> — небольшой структурированный контекст (имя файла, обрезок вопроса, тип ошибки). НЕ полное содержимое — это уже в основной БД.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">actor</code></b> — кто действовал. Формат: <code class="text-xs bg-slate-100 px-1 rounded">dashboard:&lt;user&gt;</code>, <code class="text-xs bg-slate-100 px-1 rounded">api:&lt;key-hash&gt;</code> (только префикс sha256, не сам ключ), <code class="text-xs bg-slate-100 px-1 rounded">worker:&lt;name&gt;</code>.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">action</code></b> — перечисление с CHECK-ограничением (<code class="text-xs bg-slate-100 px-1 rounded">document.uploaded</code>, <code class="text-xs bg-slate-100 px-1 rounded">document.asked</code>). Свободный текст здесь — будущая боль.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">document_id</code></b> с FK <code class="text-xs bg-slate-100 px-1 rounded">ON DELETE SET NULL</code> — запись переживёт удаление документа.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">request_id</code></b> — связь с трассировкой и обычными логами.</li>
+                <li><b><code class="text-xs bg-slate-100 px-1 rounded">details JSONB</code></b> — короткий структурированный контекст (имя файла, тип ошибки). Не само содержимое — оно в основной БД.</li>
             </ul>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что специфично для LLM-систем</h2>
-            <p>Каждый вызов модели — это событие, которое нужно записать. Не сам ответ (он часто длинный и потенциально содержит чувствительное), а:</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Специфика LLM</h2>
+            <p>Каждый вызов модели — событие. Не сам ответ (он длинный и часто чувствительный), а:</p>
             <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Кто спросил (actor).</li>
-                <li>К какому документу относился вопрос.</li>
-                <li>Какой режим поиска использован (keyword / vector / hybrid).</li>
-                <li>Сколько цитат вернулось.</li>
-                <li>Опционально — первые 200 символов вопроса для контекста при разборе жалоб.</li>
+                <li>кто спросил;</li>
+                <li>к какому документу относился вопрос;</li>
+                <li>режим поиска (keyword / vector / hybrid);</li>
+                <li>сколько цитат вернулось;</li>
+                <li>опционально — первые 200 символов вопроса для разбора жалоб.</li>
             </ul>
-            <p>В ARA это таблица <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> с action <code class="text-xs bg-slate-100 px-1 rounded">document.asked</code>. Через год вы сможете ответить на «кто пять раз спрашивал про этот контракт» одним SELECT.</p>
+            <p>Через год вы ответите на «кто пять раз спрашивал про этот контракт» одним SELECT. Без таких записей — будете строить ответ из обрывков логов и человеческой памяти. Память подведёт первой.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Append-only — как инвариант кода</h2>
-            <p>В коде не должно быть <code class="text-xs bg-slate-100 px-1 rounded">UPDATE audit_events</code> и <code class="text-xs bg-slate-100 px-1 rounded">DELETE FROM audit_events</code> — никогда. На уровне БД желательно отозвать эти права у роли приложения. Но даже без БД-уровня инвариант поддерживается ревью кода: PR с UPDATE/DELETE на этой таблице — это сигнал «надо смотреть очень внимательно».</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Append-only как инвариант кода</h2>
+            <p>В коде не должно быть <code class="text-xs bg-slate-100 px-1 rounded">UPDATE</code> или <code class="text-xs bg-slate-100 px-1 rounded">DELETE</code> на этой таблице. Никогда.</p>
+            <p>На уровне БД — отзовите эти права у роли приложения. На уровне ревью — PR, в котором кто-то пытается «поправить запись задним числом», смотрится как красный флаг, а не как обычный коммит.</p>
+            <p>Инспектор не оценит «мы поправили опечатку». Он оценит «эта строка лежит там с момента события и не двигалась».</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Не блокирует пользователя</h2>
-            <p>Запись в аудит не должна валить запрос. Если БД временно недоступна — пользователь получает свой ответ; аудит-запись логируется как ошибка для оператора. Лучше пропустить одну запись, чем уронить весь трафик. В ARA это сделано через try/except в <code class="text-xs bg-slate-100 px-1 rounded">AuditService.record()</code>.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Аудит не должен валить запрос</h2>
+            <p>База временно недоступна — пользователь всё равно получает свой ответ. Запись в аудит уходит в очередь и логируется как ошибка оператору.</p>
+            <p>Пропустить одну строку — неприятно. Уронить весь трафик ради того, чтобы записать одну строку — катастрофа. <code class="text-xs bg-slate-100 px-1 rounded">try/except</code> вокруг <code class="text-xs bg-slate-100 px-1 rounded">AuditService.record()</code> — обязательный.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> к вашему текущему проекту. Шесть полей, шесть индексов, готово.</li>
+                <li>Добавьте таблицу <code class="text-xs bg-slate-100 px-1 rounded">audit_events</code> с шестью полями и шестью индексами. Готово за вечер.</li>
                 <li>Пройдитесь по коду и найдите три бизнес-действия, после которых надо звать <code class="text-xs bg-slate-100 px-1 rounded">audit.record()</code>.</li>
-                <li>Откройте <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">журнал в демо ARA</a> — там виден живой пример.</li>
+                <li>Посмотрите живой пример журнала в <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="text-indigo-600 hover:text-indigo-700">демо ARA</a>.</li>
             </ul>
         </div>
     </article>

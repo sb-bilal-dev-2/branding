@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RAG за два дня: что нужно, а что — нет</title>
-    <meta name="description" content="Минимально работающий RAG за два дня — что обязательно и от чего можно отказаться без потерь." />
+    <meta name="description" content="За два дня не строят прод. Строят понимание. Минимальный RAG, что обязательно с первого дня — и одна типичная ловушка для новичка." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Сборка простой RAG-системы за выходные: что важно, а что нет</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">RAG за два дня: что нужно, а что — нет</h1>
         <div class="mt-4 text-xs text-slate-400 mono">8 октября 2023 · 5 минут · RAG, эмбеддинги, начало</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 5 минут</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Минимальная схема RAG — 4 компонента и одна цепочка вызовов</li>
-                <li>Список того, что обязательно с первого дня, и что можно отложить</li>
-                <li>Один типичный gotcha, на который попадает почти каждый новичок</li>
+                <li>За два дня — не прод. Понимание. Понимание дороже прода.</li>
+                <li>Четыре компонента и одна цепочка вызовов. Всё лишнее — отложить.</li>
+                <li>Одна типичная ловушка, на которую попадает почти каждый.</li>
             </ul>
         </blockquote>
 
@@ -52,45 +52,49 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Анимация пайплайна: документ → чанки → эмбеддинги → векторная БД → ответ. Каждый этап подсвечивается по очереди.</div>
+                <div class="text-sm text-slate-700">Пайплайн из пяти боксов: документ → чанки → эмбеддинги → векторная БД → ответ. Каждый бокс зажигается по очереди.</div>
                 <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">~4s loop, ease-out: a horizontal pipeline of 5 boxes labeled "doc → chunks → embeddings → vector db → answer". Each box lights up in sequence with a soft indigo glow and a check-mark at the end of the cycle. White background, clean line work, transparent background, 800x400, ~24fps.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимальная схема: 4 компонента</h2>
-            <p>За выходные не строят прод. Строят понимание. Минимум для рабочего RAG:</p>
+            <p>За выходные не строят прод. Строят понимание.</p>
+            <p>Без понимания вы будете три месяца настраивать гиперпараметры в чужой архитектуре. С пониманием — поймёте за час, что именно нужно поменять.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Минимум — четыре компонента</h2>
             <ol class="list-decimal list-inside space-y-1 ml-2">
                 <li><b>Чанкер</b> — режет документы на куски по 600-800 символов с лёгким перекрытием.</li>
-                <li><b>Эмбеддер</b> — превращает чанки в векторы (для русско-узбекского контента берите bge-m3 или multilingual-e5).</li>
-                <li><b>Векторное хранилище</b> — поначалу хватит Qdrant в Docker или даже pgvector в Postgres.</li>
-                <li><b>LLM-клиент</b> — любой OpenAI-совместимый. На старте можно платный API.</li>
+                <li><b>Эмбеддер</b> — превращает чанки в векторы. Для русско-узбекского контента берите bge-m3 или multilingual-e5.</li>
+                <li><b>Векторное хранилище</b> — на старте хватит Qdrant в Docker или даже pgvector в Postgres.</li>
+                <li><b>LLM-клиент</b> — любой OpenAI-совместимый. На два дня можно платный API.</li>
             </ol>
             <p>Это всё. Никаких re-ranker'ов, никаких гибридных поисков, никакого agent-loop'а. Цепочка: загружаем → чанкуем → эмбеддим → кладём в векторку. На запрос — эмбеддим вопрос, top-5 ближайших → в промпт → ответ.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что обязательно с первого дня</h2>
-            <p><b>Цитаты к ответу.</b> Возвращайте не только текст, но и какие чанки использованы. Без этого вы не отличите хороший ответ от галлюцинации. Это пять строк кода и спасение всей системы.</p>
-            <p><b>20 размеченных вопросов.</b> До запуска прода соберите эвал-сет: вопрос — ожидаемый чанк. Это станет вашим компасом при любом изменении. Без эвалов нельзя сказать, стало лучше или хуже.</p>
-            <p><b>Логи запросов и контекста.</b> Сохраняйте в файл: вопрос, какие чанки вытащены, что ответила модель. Через неделю это покажет, где модель проседает.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Что обязательно — с первого дня</h2>
+            <p><b>Цитаты к ответу.</b> Возвращайте не только текст, но и какие чанки использованы. Без этого вы не отличите хороший ответ от уверенной галлюцинации. Пять строк кода, и вся система становится управляемой.</p>
+            <p><b>20 размеченных вопросов.</b> До запуска чего-либо соберите эвал-сет: вопрос → ожидаемый чанк. Это ваш компас при любом изменении. Без эвалов невозможно сказать «стало лучше», только «по ощущениям лучше».</p>
+            <p><b>Логи запросов и контекста.</b> В файл: вопрос, какие чанки вытащены, что ответила модель. Через неделю это покажет, где модель проседает — и где проседает не модель, а ретривер.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">От чего можно отказаться (пока)</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">От чего отказаться (пока)</h2>
             <ul class="list-disc list-inside space-y-1 ml-2">
-                <li><b>Re-ranker.</b> Прирост качества есть, но он осмыслен после того, как базовый поиск работает.</li>
-                <li><b>Гибридный поиск (BM25 + векторы).</b> Тоже отложите — настройте после первых жалоб на «не находит точную фразу».</li>
-                <li><b>Тонкая разметка чанков.</b> 800 символов с перекрытием 120 — нормально на старте.</li>
-                <li><b>Тюнинг промпта.</b> Один разумный промпт по образцу — он редко становится узким местом.</li>
+                <li><b>Re-ranker.</b> Прирост есть, но смысл — после того, как базовый поиск нормально работает.</li>
+                <li><b>Гибридный поиск (BM25 + векторы).</b> Подключайте после первых жалоб «не находит точную фразу».</li>
+                <li><b>Тонкая разметка чанков.</b> 800 символов и перекрытие 120 — рабочий старт. Тюнинг — потом.</li>
+                <li><b>Глубокий промпт-инжиниринг.</b> Один разумный промпт по образцу. Это редко становится узким местом.</li>
             </ul>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Gotcha: длинный документ — одна большая ошибка</h2>
-            <p>Самая частая беда первого RAG — отправка целого документа в эмбеддер одним куском. Эмбеддинг становится «средним по больнице», поиск работает плохо. Чанкуйте всегда. Даже короткий PDF на 5 страниц — это минимум 8-10 чанков, не один эмбеддинг на документ.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Ловушка: документ в эмбеддер целиком</h2>
+            <p>Самая частая беда первого RAG — отправка целого документа в эмбеддер одним куском.</p>
+            <p>Эмбеддинг становится «средним по больнице». Поиск работает плохо, и непонятно, почему.</p>
+            <p>Чанкуйте всегда. Даже короткий PDF на пять страниц — это минимум 8-10 чанков, не один эмбеддинг на документ. Скажу иначе: если на ваш PDF приходится один вектор — вы построили не поиск, а лотерею.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Поставьте Qdrant в Docker и напишите 50-строчный скрипт: загрузка PDF → чанки → эмбеддинги → upsert.</li>
-                <li>Соберите 20 вопросов про ваши документы — это ваш будущий эвал-сет.</li>
-                <li>Прочитайте про <a href="/posts/pgvector-vs-qdrant" class="text-indigo-600 hover:text-indigo-700">pgvector против Qdrant</a> — какой стартовый выбор окупится.</li>
+                <li>Поднимите Qdrant в Docker и напишите скрипт на 50 строк: загрузка PDF → чанки → эмбеддинги → upsert.</li>
+                <li>Соберите 20 вопросов по вашим документам — это ваш будущий эвал-сет.</li>
+                <li>Дальше — <a href="/posts/pgvector-vs-qdrant" class="text-indigo-600 hover:text-indigo-700">«До миллиона эмбеддингов не уходите из Postgres»</a>.</li>
             </ul>
         </div>
     </article>

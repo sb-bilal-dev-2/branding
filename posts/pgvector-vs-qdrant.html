@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>До миллиона эмбеддингов не уходите из Postgres</title>
-    <meta name="description" content="Когда pgvector — правильный стартовый выбор, и какой критерий говорит, что пора переезжать на выделенную БД." />
+    <meta name="description" content="Postgres — швейцарский нож. Не покупайте отдельный меч, пока нож не затупится. Один критерий, по которому видно, что пора переезжать." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Postgres + pgvector против выделенной векторной БД: когда что нужно</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">До миллиона эмбеддингов не уходите из Postgres</h1>
         <div class="mt-4 text-xs text-slate-400 mono">22 марта 2024 · 4 минуты · Postgres, векторы, архитектура</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Простой критерий: pgvector или выделенная векторная БД</li>
-                <li>Что реально проседает у pgvector, а что — миф</li>
-                <li>Сигнал, по которому пора переезжать на Qdrant / Milvus / Weaviate</li>
+                <li>Простой критерий, не зависящий от вкусов и трендов.</li>
+                <li>Что pgvector делает хорошо, а где он реально проседает (а не «по слухам»).</li>
+                <li>Конкретный сигнал, после которого пора смотреть в сторону Qdrant / Milvus / Weaviate.</li>
             </ul>
         </blockquote>
 
@@ -52,38 +52,45 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Изометрия: две базы рядом — большая «PostgreSQL» с маленьким векторным ящиком внутри, и отдельная «Qdrant» полностью векторная. На весах посередине.</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: on the left a large PostgreSQL database icon with a small "vector" extension module attached, on the right a smaller dedicated vector-database icon glowing softly. A delicate balance scale in the middle. Calm slate and indigo palette, no text labels, clean line work, 16:9, 1600x900.</pre>
+                <div class="text-sm text-slate-700">Две базы рядом. Слева — большой швейцарский нож «Postgres» с маленьким модулем-вектором. Справа — отдельный острый меч «Qdrant». Между ними — весы.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: on the left a large Swiss-army-knife shape labeled "Postgres" with a small "vector" tool extending out, on the right a smaller dedicated short-sword shape labeled "vector DB" glowing softly. A delicate balance scale in the middle. Calm slate-to-indigo palette, no logos, no readable text, clean line work, 16:9, 1600x900.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
+            <p>Каждый месяц кто-то говорит, что Postgres «не справится» с эмбеддингами и пора срочно переезжать.</p>
+            <p>В большинстве случаев — справляется. Просто не модно.</p>
+
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Простой критерий</h2>
-            <p>До миллиона эмбеддингов — Postgres + pgvector. После — есть разговор. Не «надо переезжать», а «стоит подумать». На пяти миллионах pgvector часто всё ещё держится — если у вас приличные индексы и приличный сервер.</p>
+            <p>До миллиона эмбеддингов — Postgres + pgvector. После — есть разговор. Не «надо переезжать», а «стоит подумать».</p>
+            <p>На пяти миллионах pgvector часто всё ещё держится — если у вас приличные индексы и нормальный сервер. Я видел продакшены на 12 миллионах, где никто никуда не съезжал.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Что pgvector делает хорошо</h2>
             <ul class="list-disc list-inside space-y-1 ml-2">
-                <li><b>Одна база на всё.</b> Транзакции на documents и chunks вместе с векторами. Никакой консистентности через два хранилища.</li>
-                <li><b>JOIN с метаданными.</b> «Найди ближайшие чанки в документах, подписанных в марте, с суммой > 1 млн» — одна SQL-строка.</li>
-                <li><b>Резервное копирование, репликация, права.</b> Всё, что уже выстроено для Postgres, работает и для векторов.</li>
+                <li><b>Одна база на всё.</b> Транзакции на documents и chunks вместе с векторами. Никаких танцев с консистентностью через два хранилища.</li>
+                <li><b>JOIN с метаданными.</b> «Найди ближайшие чанки в документах, подписанных в марте, с суммой больше миллиона» — одна SQL-строка.</li>
+                <li><b>Бэкап, репликация, права.</b> Всё, что уже выстроено для Postgres, работает и для векторов. Никаких новых runbook'ов.</li>
                 <li><b>HNSW-индекс</b> с pgvector 0.5+ закрывает большинство практических нагрузок.</li>
             </ul>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Где pgvector реально проседает</h2>
-            <p><b>Фильтрация при поиске.</b> Если вам нужно «top-10 ближайших среди чанков с пометкой X», и у вас 10 миллионов чанков, pgvector часто проседает: HNSW плохо дружит с pre-filter. Qdrant с payload-фильтрами выигрывает кратно.</p>
-            <p><b>Hot-data sharding.</b> Qdrant умеет шардировать коллекции и держать горячие в памяти. С Postgres это будет ручная разбивка.</p>
-            <p><b>Гибридный поиск.</b> BM25 + векторы можно построить в Postgres (tsvector + pgvector), но это работа. Qdrant из коробки даёт sparse + dense.</p>
+            <p><b>Фильтрация при поиске.</b> «Top-10 ближайших среди чанков с пометкой X», 10 миллионов чанков — здесь HNSW плохо дружит с pre-filter. Qdrant с payload-фильтрами выигрывает кратно. Это не миф, это архитектурное.</p>
+            <p><b>Hot-data sharding.</b> Qdrant умеет шардировать коллекции и держать горячие в памяти. В Postgres это будет ручная разбивка и собственная боль.</p>
+            <p><b>Гибридный поиск.</b> BM25 + векторы можно собрать в Postgres (tsvector + pgvector), но это работа. Qdrant из коробки даёт sparse + dense.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Сигнал к переезду</h2>
-            <p>Не «миллион векторов в базе», а: <i>«p95 поискового запроса с фильтром по метаданным превысил 200 мс, и оптимизация индексов не помогает»</i>. До этого момента — pgvector. После — Qdrant / Milvus / Weaviate. И даже тогда лучше держать первичный source-of-truth в Postgres, а в векторной БД — производные данные, которые при беде восстанавливаются переиндексацией.</p>
+            <p>Не «у нас миллион векторов в базе», а:</p>
+            <p><i>«p95 поискового запроса с фильтром по метаданным превысил 200 мс, и оптимизация индексов не помогает».</i></p>
+            <p>До этого момента — pgvector. После — Qdrant / Milvus / Weaviate.</p>
+            <p>И даже тогда лучше держать source-of-truth в Postgres, а в векторной БД — производные данные, которые при беде восстанавливаются переиндексацией. Иначе вы получите два независимых источника правды — это уже не архитектура, это будущий пост-мортем.</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
-                <li>Включите pgvector в текущий Postgres — это одна команда <code class="text-xs bg-slate-100 px-1 rounded">CREATE EXTENSION vector</code>.</li>
-                <li>Замерьте p95 поискового запроса с типичным фильтром: меньше 200 мс — пока не переезжайте.</li>
-                <li>Прочитайте, как мы сделали <a href="/posts/hybrid-search-bm25" class="text-indigo-600 hover:text-indigo-700">гибридный поиск Postgres + Qdrant</a> — там реальные цифры.</li>
+                <li>Включите pgvector в текущий Postgres — одна команда <code class="text-xs bg-slate-100 px-1 rounded">CREATE EXTENSION vector</code>.</li>
+                <li>Замерьте p95 поискового запроса с типичным фильтром. Меньше 200 мс — не переезжайте, наслаждайтесь.</li>
+                <li>Дальше — <a href="/posts/hybrid-search-bm25" class="text-indigo-600 hover:text-indigo-700">«Когда BM25 неожиданно уделывает векторный поиск»</a>.</li>
             </ul>
         </div>
     </article>

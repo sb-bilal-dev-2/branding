@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Когда стоит держать LLM у себя — и когда нет</title>
-    <meta name="description" content="Три аргумента в защиту бюджета на свой GPU-сервер плюс одно скрытое преимущество." />
+    <meta name="description" content="Облачное API — это съёмная квартира с растущей арендой. Иногда дешевле купить. Чёткий критерий, когда брать on-prem, а когда не торопиться." />
     <link rel="icon" type="image/png" href="/Lewis-Hamilton-Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -31,15 +31,15 @@
     </a>
 
     <article>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Зачем государственной системе on-prem LLM вместо облачного API</h1>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">Когда стоит держать LLM у себя — и когда нет</h1>
         <div class="mt-4 text-xs text-slate-400 mono">12 октября 2025 · 4 минуты · LLM, архитектура, безопасность</div>
 
         <blockquote class="mt-8 p-5 rounded-lg bg-indigo-50 border-l-4 border-indigo-500">
-            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Что вы получите за 4 минуты</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-indigo-700 mono mb-2">Если коротко</div>
             <ul class="text-sm text-slate-700 space-y-1 list-disc list-inside marker:text-indigo-400">
-                <li>Чёткий критерий: когда on-prem LLM нужен, а когда нет</li>
-                <li>Три аргумента в защиту бюджета на свой GPU-сервер</li>
-                <li>Конкретная команда для переключения шлюза с облака на vLLM</li>
+                <li>Один чёткий критерий, после которого on-prem перестаёт быть пижонством.</li>
+                <li>Три аргумента в защиту бюджета на свой GPU плюс одно скрытое преимущество.</li>
+                <li>Команда из одной переменной окружения — и шлюз идёт к вашему vLLM, не к чужому API.</li>
             </ul>
         </blockquote>
 
@@ -52,42 +52,50 @@
                         <span x-show="copied" x-cloak class="text-emerald-600">скопировано ✓</span>
                     </button>
                 </div>
-                <div class="text-sm text-slate-700">Изометрия: локальная стойка с GPU-сервером слева, удалённое облако с обозначением API — справа. Между ними весы.</div>
-                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a small on-premise GPU server rack glowing soft indigo on the left, a distant cloud icon (representing a remote API) on the right. A delicate balance scale in the middle. Calm violet-to-indigo gradient background, no text labels, professional editorial style, 16:9, 1600x900.</pre>
+                <div class="text-sm text-slate-700">Слева — небольшая локальная стойка с GPU, светящаяся уютным индиго. Справа — далёкое облако со счётчиком. Между ними — спокойные весы.</div>
+                <pre x-ref="prompt" class="text-xs text-slate-500 whitespace-pre-wrap mono p-3 rounded bg-white border border-slate-200">Minimalist isometric illustration: a small on-premise GPU server rack glowing soft indigo on the left, a distant cloud icon with a tiny meter on the right. A delicate balance scale in the middle. Calm violet-to-indigo gradient, no logos, no readable text, professional editorial style, 16:9, 1600x900.</pre>
             </div>
         </figure>
 
         <div class="prose mt-2 text-slate-700 space-y-4 leading-relaxed">
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 1. Данные не уезжают</h2>
-            <p>Контракты, переписка, кадровые документы не должны отправляться в API чужого облака. On-prem LLM (vLLM, llama.cpp, TGI) держит данные на ваших серверах от запроса до ответа. Это базовое требование любой регулируемой среды — от государственной до банковской.</p>
+            <p>Облачное API — это съёмная квартира. Сначала удобно: ключ в кармане, въехал и работаешь. Через год аренда выросла, владелец поменял правила, а ваши вещи стоят у его двери.</p>
+            <p>Иногда квартиру нужно купить. Не из принципа — из арифметики.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 2. Стоимость становится предсказуемой</h2>
-            <p>Облачные API считаются токенами. Месяц с 200 пользователями превращается в счёт, который трудно защитить перед финдиректором. Свой сервер — одна капитальная закупка GPU плюс электричество. Видимый, фиксированный, контролируемый. Расчёт амортизации возможен. Расчёт «сколько мы заплатим OpenAI в следующем месяце» — нет.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Аргумент 1. Данные остаются на месте</h2>
+            <p>Контракты, переписка, кадровые документы не должны уезжать в чужой дата-центр. On-prem LLM (vLLM, llama.cpp, TGI) держит данные на ваших серверах от запроса до ответа.</p>
+            <p>Это не паранойя. Это базовое требование любой регулируемой среды — от государственной до банковской. Юристы вмешаются — и разговор закончится без вашего участия.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Причина 3. Контроль над версией модели</h2>
-            <p>Провайдер обновляет модель — ваши промпты, тесты и регрессии ломаются на следующий день. On-prem: вы решаете, когда поднимать новую версию. Можете держать стабильную модель два года, пока не созреет следующая, и переходить по плану, а не по чужому расписанию.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Аргумент 2. Счёт перестаёт быть лотереей</h2>
+            <p>Облачные API считаются токенами. Месяц с активными пользователями превращается в платёжку, которую нечем защитить перед финдиректором.</p>
+            <p>Свой сервер — это разовый CAPEX плюс электричество. Видимый, фиксированный, амортизируемый. «Сколько мы заплатим OpenAI в следующем месяце» — это вопрос без ответа. «Сколько электричества потребит наш GPU» — арифметика.</p>
+
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Аргумент 3. Версия модели — ваша</h2>
+            <p>Провайдер обновляет модель в среду — ваши промпты, тесты и регрессии ломаются в четверг.</p>
+            <p>On-prem — вы решаете, когда поднимать новую версию. Можно держать стабильный чекпойнт два года, переходить по плану. Не по чужому расписанию.</p>
 
             <h2 class="text-xl font-semibold text-slate-900 mt-10">Скрытое преимущество: LoRA под ваши задачи</h2>
-            <p>С vLLM и параметром <code class="text-xs bg-slate-100 px-1 rounded">--enable-lora</code> можно дообучить адаптер на ваших документах (договоры, докладные, регламенты) и подгрузить его рядом с базовой моделью. Адаптер — мегабайты, не гигабайты. Базовая модель остаётся одна; адаптеров может быть несколько под разные задачи.</p>
-            <p>Это даёт специализацию без затрат на полный fine-tuning. Через облачное API такого контроля нет.</p>
+            <p>С vLLM и флагом <code class="text-xs bg-slate-100 px-1 rounded">--enable-lora</code> можно дообучить адаптер на ваших документах и подгрузить рядом с базой. Адаптер — мегабайты. База одна, адаптеров может быть несколько.</p>
+            <p>Через облако такого контроля нет. Это и есть момент, когда «дороже» превращается в «дешевле».</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Когда облачный API всё ещё уместен</h2>
-            <p>Не на каждой задаче нужен on-prem. Если вы делаете прототип, и данные не чувствительны, начинать со своего GPU — преждевременная оптимизация. <b>Критерий:</b> данные регулируются (PII, гос. тайна, банковская), и/или объём вызовов делает облачный счёт неприлично большим. До этих порогов — спокойно используйте облако и не торопитесь.</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Когда облако всё ещё уместно</h2>
+            <p>Не на каждой задаче нужен on-prem.</p>
+            <p>Прототип, нечувствительные данные, низкий объём — начинать со своего GPU — это преждевременная оптимизация, маскирующаяся под здравый смысл.</p>
+            <p><b>Критерий простой:</b> данные регулируются (PII, банковская, гос. тайна) и/или объём вызовов делает облачный счёт неприлично большим. До этих порогов — спокойно используйте API и не торопитесь.</p>
 
-            <h2 class="text-xl font-semibold text-slate-900 mt-10">Переключение на vLLM</h2>
-            <p>В ARA смена режима — одна переменная окружения:</p>
+            <h2 class="text-xl font-semibold text-slate-900 mt-10">Переключение — одна переменная</h2>
+            <p>В ARA смена режима выглядит так:</p>
             <pre><code>ARA_LLM_MODE=vllm
 ARA_VLLM_BASE_URL=http://vllm:8000/v1
 ARA_VLLM_MODEL=Qwen/Qwen2.5-7B-Instruct</code></pre>
-            <p>Шлюз сам перенастроит клиента и пойдёт к вашему серверу. Никаких изменений в коде, никаких пересборок образов.</p>
+            <p>Шлюз сам перенастроит клиента и пойдёт к вашему серверу. Без изменений в коде, без пересборки образов. Это и есть честный признак переносимости — а не «миграция на три квартала».</p>
         </div>
 
         <div class="mt-12 p-5 rounded-lg bg-emerald-50 border border-emerald-200">
-            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что теперь можно сделать</div>
+            <div class="text-xs uppercase tracking-wider font-medium text-emerald-700 mono mb-3">Что сделать дальше</div>
             <ul class="text-sm text-slate-700 space-y-2 list-disc list-inside marker:text-emerald-500">
                 <li>Откройте свой <code class="text-xs bg-slate-100 px-1 rounded">.env</code> и проверьте, какой <code class="text-xs bg-slate-100 px-1 rounded">ARA_LLM_MODE</code> стоит сейчас.</li>
                 <li>Замерьте текущий месячный счёт за токены — это ваш базовый аргумент перед руководством.</li>
-                <li>Прочитайте <a href="/posts/audit-log-llm" class="text-indigo-600 hover:text-indigo-700">как мы делаем аудит-журнал</a> — это естественное продолжение для регулируемой среды.</li>
+                <li>Логичное продолжение — <a href="/posts/audit-log-llm" class="text-indigo-600 hover:text-indigo-700">«Аудит-журнал, который переживёт проверку»</a>.</li>
             </ul>
         </div>
     </article>
