@@ -230,6 +230,21 @@
             .reveal { opacity: 1; transform: none; }
             html { scroll-behavior: auto; }
         }
+
+        /* ─── Language switcher (header) ─────────────────────────────── */
+        .lang-switch {
+            display: inline-flex; align-items: center; gap: 0;
+            background: #f1f5f9; border-radius: 0.5rem; padding: 0.1875rem;
+        }
+        .lang-btn {
+            padding: 0.25rem 0.5rem; font-size: 0.6875rem; font-weight: 600;
+            border-radius: 0.375rem; cursor: pointer;
+            color: #64748b; background: transparent; border: none;
+            transition: all 160ms ease; letter-spacing: 0.02em;
+            min-width: 30px; min-height: 24px;
+        }
+        .lang-btn:hover:not(.active) { color: #0f172a; }
+        .lang-btn.active { color: #fff; background: var(--accent); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased relative">
@@ -238,24 +253,31 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center gap-3">
         <!-- Logo: takes remaining space, truncates if needed. -->
         <a href="/" class="flex items-baseline gap-2.5 min-w-0 flex-1 group">
-            <span class="font-semibold text-slate-900 tracking-tight group-hover:text-orange-700 transition truncate">Билол Саидумаров</span>
-            <span class="hidden lg:inline text-[11px] text-slate-400 mono uppercase tracking-wider whitespace-nowrap">AI Tech · UZ</span>
+            <span data-i18n="header.name" class="font-semibold text-slate-900 tracking-tight group-hover:text-orange-700 transition truncate">Билол Саидумаров</span>
+            <span data-i18n="header.subtag" class="hidden lg:inline text-[11px] text-slate-400 mono uppercase tracking-wider whitespace-nowrap">AI Tech · UZ</span>
         </a>
 
         <!-- Desktop nav -->
         <nav class="hidden md:flex items-center gap-7 text-sm shrink-0">
-            <a href="#projects" class="text-slate-600 hover:text-slate-900 transition">Проекты</a>
-            <a href="#services" class="text-slate-600 hover:text-slate-900 transition">Что делаю</a>
-            <a href="/posts" class="text-slate-600 hover:text-slate-900 transition">Статьи</a>
+            <a data-i18n="header.nav.projects" href="#projects" class="text-slate-600 hover:text-slate-900 transition">Проекты</a>
+            <a data-i18n="header.nav.services" href="#services" class="text-slate-600 hover:text-slate-900 transition">Что делаю</a>
+            <a data-i18n="header.nav.posts" href="/posts" class="text-slate-600 hover:text-slate-900 transition">Статьи</a>
         </nav>
 
+        <!-- Language switcher -->
+        <div class="lang-switch shrink-0" role="group" aria-label="Language">
+            <button class="lang-btn" data-lang="ru" type="button">RU</button>
+            <button class="lang-btn" data-lang="en" type="button">EN</button>
+            <button class="lang-btn" data-lang="uz" type="button">UZ</button>
+        </div>
+
         <!-- Primary CTA — persistent, with live pulse -->
-        <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium shrink-0">
+        <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="btn-primary inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-[13px] font-medium shrink-0">
             <span class="relative flex h-2 w-2">
                 <span class="absolute inline-flex h-full w-full rounded-full bg-white opacity-75 animate-ping"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
             </span>
-            <span>Написать</span>
+            <span data-i18n="header.cta">Написать</span>
         </a>
     </div>
 </header>
@@ -267,19 +289,19 @@
 
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-20 sm:pb-28 z-10">
         <div class="max-w-3xl">
-            <div class="eyebrow mb-5 sm:mb-8 rise">AI Tech · Ташкент · Узбекистан</div>
+            <div data-i18n="hero.eyebrow" class="eyebrow mb-5 sm:mb-8 rise">AI Tech · Ташкент · Узбекистан</div>
 
-            <h1 class="display display-xl font-semibold rise rise-2">
+            <h1 data-i18n="hero.title" class="display display-xl font-semibold rise rise-2">
                 <span class="underline-grad">Инфраструктура,</span><br />
                 <span class="text-slate-400">рассчитанная на десятилетия.</span>
             </h1>
 
-            <p class="mt-6 sm:mt-10 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
+            <p data-i18n="hero.body1" class="mt-6 sm:mt-10 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
                 <span class="text-slate-900 font-medium">AI Tech Lead.</span>
                 Восемь лет в инженерии. Четыре из них&nbsp;— в&nbsp;командах
                 <span class="text-slate-900 font-medium">России, США и&nbsp;Канады</span>.
             </p>
-            <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
+            <p data-i18n="hero.body2" class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl rise rise-3">
                 Системы, которые
                 <span class="text-slate-900 font-medium">продолжают работать через десять-двадцать лет
                 после запуска</span>&nbsp;— без переписывания и&nbsp;без сюрпризов в&nbsp;три часа ночи.
@@ -294,11 +316,11 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
         <div class="flex items-end justify-between gap-4 mb-8 sm:mb-12">
             <div class="min-w-0">
-                <div class="eyebrow mb-3">Недавнее</div>
-                <h2 class="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Из блога</h2>
+                <div data-i18n="recent.eyebrow" class="eyebrow mb-3">Недавнее</div>
+                <h2 data-i18n="recent.heading" class="text-xl sm:text-2xl font-semibold text-slate-900 tracking-tight">Из блога</h2>
             </div>
             <a href="/posts" class="arrow-link inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition shrink-0">
-                Все статьи
+                <span data-i18n="recent.all">Все статьи</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
             </a>
         </div>
@@ -307,8 +329,8 @@
             <li>
                 <a href="/posts/audit-log-llm" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
                     <div>
-                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Аудит-журнал, который переживёт проверку</div>
-                        <div class="text-xs text-slate-400 mt-1 mono">21 мая 2026 · 4 мин</div>
+                        <div data-i18n="recent.post1.title" class="font-medium text-slate-900 group-hover:text-orange-700 transition">Аудит-журнал, который переживёт проверку</div>
+                        <div data-i18n="recent.post1.meta" class="text-xs text-slate-400 mt-1 mono">21 мая 2026 · 4 мин</div>
                     </div>
                     <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </a>
@@ -316,8 +338,8 @@
             <li>
                 <a href="/posts/nano-ai-medicine" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
                     <div>
-                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">AI-революция — это нанолитография, и никто не говорит вслух</div>
-                        <div class="text-xs text-slate-400 mt-1 mono">4 декабря 2025 · 6 мин</div>
+                        <div data-i18n="recent.post2.title" class="font-medium text-slate-900 group-hover:text-orange-700 transition">AI-революция — это нанолитография, и никто не говорит вслух</div>
+                        <div data-i18n="recent.post2.meta" class="text-xs text-slate-400 mt-1 mono">4 декабря 2025 · 6 мин</div>
                     </div>
                     <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </a>
@@ -325,8 +347,8 @@
             <li>
                 <a href="/posts/rus-gov-it-uroki" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
                     <div>
-                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</div>
-                        <div class="text-xs text-slate-400 mt-1 mono">10 декабря 2024 · 6 мин</div>
+                        <div data-i18n="recent.post3.title" class="font-medium text-slate-900 group-hover:text-orange-700 transition">Что российский гос-IT научил за 10 лет — и зачем это Узбекистану</div>
+                        <div data-i18n="recent.post3.meta" class="text-xs text-slate-400 mt-1 mono">10 декабря 2024 · 6 мин</div>
                     </div>
                     <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </a>
@@ -334,8 +356,8 @@
             <li>
                 <a href="/posts/med-it-uz" class="group flex items-baseline justify-between py-5 border-t border-slate-200">
                     <div>
-                        <div class="font-medium text-slate-900 group-hover:text-orange-700 transition">Почему врач в поликлинике до сих пор записывает карту от руки</div>
-                        <div class="text-xs text-slate-400 mt-1 mono">12 июня 2024 · 6 мин</div>
+                        <div data-i18n="recent.post4.title" class="font-medium text-slate-900 group-hover:text-orange-700 transition">Почему врач в поликлинике до сих пор записывает карту от руки</div>
+                        <div data-i18n="recent.post4.meta" class="text-xs text-slate-400 mt-1 mono">12 июня 2024 · 6 мин</div>
                     </div>
                     <svg class="w-4 h-4 text-slate-300 group-hover:text-orange-600 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </a>
@@ -368,39 +390,39 @@
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 md:pt-28 pb-16 sm:pb-24 md:pb-28">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
-                <div class="eyebrow mb-3">Зачем</div>
-                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                <div data-i18n="why.eyebrow" class="eyebrow mb-3">Зачем</div>
+                <h2 data-i18n="why.heading" class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                     Почему<br class="hidden sm:inline" />именно сейчас.
                 </h2>
-                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                <p data-i18n="why.subhead" class="text-sm text-slate-500 mt-4 leading-relaxed">
                     Цифровая инфраструктура строится впервые&nbsp;—<br class="hidden sm:inline" />
                     от&nbsp;её&nbsp;качества зависят следующие двадцать лет.
                 </p>
             </div>
             <div class="lg:col-span-2 space-y-6">
-                <p class="lede">
+                <p data-i18n="why.p1" class="lede">
                     Государство выстраивает цифровую инфраструктуру <strong>с&nbsp;нуля</strong>.
                     Банки переходят на&nbsp;цифровые рельсы. Медицина&nbsp;— от&nbsp;бумаги к&nbsp;данным.
                     Решения, принятые сейчас, будут работать следующие двадцать лет.
                 </p>
-                <p class="lede">
+                <p data-i18n="why.p2" class="lede">
                     Меня интересуют <strong>скучные системы, которые работают, когда за&nbsp;ними
                     никто не&nbsp;смотрит</strong>.
                 </p>
-                <p class="lede">
+                <p data-i18n="why.p3" class="lede">
                     Не&nbsp;теряют ни&nbsp;одной записи. Помнят каждое задание&nbsp;— даже если ночью
                     выключили свет. Выдерживают проверку аудитора через десять лет.
                 </p>
-                <p class="lede">
+                <p data-i18n="why.p4" class="lede">
                     <strong>Именно такие системы я&nbsp;и&nbsp;строю.</strong>
                 </p>
-                <p class="text-sm text-slate-500 leading-relaxed pt-2 border-t border-slate-100 mt-6">
+                <p data-i18n="why.p5" class="text-sm text-slate-500 leading-relaxed pt-2 border-t border-slate-100 mt-6">
                     Я&nbsp;работал в&nbsp;командах, которые подобную инфраструктуру строят уже десятилетиями.
                     Этот опыт можно применить здесь, не&nbsp;повторяя их&nbsp;ошибок.
                 </p>
                 <p class="text-sm pt-4">
-                    <span class="text-slate-500">Резонирует? </span>
-                    <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Связаться в&nbsp;Telegram →</a>
+                    <span data-i18n="why.cta-prefix" class="text-slate-500">Резонирует? </span>
+                    <a data-i18n="why.cta-link" href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Связаться в&nbsp;Telegram →</a>
                 </p>
             </div>
         </div>
@@ -412,11 +434,11 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
-                <div class="eyebrow mb-3">Принципы</div>
-                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                <div data-i18n="principles.eyebrow" class="eyebrow mb-3">Принципы</div>
+                <h2 data-i18n="principles.heading" class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                     Как я работаю
                 </h2>
-                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                <p data-i18n="principles.subhead" class="text-sm text-slate-500 mt-4 leading-relaxed">
                     Не каждое решение нужно объяснять.<br class="hidden sm:inline" />
                     Но мои — должны.
                 </p>
@@ -425,9 +447,9 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-2">
                         <span class="stat-num text-xs principle-num mono font-semibold">01</span>
-                        <h3 class="font-semibold text-slate-900">ИИ — это инструмент, а не магия</h3>
+                        <h3 data-i18n="principles.p1.title" class="font-semibold text-slate-900">ИИ — это инструмент, а не магия</h3>
                     </div>
-                    <p class="text-slate-600 leading-relaxed">
+                    <p data-i18n="principles.p1.body" class="text-slate-600 leading-relaxed">
                         Языковые модели иногда ошибаются и сочиняют факты. Поэтому в серьёзной
                         системе ИИ всегда сопровождается классическим поиском, проверкой
                         ответов и резервным сценарием на случай сбоя. Чудес здесь нет —
@@ -437,9 +459,9 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-2">
                         <span class="stat-num text-xs principle-num mono font-semibold">02</span>
-                        <h3 class="font-semibold text-slate-900">Готовность к продакшну — с первого дня</h3>
+                        <h3 data-i18n="principles.p2.title" class="font-semibold text-slate-900">Готовность к продакшну — с первого дня</h3>
                     </div>
-                    <p class="text-slate-600 leading-relaxed">
+                    <p data-i18n="principles.p2.body" class="text-slate-600 leading-relaxed">
                         Любая система должна быть готова к реальной нагрузке и реальным проверкам
                         сразу, а не «доделаем потом». Резервное копирование, мониторинг,
                         журнал аудита, защита от сбоев, восстановление после аварий — это не
@@ -450,9 +472,9 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-2">
                         <span class="stat-num text-xs principle-num mono font-semibold">03</span>
-                        <h3 class="font-semibold text-slate-900">Сложность — только там, где без неё нельзя</h3>
+                        <h3 data-i18n="principles.p3.title" class="font-semibold text-slate-900">Сложность — только там, где без неё нельзя</h3>
                     </div>
-                    <p class="text-slate-600 leading-relaxed">
+                    <p data-i18n="principles.p3.body" class="text-slate-600 leading-relaxed">
                         Дополнительные серверы, очереди задач, резервные узлы — добавляются,
                         когда без них действительно не справиться. Не потому, что «так модно».
                         Простое решение, которое работает, лучше сложного, которое выглядит впечатляюще.
@@ -461,9 +483,9 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-2">
                         <span class="stat-num text-xs principle-num mono font-semibold">04</span>
-                        <h3 class="font-semibold text-slate-900">Сначала данные, потом — всё остальное</h3>
+                        <h3 data-i18n="principles.p4.title" class="font-semibold text-slate-900">Сначала данные, потом — всё остальное</h3>
                     </div>
-                    <p class="text-slate-600 leading-relaxed">
+                    <p data-i18n="principles.p4.body" class="text-slate-600 leading-relaxed">
                         Перед красивым интерфейсом и модным ИИ стоит правильно спроектированная база данных.
                         Если данные хранятся аккуратно — система проработает десятилетия без переписывания.
                         Если нет — каждое обновление становится болью.
@@ -494,16 +516,16 @@
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             <div>
-                <div class="eyebrow mb-3">Угол зрения</div>
-                <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+                <div data-i18n="angle.eyebrow" class="eyebrow mb-3">Угол зрения</div>
+                <h2 data-i18n="angle.heading" class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                     Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.
                 </h2>
-                <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                <p data-i18n="angle.subhead" class="text-sm text-slate-500 mt-4 leading-relaxed">
                     Это база. Многие просто<br class="hidden sm:inline" />не знают.
                 </p>
             </div>
             <div class="lg:col-span-2 space-y-6">
-                <p class="lede">
+                <p data-i18n="angle.p1" class="lede">
                     Я использую подходы, которые иногда выглядят непривычно.
                     <strong>Например, музыку для изучения языка.</strong> Это не оригинальность —
                     это фундамент. Английский алфавит взрослые помнят не из учебника, а из песенки
@@ -511,18 +533,18 @@
                     вышел зайчик погулять». «Billie Jean» помнят миллиарды людей наизусть —
                     а лекцию из университета не помнит почти никто. Это не случайность.
                 </p>
-                <p class="lede">
+                <p data-i18n="angle.p2" class="lede">
                     Мозг изначально устроен под ритм, мелодию и&nbsp;повторение&nbsp;— а&nbsp;не&nbsp;под параграфы
                     и&nbsp;таблицы. Первый язык ребёнок осваивает через песни и&nbsp;интонацию, не&nbsp;через
                     грамматику. <strong>В&nbsp;серьёзном обучении взрослых эта база чаще всего пропущена.</strong>
                 </p>
-                <p class="lede">
+                <p data-i18n="angle.p3" class="lede">
                     База часто кажется «слишком простой» и&nbsp;поэтому остаётся в&nbsp;стороне.
                     <strong>А&nbsp;именно она и&nbsp;работает десятилетиями.</strong>
                 </p>
                 <p class="text-sm pt-2">
-                    <span class="text-slate-500">Резонирует? </span>
-                    <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Напишите в Telegram →</a>
+                    <span data-i18n="angle.cta-prefix" class="text-slate-500">Резонирует? </span>
+                    <a data-i18n="angle.cta-link" href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Напишите в Telegram →</a>
                 </p>
             </div>
         </div>
@@ -533,11 +555,11 @@
 <section id="projects" class="bg-slate-50 border-t border-slate-100 scroll-mt-20">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
         <div class="mb-14 max-w-2xl">
-            <div class="eyebrow mb-3">Сейчас</div>
-            <h2 class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
+            <div data-i18n="projects.eyebrow" class="eyebrow mb-3">Сейчас</div>
+            <h2 data-i18n="projects.heading" class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
                 Над чем работаю
             </h2>
-            <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+            <p data-i18n="projects.subhead" class="text-sm text-slate-500 mt-4 leading-relaxed">
                 ARA должна работать без сбоев десятилетие. Vocoplay — удерживать
                 внимание три минуты в день. Биомед-направление — открытое приглашение
                 тем, кто читает это и узнаёт свою задачу.
@@ -549,26 +571,26 @@
             <div class="surface p-6 sm:p-8 flex flex-col">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-xl font-semibold text-slate-900 tracking-tight">ARA</h3>
-                    <span class="text-[11px] mono uppercase tracking-wider text-slate-400">Гос-сектор · ИИ</span>
+                    <span data-i18n="projects.ara.tag" class="text-[11px] mono uppercase tracking-wider text-slate-400">Гос-сектор · ИИ</span>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="projects.ara.p1" class="text-sm text-slate-600 leading-relaxed">
                     <strong class="text-slate-900">Загрузите 10 000 документов. Через час
                     они проиндексированы, размечены и готовы к ИИ-вопросам.</strong>
                     Три языка: узбекский, русский, английский. PDF, фотографии, сканы.
                     Поиск по словам, по смыслу или вместе. Суммы, даты, реквизиты,
                     номера договоров — извлекаются автоматически.
                 </p>
-                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                <p data-i18n="projects.ara.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
                     Развёртывается на собственных серверах ведомства — документы не уходят
                     в чужие облака. Журнал аудита фиксирует каждое действие пользователя
                     и переживает проверку через десять лет.
                 </p>
                 <div class="mt-auto pt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
                     <a href="https://ara-production-baa8.up.railway.app/" target="_blank" rel="noopener" class="arrow-link link-accent inline-flex items-center gap-2 text-sm font-medium transition">
-                        Открыть демо
+                        <span data-i18n="projects.ara.cta1">Открыть демо</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg>
                     </a>
-                    <a href="https://t.me/mario981110?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D0%B4%D0%B5%D0%BC%D0%BE%20ARA." target="_blank" rel="noopener" class="text-sm text-slate-600 hover:text-slate-900 transition">
+                    <a data-i18n="projects.ara.cta2" href="https://t.me/mario981110?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D0%B4%D0%B5%D0%BC%D0%BE%20ARA." target="_blank" rel="noopener" class="text-sm text-slate-600 hover:text-slate-900 transition">
                         Запросить доступ
                     </a>
                 </div>
@@ -578,9 +600,9 @@
             <div class="surface p-6 sm:p-8 flex flex-col">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-xl font-semibold text-slate-900 tracking-tight">Vocoplay</h3>
-                    <span class="text-[11px] mono uppercase tracking-wider text-slate-400">Продукт · ИИ для людей</span>
+                    <span data-i18n="projects.vocoplay.tag" class="text-[11px] mono uppercase tracking-wider text-slate-400">Продукт · ИИ для людей</span>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="projects.vocoplay.p1" class="text-sm text-slate-600 leading-relaxed">
                     <strong class="text-slate-900">Учите язык так же, как ребёнок —
                     через песни, которые ИИ генерирует под вас.</strong> Shadowing
                     (повторение за носителем) превращает прослушивание в активную тренировку.
@@ -588,7 +610,7 @@
                     Подход выглядит несерьёзно — а это именно та база, через которую
                     каждый из нас выучил первый язык.
                 </p>
-                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                <p data-i18n="projects.vocoplay.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
                     Я сам учу через него китайский. Это про то самое — заметить очевидное,
                     мимо которого все прошли, и превратить в продукт.
                 </p>
@@ -606,17 +628,17 @@
             <!-- Biomed/Nano card -->
             <div class="surface dashed-card p-6 sm:p-8 flex flex-col">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-semibold text-slate-900 tracking-tight">Биомед · Нано</h3>
-                    <span class="text-[11px] mono uppercase tracking-wider" style="color: var(--accent);">Коллаборация</span>
+                    <h3 data-i18n="projects.biomed.title" class="text-xl font-semibold text-slate-900 tracking-tight">Биомед · Нано</h3>
+                    <span data-i18n="projects.biomed.tag" class="text-[11px] mono uppercase tracking-wider" style="color: var(--accent);">Коллаборация</span>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="projects.biomed.p1" class="text-sm text-slate-600 leading-relaxed">
                     <strong class="text-slate-900">Получите единую систему для лаборатории:
                     микроскоп → ИИ-обработка изображений → защищённое хранилище
                     с журналом аудита.</strong> Результаты анализов, протоколы клинических
                     испытаний, данные с приборов — всё в одном контуре, доступном команде
                     и совместимом с международными стандартами обмена данных.
                 </p>
-                <p class="text-sm text-slate-500 leading-relaxed mt-4">
+                <p data-i18n="projects.biomed.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
                     Это направление я&nbsp;не&nbsp;веду в&nbsp;одиночку&nbsp;— ищу партнёров со&nbsp;стороны медицины
                     и&nbsp;медоборудования. Моя часть&nbsp;— инженерная: сбор данных с&nbsp;приборов,
                     обработка изображений, защищённое хранилище, аудит-журнал. Партнёрская часть&nbsp;—
@@ -625,10 +647,10 @@
                 </p>
                 <div class="mt-auto pt-6">
                     <a href="mailto:saidbilol18@gmail.com?subject=%D0%91%D0%B8%D0%BE%D0%BC%D0%B5%D0%B4%20%D0%BA%D0%BE%D0%BB%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%86%D0%B8%D1%8F" class="arrow-link link-accent inline-flex items-center gap-2 text-sm font-medium transition">
-                        Написать о коллаборации
+                        <span data-i18n="projects.biomed.cta">Написать о коллаборации</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </a>
-                    <div class="text-xs text-slate-400 mt-1.5 mono">врачи · исследователи · медтех</div>
+                    <div data-i18n="projects.biomed.meta" class="text-xs text-slate-400 mt-1.5 mono">врачи · исследователи · медтех</div>
                 </div>
             </div>
         </div>
@@ -639,17 +661,17 @@
 <section id="services" class="relative overflow-hidden border-t border-slate-100 scroll-mt-20 bg-slate-50">
     <div class="mesh" aria-hidden="true"></div>
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 md:py-24">
-        <div class="eyebrow mb-3">Что я делаю</div>
-        <h2 class="text-2xl font-semibold text-slate-900 tracking-tight">Направления работы</h2>
-        <p class="text-sm text-slate-500 mt-2 max-w-xl">Четыре области, где я&nbsp;отвечаю за&nbsp;результат целиком.</p>
+        <div data-i18n="services.eyebrow" class="eyebrow mb-3">Что я делаю</div>
+        <h2 data-i18n="services.heading" class="text-2xl font-semibold text-slate-900 tracking-tight">Направления работы</h2>
+        <p data-i18n="services.subhead" class="text-sm text-slate-500 mt-2 max-w-xl">Четыре области, где я&nbsp;отвечаю за&nbsp;результат целиком.</p>
 
         <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12">
             <div>
                 <div class="flex items-baseline gap-3 mb-3">
                     <span class="stat-num text-xs principle-num mono font-semibold">01</span>
-                    <h3 class="font-semibold text-slate-900">Цифровая инфраструктура</h3>
+                    <h3 data-i18n="services.s1.title" class="font-semibold text-slate-900">Цифровая инфраструктура</h3>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="services.s1.body" class="text-sm text-slate-600 leading-relaxed">
                     Система должна работать в три ночи — без сисадмина на связи и без
                     потерянных записей. Это уже не идея, это инженерия. Серверы,
                     базы данных, резервы, восстановление после любой аварии.
@@ -658,9 +680,9 @@
             <div>
                 <div class="flex items-baseline gap-3 mb-3">
                     <span class="stat-num text-xs principle-num mono font-semibold">02</span>
-                    <h3 class="font-semibold text-slate-900">Документный ИИ</h3>
+                    <h3 data-i18n="services.s2.title" class="font-semibold text-slate-900">Документный ИИ</h3>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="services.s2.body" class="text-sm text-slate-600 leading-relaxed">
                     Бумажный архив с фотокопиями договоров двадцатилетней давности —
                     превращается в поисковую базу за выходные. Узбекский, русский,
                     английский. Суммы, даты, реквизиты — извлекаются сами.
@@ -669,9 +691,9 @@
             <div>
                 <div class="flex items-baseline gap-3 mb-3">
                     <span class="stat-num text-xs principle-num mono font-semibold">03</span>
-                    <h3 class="font-semibold text-slate-900">Поиск и анализ</h3>
+                    <h3 data-i18n="services.s3.title" class="font-semibold text-slate-900">Поиск и анализ</h3>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="services.s3.body" class="text-sm text-slate-600 leading-relaxed">
                     Сотрудник вводит запрос, и за две секунды получает нужный документ
                     среди миллионов. Ищет по слову, по смыслу или по условию.
                     Задаёт вопрос — получает ответ со ссылкой на страницу и абзац.
@@ -680,9 +702,9 @@
             <div>
                 <div class="flex items-baseline gap-3 mb-3">
                     <span class="stat-num text-xs principle-num mono font-semibold">04</span>
-                    <h3 class="font-semibold text-slate-900">Безопасное развёртывание</h3>
+                    <h3 data-i18n="services.s4.title" class="font-semibold text-slate-900">Безопасное развёртывание</h3>
                 </div>
-                <p class="text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="services.s4.body" class="text-sm text-slate-600 leading-relaxed">
                     Данные не покидают сервер ведомства. ИИ-модель работает у вас,
                     а не в чужом облаке. Журнал аудита, шифрование, разграничение
                     доступа — готовы к проверке с первого дня.
@@ -691,8 +713,8 @@
         </div>
 
         <div class="mt-14 pt-8 border-t border-slate-100 text-sm">
-            <span class="text-slate-500">Узнаёте свою задачу в одном из направлений? </span>
-            <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Обсудим в Telegram →</a>
+            <span data-i18n="services.cta-prefix" class="text-slate-500">Узнаёте свою задачу в одном из направлений? </span>
+            <a data-i18n="services.cta-link" href="https://t.me/mario981110" target="_blank" rel="noopener" class="link-accent font-medium hover:underline transition">Обсудим в Telegram →</a>
         </div>
     </div>
 </section>
@@ -703,28 +725,28 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-14">
         <div class="mb-6 flex items-baseline justify-between gap-6">
             <div>
-                <div class="eyebrow mb-2">Частые вопросы</div>
-                <h2 class="text-xl font-semibold text-slate-900 tracking-tight">Перед тем как написать</h2>
+                <div data-i18n="faq.eyebrow" class="eyebrow mb-2">Частые вопросы</div>
+                <h2 data-i18n="faq.heading" class="text-xl font-semibold text-slate-900 tracking-tight">Перед тем как написать</h2>
             </div>
         </div>
 
         <div class="divide-y divide-slate-200 border-t border-b border-slate-200">
             <details class="group py-3">
                 <summary class="flex items-center justify-between cursor-pointer list-none">
-                    <span class="text-sm font-medium text-slate-900 pr-6">Сколько стоит?</span>
+                    <span data-i18n="faq.q1.q" class="text-sm font-medium text-slate-900 pr-6">Сколько стоит?</span>
                     <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
                 </summary>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="faq.q1.a" class="mt-2 text-sm text-slate-600 leading-relaxed">
                     Не fixed-price. Зависит от задачи и среды. <strong class="text-slate-900">Первый
                     разговор — 30 минут, без обязательств</strong> — там и оцениваем.
                 </p>
             </details>
             <details class="group py-3">
                 <summary class="flex items-center justify-between cursor-pointer list-none">
-                    <span class="text-sm font-medium text-slate-900 pr-6">Какие сроки?</span>
+                    <span data-i18n="faq.q2.q" class="text-sm font-medium text-slate-900 pr-6">Какие сроки?</span>
                     <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
                 </summary>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="faq.q2.a" class="mt-2 text-sm text-slate-600 leading-relaxed">
                     Оценка&nbsp;— до&nbsp;недели. Прототип&nbsp;— 4–9&nbsp;недель. Полная система&nbsp;— 2–9&nbsp;месяцев.
                     <strong class="text-slate-900">Срочные MVP за&nbsp;неделю не&nbsp;беру</strong>&nbsp;—
                     такие сроки обычно ведут к&nbsp;долгу, который потом сложно вернуть.
@@ -732,20 +754,20 @@
             </details>
             <details class="group py-3">
                 <summary class="flex items-center justify-between cursor-pointer list-none">
-                    <span class="text-sm font-medium text-slate-900 pr-6">Удалённо или на месте?</span>
+                    <span data-i18n="faq.q3.q" class="text-sm font-medium text-slate-900 pr-6">Удалённо или на месте?</span>
                     <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
                 </summary>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="faq.q3.a" class="mt-2 text-sm text-slate-600 leading-relaxed">
                     Гибридно. База — Ташкент. Для проектов с повышенными требованиями
                     к безопасности — на месте, в защищённом контуре. Для остального — удалённо.
                 </p>
             </details>
             <details class="group py-3">
                 <summary class="flex items-center justify-between cursor-pointer list-none">
-                    <span class="text-sm font-medium text-slate-900 pr-6">Что если у нас нет команды?</span>
+                    <span data-i18n="faq.q4.q" class="text-sm font-medium text-slate-900 pr-6">Что если у нас нет команды?</span>
                     <span class="text-slate-400 text-xl leading-none transition-transform group-open:rotate-45 shrink-0">+</span>
                 </summary>
-                <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                <p data-i18n="faq.q4.a" class="mt-2 text-sm text-slate-600 leading-relaxed">
                     Соберу команду, подключусь к вашей или соберём комбинацию (ядро от меня + ваши
                     люди с обучением). Главное — не оставить вас с системой, которую некому
                     поддерживать.
@@ -776,13 +798,13 @@
 
         <!-- Headline block -->
         <div class="text-center mb-10 sm:mb-14">
-            <div class="eyebrow mb-5" style="justify-content: center;">Связь</div>
-            <h2 class="display display-lg font-semibold text-slate-900 max-w-3xl mx-auto">
+            <div data-i18n="contact.eyebrow" class="eyebrow mb-5" style="justify-content: center;">Связь</div>
+            <h2 data-i18n="contact.heading" class="display display-lg font-semibold text-slate-900 max-w-3xl mx-auto">
                 Если вы строите что-то<br class="hidden sm:inline" />
                 <span class="underline-grad">долгосрочное</span>&nbsp;—<br class="hidden sm:inline" />
                 напишите.
             </h2>
-            <p class="text-slate-500 mt-7 leading-relaxed max-w-xl mx-auto">
+            <p data-i18n="contact.subhead" class="text-slate-500 mt-7 leading-relaxed max-w-xl mx-auto">
                 Отвечаю в&nbsp;течение 24&nbsp;часов. Первый разговор&nbsp;— 30&nbsp;минут, без обязательств.
             </p>
         </div>
@@ -790,44 +812,44 @@
         <!-- Qualification grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 mb-10 sm:mb-14 max-w-3xl mx-auto">
             <div>
-                <div class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 mb-4 mono">Это для вас, если</div>
+                <div data-i18n="contact.fit.title" class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700 mb-4 mono">Это для вас, если</div>
                 <ul class="space-y-3 text-[15px] text-slate-700 leading-relaxed">
                     <li class="flex gap-3">
                         <span class="text-emerald-600 font-bold mt-0.5">✓</span>
-                        <span>Строите систему, которая должна работать десятилетия</span>
+                        <span data-i18n="contact.fit.1">Строите систему, которая должна работать десятилетия</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-emerald-600 font-bold mt-0.5">✓</span>
-                        <span>Запускаете продукт, где нужен архитектор с пониманием пользователя</span>
+                        <span data-i18n="contact.fit.2">Запускаете продукт, где нужен архитектор с пониманием пользователя</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-emerald-600 font-bold mt-0.5">✓</span>
-                        <span>Фокус на&nbsp;продукте и&nbsp;задаче пользователя.</span>
+                        <span data-i18n="contact.fit.3">Фокус на&nbsp;продукте и&nbsp;задаче пользователя.</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-emerald-600 font-bold mt-0.5">✓</span>
-                        <span>Хотите обсудить настоящую инженерную задачу</span>
+                        <span data-i18n="contact.fit.4">Хотите обсудить настоящую инженерную задачу</span>
                     </li>
                 </ul>
             </div>
             <div>
-                <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-4 mono">Возможно, не&nbsp;совпадём, если</div>
+                <div data-i18n="contact.nofit.title" class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-4 mono">Возможно, не&nbsp;совпадём, если</div>
                 <ul class="space-y-3 text-[15px] text-slate-500 leading-relaxed">
                     <li class="flex gap-3">
                         <span class="text-slate-300 font-bold mt-0.5">✗</span>
-                        <span>Нужен прототип за&nbsp;несколько дней без обсуждения архитектуры.</span>
+                        <span data-i18n="contact.nofit.1">Нужен прототип за&nbsp;несколько дней без обсуждения архитектуры.</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-slate-300 font-bold mt-0.5">✗</span>
-                        <span>Главный критерий выбора&nbsp;— минимальная стоимость.</span>
+                        <span data-i18n="contact.nofit.2">Главный критерий выбора&nbsp;— минимальная стоимость.</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-slate-300 font-bold mt-0.5">✗</span>
-                        <span>На&nbsp;этапе планирования не&nbsp;готовы обсуждать сроки и&nbsp;объём задачи детально.</span>
+                        <span data-i18n="contact.nofit.3">На&nbsp;этапе планирования не&nbsp;готовы обсуждать сроки и&nbsp;объём задачи детально.</span>
                     </li>
                     <li class="flex gap-3">
                         <span class="text-slate-300 font-bold mt-0.5">✗</span>
-                        <span>Ожидаете, что ИИ заменит участие команды в&nbsp;принятии решений.</span>
+                        <span data-i18n="contact.nofit.4">Ожидаете, что ИИ заменит участие команды в&nbsp;принятии решений.</span>
                     </li>
                 </ul>
             </div>
@@ -836,15 +858,15 @@
         <!-- Primary CTA + secondaries -->
         <div class="text-center">
             <a href="https://t.me/mario981110" target="_blank" rel="noopener" class="btn-primary arrow-link inline-flex items-center gap-3 px-8 py-4 rounded-xl text-base font-medium">
-                Написать в Telegram
+                <span data-i18n="contact.cta">Написать в Telegram</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
             </a>
             <div class="mt-6 text-xs text-slate-400 mono flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-x-3 gap-y-2">
-                <span>отвечаю в&nbsp;течение 24&nbsp;часов</span>
+                <span data-i18n="contact.response">отвечаю в&nbsp;течение 24&nbsp;часов</span>
                 <span class="text-slate-300 hidden sm:inline">·</span>
-                <a href="mailto:saidbilol18@gmail.com" aria-label="Написать на почту" class="hover:text-slate-700 transition inline-flex items-center gap-1.5">
+                <a href="mailto:saidbilol18@gmail.com" aria-label="Email" class="hover:text-slate-700 transition inline-flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <span>Почта</span>
+                    <span data-i18n="contact.email-label">Почта</span>
                 </a>
                 <span class="text-slate-300 hidden sm:inline">·</span>
                 <a href="https://github.com/sb-bilal-dev-2" target="_blank" rel="noopener" aria-label="Профиль на GitHub" class="hover:text-slate-700 transition inline-flex items-center gap-1.5">
@@ -868,10 +890,422 @@
 
 <footer class="bg-white border-t border-slate-100 py-8 sm:py-10">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center sm:justify-between gap-3 text-xs text-slate-400 text-center sm:text-left">
-        <span>© 2026 Билол Саидумаров · Ташкент</span>
-        <a href="/posts" class="hover:text-slate-700 transition tap">/статьи</a>
+        <span data-i18n="footer.copy">© 2026 Билол Саидумаров · Ташкент</span>
+        <a data-i18n="footer.posts" href="/posts" class="hover:text-slate-700 transition tap">/статьи</a>
     </div>
 </footer>
+
+<!-- ─── i18n: RU / EN / UZ ────────────────────────────────────────────────
+     Default language is Russian. Edit translations directly in the I18N
+     object below. Inline formatting (<strong>, <br>, &nbsp;) is preserved
+     because we set innerHTML on each tagged element.
+─────────────────────────────────────────────────────────────────────── -->
+<script>
+const I18N = {
+    ru: {
+        'page-title': 'Билол Саидумаров — AI Tech Lead',
+
+        'header.name': 'Билол Саидумаров',
+        'header.subtag': 'AI Tech · UZ',
+        'header.nav.projects': 'Проекты',
+        'header.nav.services': 'Что делаю',
+        'header.nav.posts': 'Статьи',
+        'header.cta': 'Написать',
+
+        'hero.eyebrow': 'AI Tech · Ташкент · Узбекистан',
+        'hero.title': '<span class="underline-grad">Инфраструктура,</span><br /><span class="text-slate-400">рассчитанная на десятилетия.</span>',
+        'hero.body1': '<span class="text-slate-900 font-medium">AI Tech Lead.</span> Восемь лет в инженерии. Четыре из них&nbsp;— в&nbsp;командах <span class="text-slate-900 font-medium">России, США и&nbsp;Канады</span>.',
+        'hero.body2': 'Системы, которые <span class="text-slate-900 font-medium">продолжают работать через десять-двадцать лет после запуска</span>&nbsp;— без переписывания и&nbsp;без сюрпризов в&nbsp;три часа ночи.',
+
+        'recent.eyebrow': 'Недавнее',
+        'recent.heading': 'Из блога',
+        'recent.all': 'Все статьи',
+        'recent.post1.title': 'Аудит-журнал, который переживёт проверку',
+        'recent.post1.meta': '21 мая 2026 · 4 мин',
+        'recent.post2.title': 'AI-революция — это нанолитография, и никто не говорит вслух',
+        'recent.post2.meta': '4 декабря 2025 · 6 мин',
+        'recent.post3.title': 'Что российский гос-IT научил за 10 лет — и зачем это Узбекистану',
+        'recent.post3.meta': '10 декабря 2024 · 6 мин',
+        'recent.post4.title': 'Почему врач в поликлинике до сих пор записывает карту от руки',
+        'recent.post4.meta': '12 июня 2024 · 6 мин',
+
+        'why.eyebrow': 'Зачем',
+        'why.heading': 'Почему<br class="hidden sm:inline" />именно сейчас.',
+        'why.subhead': 'Цифровая инфраструктура строится впервые&nbsp;—<br class="hidden sm:inline" /> от&nbsp;её&nbsp;качества зависят следующие двадцать лет.',
+        'why.p1': 'Государство выстраивает цифровую инфраструктуру <strong>с&nbsp;нуля</strong>. Банки переходят на&nbsp;цифровые рельсы. Медицина&nbsp;— от&nbsp;бумаги к&nbsp;данным. Решения, принятые сейчас, будут работать следующие двадцать лет.',
+        'why.p2': 'Меня интересуют <strong>скучные системы, которые работают, когда за&nbsp;ними никто не&nbsp;смотрит</strong>.',
+        'why.p3': 'Не&nbsp;теряют ни&nbsp;одной записи. Помнят каждое задание&nbsp;— даже если ночью выключили свет. Выдерживают проверку аудитора через десять лет.',
+        'why.p4': '<strong>Именно такие системы я&nbsp;и&nbsp;строю.</strong>',
+        'why.p5': 'Я&nbsp;работал в&nbsp;командах, которые подобную инфраструктуру строят уже десятилетиями. Этот опыт можно применить здесь, не&nbsp;повторяя их&nbsp;ошибок.',
+        'why.cta-prefix': 'Резонирует? ',
+        'why.cta-link': 'Связаться в&nbsp;Telegram →',
+
+        'principles.eyebrow': 'Принципы',
+        'principles.heading': 'Как я работаю',
+        'principles.subhead': 'Не каждое решение нужно объяснять.<br class="hidden sm:inline" /> Но мои — должны.',
+        'principles.p1.title': 'ИИ — это инструмент, а не магия',
+        'principles.p1.body': 'Языковые модели иногда ошибаются и сочиняют факты. Поэтому в серьёзной системе ИИ всегда сопровождается классическим поиском, проверкой ответов и резервным сценарием на случай сбоя. Чудес здесь нет — есть инженерия.',
+        'principles.p2.title': 'Готовность к продакшну — с первого дня',
+        'principles.p2.body': 'Любая система должна быть готова к реальной нагрузке и реальным проверкам сразу, а не «доделаем потом». Резервное копирование, мониторинг, журнал аудита, защита от сбоев, восстановление после аварий — это не вторая фаза проекта. Это фундамент. Без него через год система превращается в источник проблем, который страшно трогать.',
+        'principles.p3.title': 'Сложность — только там, где без неё нельзя',
+        'principles.p3.body': 'Дополнительные серверы, очереди задач, резервные узлы — добавляются, когда без них действительно не справиться. Не потому, что «так модно». Простое решение, которое работает, лучше сложного, которое выглядит впечатляюще.',
+        'principles.p4.title': 'Сначала данные, потом — всё остальное',
+        'principles.p4.body': 'Перед красивым интерфейсом и модным ИИ стоит правильно спроектированная база данных. Если данные хранятся аккуратно — система проработает десятилетия без переписывания. Если нет — каждое обновление становится болью.',
+
+        'angle.eyebrow': 'Угол зрения',
+        'angle.heading': 'Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.',
+        'angle.subhead': 'Это база. Многие просто<br class="hidden sm:inline" />не знают.',
+        'angle.p1': 'Я использую подходы, которые иногда выглядят непривычно. <strong>Например, музыку для изучения языка.</strong> Это не оригинальность — это фундамент. Английский алфавит взрослые помнят не из учебника, а из песенки «ABCDEFG». Считать дети учатся не по таблице, а через «раз-два-три-четыре-пять, вышел зайчик погулять». «Billie Jean» помнят миллиарды людей наизусть — а лекцию из университета не помнит почти никто. Это не случайность.',
+        'angle.p2': 'Мозг изначально устроен под ритм, мелодию и&nbsp;повторение&nbsp;— а&nbsp;не&nbsp;под параграфы и&nbsp;таблицы. Первый язык ребёнок осваивает через песни и&nbsp;интонацию, не&nbsp;через грамматику. <strong>В&nbsp;серьёзном обучении взрослых эта база чаще всего пропущена.</strong>',
+        'angle.p3': 'База часто кажется «слишком простой» и&nbsp;поэтому остаётся в&nbsp;стороне. <strong>А&nbsp;именно она и&nbsp;работает десятилетиями.</strong>',
+        'angle.cta-prefix': 'Резонирует? ',
+        'angle.cta-link': 'Напишите в Telegram →',
+
+        'projects.eyebrow': 'Сейчас',
+        'projects.heading': 'Над чем работаю',
+        'projects.subhead': 'ARA должна работать без сбоев десятилетие. Vocoplay — удерживать внимание три минуты в день. Биомед-направление — открытое приглашение тем, кто читает это и узнаёт свою задачу.',
+        'projects.ara.tag': 'Гос-сектор · ИИ',
+        'projects.ara.p1': '<strong class="text-slate-900">Загрузите 10 000 документов. Через час они проиндексированы, размечены и готовы к ИИ-вопросам.</strong> Три языка: узбекский, русский, английский. PDF, фотографии, сканы. Поиск по словам, по смыслу или вместе. Суммы, даты, реквизиты, номера договоров — извлекаются автоматически.',
+        'projects.ara.p2': 'Развёртывается на собственных серверах ведомства — документы не уходят в чужие облака. Журнал аудита фиксирует каждое действие пользователя и переживает проверку через десять лет.',
+        'projects.ara.cta1': 'Открыть демо',
+        'projects.ara.cta2': 'Запросить доступ',
+        'projects.vocoplay.tag': 'Продукт · ИИ для людей',
+        'projects.vocoplay.p1': '<strong class="text-slate-900">Учите язык так же, как ребёнок — через песни, которые ИИ генерирует под вас.</strong> Shadowing (повторение за носителем) превращает прослушивание в активную тренировку. Скучное упражнение становится тем, к чему возвращаются добровольно. Подход выглядит несерьёзно — а это именно та база, через которую каждый из нас выучил первый язык.',
+        'projects.vocoplay.p2': 'Я сам учу через него китайский. Это про то самое — заметить очевидное, мимо которого все прошли, и превратить в продукт.',
+        'projects.biomed.title': 'Биомед · Нано',
+        'projects.biomed.tag': 'Коллаборация',
+        'projects.biomed.p1': '<strong class="text-slate-900">Получите единую систему для лаборатории: микроскоп → ИИ-обработка изображений → защищённое хранилище с журналом аудита.</strong> Результаты анализов, протоколы клинических испытаний, данные с приборов — всё в одном контуре, доступном команде и совместимом с международными стандартами обмена данных.',
+        'projects.biomed.p2': 'Это направление я&nbsp;не&nbsp;веду в&nbsp;одиночку&nbsp;— ищу партнёров со&nbsp;стороны медицины и&nbsp;медоборудования. Моя часть&nbsp;— инженерная: сбор данных с&nbsp;приборов, обработка изображений, защищённое хранилище, аудит-журнал. Партнёрская часть&nbsp;— клинический контекст и&nbsp;валидация. Если у&nbsp;вас есть лаборатория или исследовательская задача в&nbsp;этой области, напишите.',
+        'projects.biomed.cta': 'Написать о коллаборации',
+        'projects.biomed.meta': 'врачи · исследователи · медтех',
+
+        'services.eyebrow': 'Что я делаю',
+        'services.heading': 'Направления работы',
+        'services.subhead': 'Четыре области, где я&nbsp;отвечаю за&nbsp;результат целиком.',
+        'services.s1.title': 'Цифровая инфраструктура',
+        'services.s1.body': 'Система должна работать в три ночи — без сисадмина на связи и без потерянных записей. Это уже не идея, это инженерия. Серверы, базы данных, резервы, восстановление после любой аварии.',
+        'services.s2.title': 'Документный ИИ',
+        'services.s2.body': 'Бумажный архив с фотокопиями договоров двадцатилетней давности — превращается в поисковую базу за выходные. Узбекский, русский, английский. Суммы, даты, реквизиты — извлекаются сами.',
+        'services.s3.title': 'Поиск и анализ',
+        'services.s3.body': 'Сотрудник вводит запрос, и за две секунды получает нужный документ среди миллионов. Ищет по слову, по смыслу или по условию. Задаёт вопрос — получает ответ со ссылкой на страницу и абзац.',
+        'services.s4.title': 'Безопасное развёртывание',
+        'services.s4.body': 'Данные не покидают сервер ведомства. ИИ-модель работает у вас, а не в чужом облаке. Журнал аудита, шифрование, разграничение доступа — готовы к проверке с первого дня.',
+        'services.cta-prefix': 'Узнаёте свою задачу в одном из направлений? ',
+        'services.cta-link': 'Обсудим в Telegram →',
+
+        'faq.eyebrow': 'Частые вопросы',
+        'faq.heading': 'Перед тем как написать',
+        'faq.q1.q': 'Сколько стоит?',
+        'faq.q1.a': 'Не fixed-price. Зависит от задачи и среды. <strong class="text-slate-900">Первый разговор — 30 минут, без обязательств</strong> — там и оцениваем.',
+        'faq.q2.q': 'Какие сроки?',
+        'faq.q2.a': 'Оценка&nbsp;— до&nbsp;недели. Прототип&nbsp;— 4–9&nbsp;недель. Полная система&nbsp;— 2–9&nbsp;месяцев. <strong class="text-slate-900">Срочные MVP за&nbsp;неделю не&nbsp;беру</strong>&nbsp;— такие сроки обычно ведут к&nbsp;долгу, который потом сложно вернуть.',
+        'faq.q3.q': 'Удалённо или на месте?',
+        'faq.q3.a': 'Гибридно. База — Ташкент. Для проектов с повышенными требованиями к безопасности — на месте, в защищённом контуре. Для остального — удалённо.',
+        'faq.q4.q': 'Что если у нас нет команды?',
+        'faq.q4.a': 'Соберу команду, подключусь к вашей или соберём комбинацию (ядро от меня + ваши люди с обучением). Главное — не оставить вас с системой, которую некому поддерживать.',
+
+        'contact.eyebrow': 'Связь',
+        'contact.heading': 'Если вы строите что-то<br class="hidden sm:inline" /> <span class="underline-grad">долгосрочное</span>&nbsp;—<br class="hidden sm:inline" /> напишите.',
+        'contact.subhead': 'Отвечаю в&nbsp;течение 24&nbsp;часов. Первый разговор&nbsp;— 30&nbsp;минут, без обязательств.',
+        'contact.fit.title': 'Это для вас, если',
+        'contact.fit.1': 'Строите систему, которая должна работать десятилетия',
+        'contact.fit.2': 'Запускаете продукт, где нужен архитектор с пониманием пользователя',
+        'contact.fit.3': 'Фокус на&nbsp;продукте и&nbsp;задаче пользователя.',
+        'contact.fit.4': 'Хотите обсудить настоящую инженерную задачу',
+        'contact.nofit.title': 'Возможно, не&nbsp;совпадём, если',
+        'contact.nofit.1': 'Нужен прототип за&nbsp;несколько дней без обсуждения архитектуры.',
+        'contact.nofit.2': 'Главный критерий выбора&nbsp;— минимальная стоимость.',
+        'contact.nofit.3': 'На&nbsp;этапе планирования не&nbsp;готовы обсуждать сроки и&nbsp;объём задачи детально.',
+        'contact.nofit.4': 'Ожидаете, что ИИ заменит участие команды в&nbsp;принятии решений.',
+        'contact.cta': 'Написать в Telegram',
+        'contact.response': 'отвечаю в&nbsp;течение 24&nbsp;часов',
+        'contact.email-label': 'Почта',
+
+        'footer.copy': '© 2026 Билол Саидумаров · Ташкент',
+        'footer.posts': '/статьи'
+    },
+
+    en: {
+        'page-title': 'Bilol Saidumarov — AI Tech Lead',
+
+        'header.name': 'Bilol Saidumarov',
+        'header.subtag': 'AI Tech · UZ',
+        'header.nav.projects': 'Projects',
+        'header.nav.services': 'What I do',
+        'header.nav.posts': 'Writing',
+        'header.cta': 'Get in touch',
+
+        'hero.eyebrow': 'AI Tech · Tashkent · Uzbekistan',
+        'hero.title': '<span class="underline-grad">Infrastructure</span><br /><span class="text-slate-400">built to last decades.</span>',
+        'hero.body1': '<span class="text-slate-900 font-medium">AI Tech Lead.</span> Eight years in engineering. Four of them on teams in <span class="text-slate-900 font-medium">Russia, the US, and Canada</span>.',
+        'hero.body2': 'Systems that <span class="text-slate-900 font-medium">keep running ten or twenty years after launch</span>&nbsp;— no rewrites, no 3 AM surprises.',
+
+        'recent.eyebrow': 'Recent',
+        'recent.heading': 'From the blog',
+        'recent.all': 'All posts',
+        'recent.post1.title': 'An audit log that survives the audit',
+        'recent.post1.meta': 'May 21, 2026 · 4 min',
+        'recent.post2.title': "The AI revolution is nanolithography — and nobody says it out loud",
+        'recent.post2.meta': 'Dec 4, 2025 · 6 min',
+        'recent.post3.title': "What 10 years of Russian gov-IT taught us — and why it matters to Uzbekistan",
+        'recent.post3.meta': 'Dec 10, 2024 · 6 min',
+        'recent.post4.title': 'Why a clinic doctor still writes charts by hand',
+        'recent.post4.meta': 'Jun 12, 2024 · 6 min',
+
+        'why.eyebrow': 'Why',
+        'why.heading': 'Why<br class="hidden sm:inline" />right now.',
+        'why.subhead': 'Digital infrastructure is being built for the first time&nbsp;—<br class="hidden sm:inline" /> the next twenty years depend on getting it right.',
+        'why.p1': "The state is building digital infrastructure <strong>from scratch</strong>. Banks are moving onto digital rails. Medicine&nbsp;— from paper to data. The decisions made today will run for the next twenty years.",
+        'why.p2': "What interests me are <strong>the boring systems that keep running when nobody is watching</strong>.",
+        'why.p3': "They don't lose a single record. They remember every job&nbsp;— even when the lights go out at night. They survive an auditor ten years later.",
+        'why.p4': "<strong>Those are the systems I build.</strong>",
+        'why.p5': "I've worked on teams that have been building this kind of infrastructure for decades. That experience can be applied here without repeating their mistakes.",
+        'why.cta-prefix': 'Resonates? ',
+        'why.cta-link': 'Reach out on&nbsp;Telegram →',
+
+        'principles.eyebrow': 'Principles',
+        'principles.heading': 'How I work',
+        'principles.subhead': "Not every decision needs explaining.<br class=\"hidden sm:inline\" /> Mine should.",
+        'principles.p1.title': 'AI is a tool, not magic',
+        'principles.p1.body': "Language models sometimes get it wrong and invent facts. So in any serious system, AI is always paired with classical search, answer verification, and a fallback when it fails. There are no miracles here&nbsp;— there's engineering.",
+        'principles.p2.title': 'Production-ready from day one',
+        'principles.p2.body': "Any system has to be ready for real load and real audits from the start&nbsp;— not as a «we'll do it later» afterthought. Backups, monitoring, audit logs, fault tolerance, disaster recovery&nbsp;— these aren't phase two. They're the foundation. Without them, a year in, the system becomes a problem nobody wants to touch.",
+        'principles.p3.title': "Complexity only where it's truly needed",
+        'principles.p3.body': "Extra servers, task queues, redundant nodes&nbsp;— added when there's no other way. Not because «it's trendy». A simple solution that works beats an impressive-looking one that doesn't.",
+        'principles.p4.title': 'Data first, everything else later',
+        'principles.p4.body': "Before a slick interface and trendy AI comes a properly designed database. If the data is stored cleanly, the system will run for decades without rewrites. If not, every update becomes painful.",
+
+        'angle.eyebrow': 'Angle',
+        'angle.heading': 'Looks strange&nbsp;—<br class="hidden sm:inline" />until you look closer.',
+        'angle.subhead': 'This is the foundation. Most<br class="hidden sm:inline" />people just don’t know it.',
+        'angle.p1': "I use approaches that sometimes look unconventional. <strong>For example, music for learning a language.</strong> That isn't novelty&nbsp;— that's foundation. Adults don't remember the English alphabet from a textbook; they remember the «ABCDEFG» song. Kids don't learn to count from a table; they learn through nursery rhymes. Billions of people know «Billie Jean» by heart&nbsp;— almost nobody remembers a university lecture. That isn't an accident.",
+        'angle.p2': "The brain is wired for rhythm, melody, and repetition&nbsp;— not paragraphs and tables. A child's first language comes from songs and intonation, not grammar. <strong>In serious adult learning, this foundation is the part most often skipped.</strong>",
+        'angle.p3': "The basics often look «too simple» and get set aside. <strong>And it's exactly the basics that keep working for decades.</strong>",
+        'angle.cta-prefix': 'Resonates? ',
+        'angle.cta-link': 'Message me on Telegram →',
+
+        'projects.eyebrow': 'Now',
+        'projects.heading': 'What I’m working on',
+        'projects.subhead': "ARA has to run without failure for a decade. Vocoplay has to hold attention for three minutes a day. The biomed track&nbsp;— an open invitation to anyone reading this who recognizes their own problem.",
+        'projects.ara.tag': 'Gov-sector · AI',
+        'projects.ara.p1': '<strong class="text-slate-900">Upload 10,000 documents. An hour later they’re indexed, tagged, and ready for AI-driven questions.</strong> Three languages: Uzbek, Russian, English. PDFs, photos, scans. Search by keyword, by meaning, or both. Amounts, dates, identifiers, contract numbers&nbsp;— extracted automatically.',
+        'projects.ara.p2': "Deployed on the ministry's own servers&nbsp;— documents don't leave for someone else's cloud. The audit log captures every user action and holds up to a review ten years later.",
+        'projects.ara.cta1': 'Open demo',
+        'projects.ara.cta2': 'Request access',
+        'projects.vocoplay.tag': 'Product · AI for humans',
+        'projects.vocoplay.p1': "<strong class=\"text-slate-900\">Learn a language the way a child does&nbsp;— through songs the AI generates for you.</strong> Shadowing (repeating after a native speaker) turns listening into active practice. A boring exercise becomes something you come back to willingly. The approach looks unserious&nbsp;— and it's exactly the foundation each of us learned our first language through.",
+        'projects.vocoplay.p2': "I'm learning Chinese with it myself. This is about noticing the obvious that everyone walked past, and turning it into a product.",
+        'projects.biomed.title': 'Biomed · Nano',
+        'projects.biomed.tag': 'Collaboration',
+        'projects.biomed.p1': '<strong class="text-slate-900">A single system for the lab: microscope → AI image processing → secure storage with an audit log.</strong> Test results, clinical-trial protocols, instrument data&nbsp;— all in one perimeter, accessible to the team, compatible with international data-exchange standards.',
+        'projects.biomed.p2': "This track I don't run alone&nbsp;— I'm looking for partners on the medical and med-device side. My part is engineering: instrument data capture, image processing, secure storage, audit log. The partner part is clinical context and validation. If you have a lab or a research problem in this area, write.",
+        'projects.biomed.cta': 'Write about a collaboration',
+        'projects.biomed.meta': 'doctors · researchers · medtech',
+
+        'services.eyebrow': 'What I do',
+        'services.heading': 'Areas of work',
+        'services.subhead': "Four areas where I own the result end-to-end.",
+        'services.s1.title': 'Digital infrastructure',
+        'services.s1.body': "A system has to keep running at 3 AM&nbsp;— without a sysadmin on the line and without lost records. That's not an idea anymore, it's engineering. Servers, databases, backups, recovery from any failure.",
+        'services.s2.title': 'Document AI',
+        'services.s2.body': "A paper archive of twenty-year-old contract photocopies&nbsp;— turned into a searchable database over a weekend. Uzbek, Russian, English. Amounts, dates, identifiers&nbsp;— extracted automatically.",
+        'services.s3.title': 'Search & analysis',
+        'services.s3.body': "An employee types a query and in two seconds gets the right document among millions. Searches by keyword, by meaning, or by condition. Asks a question&nbsp;— gets an answer linked to the exact page and paragraph.",
+        'services.s4.title': 'Secure deployment',
+        'services.s4.body': "Data doesn't leave the ministry's server. The AI model runs at your site, not in someone else's cloud. Audit log, encryption, access control&nbsp;— ready for review from day one.",
+        'services.cta-prefix': 'Recognize your problem in one of these areas? ',
+        'services.cta-link': 'Let’s talk on Telegram →',
+
+        'faq.eyebrow': 'FAQ',
+        'faq.heading': 'Before you write',
+        'faq.q1.q': 'How much does it cost?',
+        'faq.q1.a': "Not fixed-price. Depends on the problem and the environment. <strong class=\"text-slate-900\">First call&nbsp;— 30 minutes, no obligation</strong>&nbsp;— that’s when we figure it out.",
+        'faq.q2.q': 'What’s the timeline?',
+        'faq.q2.a': "Estimate&nbsp;— up to a week. Prototype&nbsp;— 4–9 weeks. Full system&nbsp;— 2–9 months. <strong class=\"text-slate-900\">I don’t take week-long emergency MVPs</strong>&nbsp;— those timelines usually create debt that's hard to repay later.",
+        'faq.q3.q': 'Remote or on-site?',
+        'faq.q3.a': 'Hybrid. Home base&nbsp;— Tashkent. For projects with heightened security requirements&nbsp;— on-site, inside the secure perimeter. Otherwise&nbsp;— remote.',
+        'faq.q4.q': 'What if we don’t have a team?',
+        'faq.q4.a': 'I’ll assemble a team, plug into yours, or do a mix (core from me + your people with training). The point&nbsp;— never leave you with a system nobody can maintain.',
+
+        'contact.eyebrow': 'Contact',
+        'contact.heading': "If you’re building something<br class=\"hidden sm:inline\" /> <span class=\"underline-grad\">long-term</span>&nbsp;—<br class=\"hidden sm:inline\" /> write.",
+        'contact.subhead': 'I reply within 24&nbsp;hours. First call&nbsp;— 30&nbsp;minutes, no obligation.',
+        'contact.fit.title': 'This is for you if',
+        'contact.fit.1': "You’re building a system that has to run for decades",
+        'contact.fit.2': "You’re launching a product that needs an architect with user empathy",
+        'contact.fit.3': "Focused on the product and the user’s problem.",
+        'contact.fit.4': 'You want to discuss a real engineering problem',
+        'contact.nofit.title': 'Probably not a fit if',
+        'contact.nofit.1': "You need a prototype in a few days with no architecture discussion.",
+        'contact.nofit.2': "The main selection criterion is lowest price.",
+        'contact.nofit.3': "At the planning stage you’re not ready to discuss timeline and scope in detail.",
+        'contact.nofit.4': "You expect AI to replace the team’s role in decision-making.",
+        'contact.cta': 'Message on Telegram',
+        'contact.response': 'I reply within 24&nbsp;hours',
+        'contact.email-label': 'Email',
+
+        'footer.copy': '© 2026 Bilol Saidumarov · Tashkent',
+        'footer.posts': '/writing'
+    },
+
+    uz: {
+        'page-title': 'Bilol Saidumarov — AI Tech Lead',
+
+        'header.name': 'Bilol Saidumarov',
+        'header.subtag': 'AI Tech · UZ',
+        'header.nav.projects': 'Loyihalar',
+        'header.nav.services': 'Nima qilaman',
+        'header.nav.posts': 'Maqolalar',
+        'header.cta': "Bog'lanish",
+
+        'hero.eyebrow': "AI Tech · Toshkent · O'zbekiston",
+        'hero.title': "<span class=\"underline-grad\">O'nlab yillarga</span><br /><span class=\"text-slate-400\">mo'ljallangan infratuzilma.</span>",
+        'hero.body1': "<span class=\"text-slate-900 font-medium\">AI Tech Lead.</span> Muhandislikda sakkiz yil. Shulardan to'rttasi&nbsp;— <span class=\"text-slate-900 font-medium\">Rossiya, AQSh va Kanada</span> jamoalarida.",
+        'hero.body2': "Ishga tushgandan keyin <span class=\"text-slate-900 font-medium\">o'n-yigirma yil davomida ishlashda davom etadigan</span> tizimlar&nbsp;— qayta yozishlarsiz va kechasi soat uchda kutilmagan holatlarsiz.",
+
+        'recent.eyebrow': "So'nggi",
+        'recent.heading': 'Blogdan',
+        'recent.all': 'Barcha maqolalar',
+        'recent.post1.title': "Tekshiruvdan o'tadigan audit jurnali",
+        'recent.post1.meta': "21-may 2026 · 4 daq.",
+        'recent.post2.title': "AI inqilobi&nbsp;— nanolitografiya, va buni hech kim ochiq aytmaydi",
+        'recent.post2.meta': "4-dekabr 2025 · 6 daq.",
+        'recent.post3.title': "10 yillik Rossiya davlat IT'si nimani o'rgatdi&nbsp;— va bu O'zbekistonga nima uchun kerak",
+        'recent.post3.meta': "10-dekabr 2024 · 6 daq.",
+        'recent.post4.title': "Nima uchun shifokor poliklinikada hali ham kartani qo'lda yozadi",
+        'recent.post4.meta': "12-iyun 2024 · 6 daq.",
+
+        'why.eyebrow': 'Nima uchun',
+        'why.heading': "Nima uchun<br class=\"hidden sm:inline\" />aynan hozir.",
+        'why.subhead': "Raqamli infratuzilma birinchi marta quriladi&nbsp;—<br class=\"hidden sm:inline\" /> uning sifati keyingi yigirma yilga ta'sir qiladi.",
+        'why.p1': "Davlat raqamli infratuzilmani <strong>noldan</strong> quryapti. Banklar raqamli reltsalarga o'tishyapti. Tibbiyot&nbsp;— qog'ozdan ma'lumotlarga. Bugun qabul qilingan qarorlar keyingi yigirma yil ishlaydi.",
+        'why.p2': "Meni <strong>hech kim qaramaganda ham ishlashda davom etadigan zerikarli tizimlar</strong> qiziqtiradi.",
+        'why.p3': "Hech bir yozuvni yo'qotmaydi. Har bir vazifani eslaydi&nbsp;— hatto kechasi chiroq o'chgan bo'lsa ham. O'n yildan keyin auditor tekshiruvidan o'tadi.",
+        'why.p4': "<strong>Men aynan shunday tizimlarni quraman.</strong>",
+        'why.p5': "Men shunday infratuzilmani o'nlab yillar davomida quradigan jamoalarda ishlaganman. Bu tajriba bu yerda qo'llanilishi mumkin&nbsp;— ularning xatolarini takrorlamasdan.",
+        'why.cta-prefix': "Yoqdi? ",
+        'why.cta-link': "Telegram'da bog'lanish →",
+
+        'principles.eyebrow': 'Tamoyillar',
+        'principles.heading': 'Qanday ishlayman',
+        'principles.subhead': "Har bir qarorni tushuntirish shart emas.<br class=\"hidden sm:inline\" /> Lekin meniki&nbsp;— shart.",
+        'principles.p1.title': "AI&nbsp;— bu vosita, sehr emas",
+        'principles.p1.body': "Til modellari ba'zan xato qiladi va faktlarni o'ylab topadi. Shuning uchun jiddiy tizimda AI doim klassik qidiruv, javoblarni tekshirish va xato bo'lganda zaxira stsenariy bilan birga keladi. Bu yerda mo''jizalar yo'q&nbsp;— muhandislik bor.",
+        'principles.p2.title': "Birinchi kundan ishlab chiqarishga tayyor",
+        'principles.p2.body': "Har qanday tizim real yuk va real tekshiruvlarga darhol tayyor bo'lishi kerak, «keyin qilamiz» deb emas. Zaxira nusxa, monitoring, audit jurnali, xatolardan himoya, halokatlardan tiklanish&nbsp;— bular loyihaning ikkinchi bosqichi emas. Bu poydevor. Usiz bir yildan keyin tizim tegishga qo'rqiladigan muammolar manbasiga aylanadi.",
+        'principles.p3.title': "Murakkablik&nbsp;— faqat zarur joylarda",
+        'principles.p3.body': "Qo'shimcha serverlar, vazifa navbatlari, zaxira tugunlar&nbsp;— ulardan boshqa iloji bo'lmaganda qo'shiladi. «Mashhur» bo'lgani uchun emas. Ishlovchi sodda yechim ta'sirli ko'rinadigan murakkab yechimdan yaxshi.",
+        'principles.p4.title': "Avval ma'lumot, keyin&nbsp;— qolgan hammasi",
+        'principles.p4.body': "Chiroyli interfeys va modan AI'dan oldin to'g'ri loyihalashtirilgan ma'lumotlar bazasi turadi. Agar ma'lumotlar tartibli saqlansa&nbsp;— tizim o'nlab yillar qayta yozishlarsiz ishlaydi. Aks holda&nbsp;— har bir yangilanish azobga aylanadi.",
+
+        'angle.eyebrow': "Nigoh burchagi",
+        'angle.heading': "G'alati ko'rinadi&nbsp;—<br class=\"hidden sm:inline\" />tushunib olguningizcha.",
+        'angle.subhead': "Bu poydevor. Ko'pchilik shunchaki<br class=\"hidden sm:inline\" />bilmaydi.",
+        'angle.p1': "Men ba'zan g'ayrioddiy ko'ringan yondashuvlardan foydalanaman. <strong>Masalan, til o'rganish uchun musiqa.</strong> Bu originallik emas&nbsp;— bu poydevor. Kattalar ingliz alifbosini darslikdan emas, «ABCDEFG» qo'shig'idan eslashadi. Bolalar sanashni jadvaldan emas, bolalar qo'shiqlaridan o'rganadi. «Billie Jean»'ni millionlab odamlar yoddan biladi&nbsp;— universitet ma'ruzasini esa deyarli hech kim eslamaydi. Bu tasodif emas.",
+        'angle.p2': "Miya dastlabdan ritm, melodiya va takrorlash uchun mo'ljallangan&nbsp;— paragraf va jadvallar uchun emas. Birinchi tilni bola qo'shiqlar va intonatsiya orqali o'zlashtiradi, grammatika orqali emas. <strong>Kattalarning jiddiy ta'limida bu poydevor ko'pincha o'tkazib yuboriladi.</strong>",
+        'angle.p3': "Poydevor ko'pincha «juda sodda» ko'rinadi va shuning uchun chetda qoladi. <strong>Aynan u esa o'nlab yillar ishlaydi.</strong>",
+        'angle.cta-prefix': "Yoqdi? ",
+        'angle.cta-link': "Telegram'ga yozing →",
+
+        'projects.eyebrow': 'Hozir',
+        'projects.heading': "Nima ustida ishlayapman",
+        'projects.subhead': "ARA o'n yil davomida nosozliklarsiz ishlashi kerak. Vocoplay&nbsp;— kuniga uch daqiqa diqqatni ushlab turishi. Biomed yo'nalishi&nbsp;— buni o'qib o'z vazifasini taniydiganlar uchun ochiq taklif.",
+        'projects.ara.tag': "Davlat sektori · AI",
+        'projects.ara.p1': "<strong class=\"text-slate-900\">10 000 ta hujjatni yuklang. Bir soatdan keyin ular indekslangan, belgilangan va AI savollarga tayyor.</strong> Uch til: o'zbek, rus, ingliz. PDF, suratlar, skanlar. So'z bo'yicha, ma'no bo'yicha yoki birga qidirish. Summalar, sanalar, rekvizitlar, shartnoma raqamlari&nbsp;— avtomatik chiqariladi.",
+        'projects.ara.p2': "Vazirlikning o'z serverlarida joylashtiriladi&nbsp;— hujjatlar boshqalarning bulutiga ketmaydi. Audit jurnali har bir foydalanuvchi harakatini qayd etadi va o'n yildan keyin tekshiruvga bardosh beradi.",
+        'projects.ara.cta1': "Demoni ochish",
+        'projects.ara.cta2': "Dostup so'rash",
+        'projects.vocoplay.tag': "Mahsulot · Odamlar uchun AI",
+        'projects.vocoplay.p1': "<strong class=\"text-slate-900\">Tilni xuddi bolalar kabi o'rganing&nbsp;— sizning ehtiyojingizga moslab AI yaratayotgan qo'shiqlar orqali.</strong> Shadowing (ona tilida so'zlovchidan keyin takrorlash) tinglashni faol mashqqa aylantiradi. Zerikarli mashq ixtiyoriy qaytib keladigan narsaga aylanadi. Yondashuv jiddiy ko'rinmaydi&nbsp;— lekin bu aynan biz birinchi tilimizni o'rgangan poydevor.",
+        'projects.vocoplay.p2': "Men o'zim xitoy tilini shu orqali o'rganyapman. Bu&nbsp;— ko'pchilik o'tib ketgan ravshan narsani sezish va uni mahsulotga aylantirish haqida.",
+        'projects.biomed.title': "Biomed · Nano",
+        'projects.biomed.tag': "Hamkorlik",
+        'projects.biomed.p1': "<strong class=\"text-slate-900\">Laboratoriya uchun yagona tizim: mikroskop → AI tasvir qayta ishlash → audit jurnali bilan himoyalangan saqlash.</strong> Tahlil natijalari, klinik sinov protokollari, asboblardan olingan ma'lumotlar&nbsp;— hammasi bitta perimetrda, jamoaga ochiq va xalqaro ma'lumot almashish standartlariga mos.",
+        'projects.biomed.p2': "Bu yo'nalishni yolg'iz olib bormayman&nbsp;— tibbiyot va med-uskunalar tomonidan hamkorlar qidiryapman. Mening qismim&nbsp;— muhandislik: asboblardan ma'lumot olish, tasvir qayta ishlash, himoyalangan saqlash, audit jurnali. Hamkor qismi&nbsp;— klinik kontekst va validatsiya. Agar sizda shu sohada laboratoriya yoki tadqiqot vazifasi bo'lsa&nbsp;— yozing.",
+        'projects.biomed.cta': "Hamkorlik haqida yozish",
+        'projects.biomed.meta': "shifokorlar · tadqiqotchilar · medtex",
+
+        'services.eyebrow': "Nima qilaman",
+        'services.heading': "Ish yo'nalishlari",
+        'services.subhead': "Men natijani to'liq o'z zimmamga oladigan to'rtta soha.",
+        'services.s1.title': "Raqamli infratuzilma",
+        'services.s1.body': "Tizim soat uchda ham ishlashi kerak&nbsp;— alqada sysadmin va yo'qolgan yozuvlarsiz. Bu endi g'oya emas, bu muhandislik. Serverlar, ma'lumotlar bazalari, zaxiralar, har qanday halokatdan tiklanish.",
+        'services.s2.title': "Hujjat AI",
+        'services.s2.body': "Yigirma yillik shartnoma fotosurati bilan to'la qog'oz arxiv&nbsp;— bir hafta oxiriga qidirish bazasiga aylanadi. O'zbek, rus, ingliz. Summalar, sanalar, rekvizitlar&nbsp;— o'zi chiqariladi.",
+        'services.s3.title': "Qidiruv va tahlil",
+        'services.s3.body': "Xodim so'rov kiritadi va ikki soniyada millionlab hujjatlar orasidan kerakli hujjatni oladi. So'z bo'yicha, ma'no bo'yicha yoki shart bo'yicha qidiradi. Savol beradi&nbsp;— sahifa va paragrafga havola bilan javob oladi.",
+        'services.s4.title': "Xavfsiz joylashtirish",
+        'services.s4.body': "Ma'lumotlar vazirlik serveridan chiqmaydi. AI modeli sizda ishlaydi, boshqalarning bulutida emas. Audit jurnali, shifrlash, kirishni cheklash&nbsp;— birinchi kundanoq tekshiruvga tayyor.",
+        'services.cta-prefix': "O'z vazifangizni shu yo'nalishlardan birida taniysizmi? ",
+        'services.cta-link': "Telegram'da gaplashamiz →",
+
+        'faq.eyebrow': "Tez-tez beriladigan savollar",
+        'faq.heading': "Yozishdan oldin",
+        'faq.q1.q': "Qancha turadi?",
+        'faq.q1.a': "Fixed-price emas. Vazifa va muhitga bog'liq. <strong class=\"text-slate-900\">Birinchi suhbat&nbsp;— 30 daqiqa, majburiyatlarsiz</strong>&nbsp;— shu yerda baholaymiz.",
+        'faq.q2.q': "Muddatlar qanday?",
+        'faq.q2.a': "Baholash&nbsp;— bir haftagacha. Prototip&nbsp;— 4–9 hafta. To'liq tizim&nbsp;— 2–9 oy. <strong class=\"text-slate-900\">Bir haftada shoshilinch MVP olmayman</strong>&nbsp;— bunday muddatlar odatda keyin qaytarish qiyin bo'lgan qarzga olib keladi.",
+        'faq.q3.q': "Masofadan yoki joyda?",
+        'faq.q3.a': "Gibrid. Asosiy joy&nbsp;— Toshkent. Yuqori xavfsizlik talablari bo'lgan loyihalar uchun&nbsp;— joyda, himoyalangan perimetrda. Qolganlari&nbsp;— masofadan.",
+        'faq.q4.q': "Bizda jamoa bo'lmasa-chi?",
+        'faq.q4.a': "Jamoa to'playman, sizning jamoangizga qo'shilaman yoki aralashma yig'amiz (mening yadrom + sizning o'rganuvchi odamlaringiz). Asosiysi&nbsp;— sizni qo'llab-quvvatlay olmaydigan tizim bilan qoldirmaslik.",
+
+        'contact.eyebrow': "Aloqa",
+        'contact.heading': "Agar siz <span class=\"underline-grad\">uzoq muddatli</span> nimadir<br class=\"hidden sm:inline\" /> quryotgan bo'lsangiz&nbsp;—<br class=\"hidden sm:inline\" /> yozing.",
+        'contact.subhead': "24 soat ichida javob beraman. Birinchi suhbat&nbsp;— 30 daqiqa, majburiyatlarsiz.",
+        'contact.fit.title': "Bu siz uchun, agar",
+        'contact.fit.1': "O'nlab yil ishlashi kerak bo'lgan tizim quryapsiz",
+        'contact.fit.2': "Foydalanuvchini tushunadigan arxitektor kerak bo'lgan mahsulot ishga tushiryapsiz",
+        'contact.fit.3': "E'tibor mahsulot va foydalanuvchining vazifasida.",
+        'contact.fit.4': "Haqiqiy muhandislik vazifasini muhokama qilmoqchisiz",
+        'contact.nofit.title': "Balki to'g'ri kelmaymiz, agar",
+        'contact.nofit.1': "Arxitektura muhokamasiz bir necha kunda prototip kerak.",
+        'contact.nofit.2': "Tanlovning asosiy mezoni&nbsp;— eng past narx.",
+        'contact.nofit.3': "Rejalashtirish bosqichida muddat va hajmni batafsil muhokama qilishga tayyor emassiz.",
+        'contact.nofit.4': "AI jamoaning qaror qabul qilishdagi ishtirokini almashtirishini kutyapsiz.",
+        'contact.cta': "Telegram'da yozish",
+        'contact.response': "24 soat ichida javob beraman",
+        'contact.email-label': "Pochta",
+
+        'footer.copy': "© 2026 Bilol Saidumarov · Toshkent",
+        'footer.posts': "/maqolalar"
+    }
+};
+
+function applyLang(lang) {
+    if (!I18N[lang]) lang = 'ru';
+    const dict = I18N[lang];
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] != null) el.innerHTML = dict[key];
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+
+    if (dict['page-title']) document.title = dict['page-title'];
+
+    try { localStorage.setItem('site-lang', lang); } catch (e) {}
+}
+
+document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => applyLang(b.getAttribute('data-lang')));
+});
+
+(function initLang() {
+    const params = new URLSearchParams(location.search);
+    const urlLang = params.get('lang');
+    let stored = null;
+    try { stored = localStorage.getItem('site-lang'); } catch (e) {}
+    const lang = (urlLang && I18N[urlLang]) ? urlLang
+               : (stored && I18N[stored]) ? stored
+               : 'ru';
+    applyLang(lang);
+})();
+</script>
 
 <script>
 // Scroll-reveal — sections fade in as they enter the viewport.

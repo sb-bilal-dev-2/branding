@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Резюме — Билол Саидумаров</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-feature-settings: 'cv11', 'ss01', 'ss03', 'cv01';
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            --accent: #c2410c;
+            --accent-deep: #9a3412;
+            --accent-soft: #fed7aa;
+        }
+        body { font-family: 'Inter', system-ui, sans-serif; overflow-wrap: break-word; }
+        h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; -webkit-hyphens: auto; }
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+        /* ─── Toolbar ──────────────────────────────────────────────── */
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 0.875rem; border-radius: 0.625rem;
+            font-size: 0.8125rem; font-weight: 500;
+            border: 1px solid #e2e8f0; background: #fff; color: #0f172a;
+            cursor: pointer; transition: all 160ms ease; white-space: nowrap;
+        }
+        .btn:hover { border-color: #cbd5e1; background: #f8fafc; }
+        .btn-primary {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+            box-shadow: 0 1px 0 rgba(154,52,18,0.3), 0 4px 14px -4px rgba(194,65,12,0.35);
+        }
+        .btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+
+        .lang-switch {
+            display: inline-flex; align-items: center; gap: 0;
+            background: #f1f5f9; border-radius: 0.5rem; padding: 0.1875rem;
+        }
+        .lang-btn {
+            padding: 0.25rem 0.625rem; font-size: 0.75rem; font-weight: 600;
+            border-radius: 0.375rem; cursor: pointer;
+            color: #64748b; background: transparent; border: none;
+            transition: all 160ms ease; letter-spacing: 0.02em;
+            min-width: 36px; min-height: 28px;
+        }
+        .lang-btn:hover:not(.active) { color: #0f172a; }
+        .lang-btn.active { color: #fff; background: var(--accent); }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px;
+        }
+
+        /* ─── Resume sheet ─────────────────────────────────────────── */
+        .sheet {
+            background: #fff;
+            max-width: 880px;
+            margin: 1.25rem auto 4rem;
+            padding: 2.75rem 3rem 3.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px -12px rgba(15,23,42,0.10);
+        }
+        .sheet h1 {
+            font-size: 1.875rem; font-weight: 700;
+            letter-spacing: -0.025em; color: #0f172a; line-height: 1.1;
+        }
+        .sheet .role-line {
+            font-size: 1rem; color: #475569; font-weight: 500;
+            margin-top: 0.375rem; letter-spacing: -0.005em;
+        }
+        .sheet .contact {
+            margin-top: 1rem; font-size: 0.8125rem; color: #475569;
+            display: flex; flex-wrap: wrap; gap: 0.25rem 1rem;
+            line-height: 1.6;
+        }
+        .sheet .contact a { color: var(--accent); text-decoration: none; }
+        .sheet .contact a:hover { color: var(--accent-deep); text-decoration: underline; }
+        .sheet .contact .dot { color: #cbd5e1; padding: 0 0.125rem; }
+
+        .sheet hr.divider {
+            border: 0; border-top: 1px solid #e2e8f0; margin: 1.5rem 0 1.25rem;
+        }
+
+        .sheet h2 {
+            font-size: 0.6875rem; letter-spacing: 0.12em; font-weight: 700;
+            text-transform: uppercase; color: var(--accent);
+            margin: 1.75rem 0 1rem;
+            padding-bottom: 0.4375rem; border-bottom: 1px solid var(--accent-soft);
+        }
+
+        .role-block { margin-bottom: 1.25rem; }
+        .role-block:last-child { margin-bottom: 0; }
+        .role-head {
+            display: flex; flex-wrap: wrap; align-items: baseline;
+            justify-content: space-between; gap: 0.25rem 1rem;
+        }
+        .role-title { font-weight: 600; color: #0f172a; font-size: 0.9375rem; }
+        .role-title .org { color: #0f172a; }
+        .role-meta {
+            font-size: 0.75rem; color: #64748b; font-style: italic;
+            font-variant-numeric: tabular-nums;
+        }
+        .role-stack {
+            font-size: 0.75rem; color: #64748b; margin-top: 0.1875rem;
+            line-height: 1.5;
+        }
+        .role-block ul {
+            margin-top: 0.5rem; padding-left: 1.125rem; list-style: disc;
+        }
+        .role-block li {
+            font-size: 0.8125rem; color: #334155; line-height: 1.55;
+            margin-bottom: 0.375rem;
+        }
+        .role-block li::marker { color: var(--accent); }
+        .role-block li:last-child { margin-bottom: 0; }
+        .role-block li a { color: var(--accent); text-decoration: none; }
+        .role-block li a:hover { text-decoration: underline; }
+
+        .skills p {
+            font-size: 0.8125rem; color: #334155; line-height: 1.65;
+            margin-bottom: 0.375rem;
+        }
+        .skills p strong { color: #0f172a; font-weight: 600; }
+
+        .languages-spoken {
+            font-size: 0.875rem; color: #334155; line-height: 1.7;
+        }
+        .languages-spoken strong { color: #0f172a; font-weight: 600; }
+
+        .education p {
+            font-size: 0.875rem; color: #334155; line-height: 1.6;
+        }
+
+        .projects p {
+            font-size: 0.8125rem; color: #334155; line-height: 1.6;
+            margin-bottom: 0.625rem;
+        }
+        .projects p:last-child { margin-bottom: 0; }
+        .projects p strong { color: #0f172a; font-weight: 600; }
+        .projects p a { color: var(--accent); text-decoration: none; }
+        .projects p a:hover { text-decoration: underline; }
+
+        /* ─── Mobile ───────────────────────────────────────────────── */
+        @media (max-width: 640px) {
+            .sheet {
+                padding: 1.5rem 1.25rem 2.25rem;
+                margin: 0.75rem 0 2rem;
+                border-radius: 0;
+                border-left: 0; border-right: 0;
+            }
+            .sheet h1 { font-size: 1.5rem; }
+            .role-head { flex-direction: column; align-items: flex-start; }
+            .role-meta { font-style: normal; font-size: 0.7rem; }
+        }
+
+        /* ─── Print / PDF ──────────────────────────────────────────── */
+        @page {
+            size: A4;
+            margin: 12mm 14mm;
+        }
+        @media print {
+            html, body { background: #fff !important; }
+            body { font-size: 10pt; }
+            .toolbar, .toolbar-spacer { display: none !important; }
+            .sheet {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: none !important;
+                border-radius: 0 !important;
+            }
+            .sheet h1 { font-size: 22pt; }
+            .sheet .role-line { font-size: 11pt; }
+            .sheet .contact { font-size: 8.5pt; gap: 0.125rem 0.625rem; }
+            .sheet h2 { font-size: 8pt; margin: 14pt 0 8pt; padding-bottom: 3pt; }
+            .role-title { font-size: 10.5pt; }
+            .role-meta { font-size: 8.5pt; font-style: italic; }
+            .role-stack { font-size: 8.5pt; }
+            .role-block li { font-size: 9.5pt; line-height: 1.45; margin-bottom: 3pt; }
+            .skills p { font-size: 9.5pt; line-height: 1.55; }
+            .languages-spoken { font-size: 9.5pt; }
+            .education p { font-size: 9.5pt; }
+            .projects p { font-size: 9.5pt; line-height: 1.5; }
+
+            /* keep things together that should stay together */
+            h2 { page-break-after: avoid; break-after: avoid; }
+            .role-block { page-break-inside: avoid; break-inside: avoid; }
+            .role-head { page-break-after: avoid; break-after: avoid; }
+
+            /* preserve accent colors in print */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            a { color: var(--accent) !important; text-decoration: none; }
+
+            /* avoid wide flex stacking weirdness in mobile print */
+            .role-head { flex-direction: row; align-items: baseline; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+<!-- ─── Toolbar ─────────────────────────────────────────────────────── -->
+<div class="toolbar sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-2 sm:gap-3">
+        <a href="/" class="text-sm text-slate-500 hover:text-slate-900 transition mr-auto whitespace-nowrap">
+            <span aria-hidden="true">←</span>
+            <span data-i18n="nav.back">Назад</span>
+        </a>
+
+        <div class="lang-switch" role="group" aria-label="Language">
+            <button class="lang-btn" data-lang="ru" type="button">RU</button>
+            <button class="lang-btn" data-lang="en" type="button">EN</button>
+            <button class="lang-btn" data-lang="uz" type="button">UZ</button>
+        </div>
+
+        <button id="print-btn" class="btn btn-primary" type="button">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6z"/>
+            </svg>
+            <span data-i18n="nav.print" class="hidden sm:inline">Скачать PDF</span>
+            <span data-i18n="nav.print-short" class="sm:hidden">PDF</span>
+        </button>
+    </div>
+</div>
+
+<!-- ─── Resume sheet ────────────────────────────────────────────────── -->
+<main class="sheet" id="resume">
+
+    <!-- Header -->
+    <header>
+        <h1 data-i18n="name">Билол Саидумаров</h1>
+        <div class="role-line" data-i18n="role-line">Senior Software Engineer · Основатель</div>
+        <div class="contact">
+            <span>00bilal@gmail.com</span>
+            <span class="dot">·</span>
+            <span>+998 90 936 66 92</span>
+            <span class="dot">·</span>
+            <span data-i18n="location">Ташкент, Узбекистан</span>
+            <span class="dot">·</span>
+            <a href="https://bilol-saidumarov.vercel.app" target="_blank" rel="noopener">bilol-saidumarov.vercel.app</a>
+            <span class="dot">·</span>
+            <a href="https://www.linkedin.com/in/bilol-saidumarov-30b795356/" target="_blank" rel="noopener">LinkedIn</a>
+            <span class="dot">·</span>
+            <a href="https://huggingface.co/bilalsaidumarov" target="_blank" rel="noopener">Hugging Face</a>
+            <span class="dot">·</span>
+            <a href="https://github.com/sb-bilal-dev-2" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </header>
+
+    <hr class="divider">
+
+    <!-- Summary -->
+    <section>
+        <h2 data-i18n="section.summary">Краткое резюме</h2>
+        <p data-i18n="summary" style="font-size:0.875rem; color:#334155; line-height:1.65;">
+            Инженер-программист с более чем 7-летним опытом промышленной разработки в&nbsp;области веба, мобильных приложений и&nbsp;ИИ. Сейчас основатель Vocoplay&nbsp;— ИИ-репетитора узбекского языка на&nbsp;собственных open-source моделях. Параллельно развиваю ARA&nbsp;— платформу document-intelligence для ведомств. Ранее строил автомобильные STT/TTS голосовые ассистенты и&nbsp;Python-пайплайны обработки речи в&nbsp;Xanavi. Носитель узбекского, фокус&nbsp;— NLP и&nbsp;речь для языков с&nbsp;ограниченными ресурсами, где готовые модели не&nbsp;справляются.
+        </p>
+    </section>
+
+    <!-- Experience -->
+    <section>
+        <h2 data-i18n="section.experience">Опыт работы</h2>
+
+        <!-- ARA -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="ara.title">Основатель</span> — <span class="org">ARA (AI Resource Assistant)</span>
+                    </div>
+                    <div class="role-stack">Python, FastAPI, PyTorch, Hugging Face, PostgreSQL, Qdrant, RabbitMQ, vLLM, Docker</div>
+                </div>
+                <div class="role-meta" data-i18n="ara.dates">Январь 2026 — настоящее время</div>
+            </div>
+            <ul>
+                <li data-i18n="ara.b1">Self-hosted платформа document-intelligence для архивов ведомственного масштаба&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.</li>
+                <li data-i18n="ara.b2">Дообучил Qwen 2.5 с&nbsp;LoRA и&nbsp;QLoRA на&nbsp;трёхъязычном (узбекский / русский / английский) корпусе из&nbsp;15 семейств задач&nbsp;— опубликовано как <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> и&nbsp;<a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. На&nbsp;7B QLoRA на&nbsp;отложенной выборке: JSON-валидность 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).</li>
+                <li data-i18n="ara.b3">QLoRA на&nbsp;7B помещается в&nbsp;~7.6 ГБ пика VRAM на&nbsp;одной RTX 4060&nbsp;— ~5 мин wall time, ~40 МБ адаптер; 0.5B LoRA обучается за&nbsp;~20 секунд.</li>
+                <li data-i18n="ara.b4">Асинхронный пайплайн end-to-end: FastAPI-шлюз (<200 мс p95), RabbitMQ-воркеры для OCR / embeddings / LLM, PostgreSQL как источник истины (3NF, Alembic), Qdrant + BGE-m3 гибридный BM25 / семантический поиск, append-only журнал аудита.</li>
+                <li data-i18n="ara.b5">Веду всю поверхность: выбор моделей, training&nbsp;& eval пайплайны, бэкенд, дашборд, лендинг, документацию, бренд.</li>
+            </ul>
+        </article>
+
+        <!-- Vocoplay -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="vocoplay.title">Основатель</span> — <span class="org">Vocoplay</span>
+                    </div>
+                    <div class="role-stack">Python, PyTorch, Hugging Face Transformers, FastAPI, Docker</div>
+                </div>
+                <div class="role-meta" data-i18n="vocoplay.dates">Сентябрь 2025 — настоящее время</div>
+            </div>
+            <ul>
+                <li data-i18n="vocoplay.b1">Строю узбекскую языковую платформу (мобильное приложение + чат-бот) на&nbsp;self-hosted open-source LLM&nbsp;— без зависимости от&nbsp;платных API.</li>
+                <li data-i18n="vocoplay.b2">Дообучаю 7B open-source LLM с&nbsp;SFT и&nbsp;LoRA/QLoRA на&nbsp;~20K-парном узбекском корпусе&nbsp;— рост downstream-точности на&nbsp;~18% против базовой модели.</li>
+                <li data-i18n="vocoplay.b3">Генерирую аудио уроков через FunAudioLLM (FunMusic)&nbsp;— ~60 часов материала, 12 клонированных голосов&nbsp;— даю учащимся узбекскую речь и&nbsp;музыку нативного качества.</li>
+                <li data-i18n="vocoplay.b4">Экономика аудиогенерации: self-hosting FunAudioLLM экономит ~$1k+ на&nbsp;единовременной генерации каталога и&nbsp;~$150/мес на&nbsp;свежем аудио по&nbsp;сравнению с&nbsp;ElevenLabs cloned-voice (~$0.30/1k символов), с&nbsp;нулевой маржинальной стоимостью каждой добавленной минуты, кроме электричества.</li>
+                <li data-i18n="vocoplay.b5">Масштабировал GPU генерации с&nbsp;~1 запроса/сек до&nbsp;~25 параллельных (~25× пропускная способность) через микробатчинг и&nbsp;тёплый пул клонированных голосов&nbsp;— p95 на&nbsp;запрос ≤2 сек. Пререндерил топ-200 уроков (~80% трафика) в&nbsp;дисковый кэш с&nbsp;медианой &lt;100 мс&nbsp;— GPU свободен под длинный хвост.</li>
+                <li data-i18n="vocoplay.b6">Проектирую NLP-пайплайн уроков, обратной связи и&nbsp;диалога&nbsp;— RAG-слой над ~5K чанков уроков с&nbsp;embedding-поиском, возвращает контекст за&nbsp;&lt;120 мс p95.</li>
+                <li data-i18n="vocoplay.b7">Деплою FastAPI-инференс на&nbsp;Docker/Linux на&nbsp;одной GPU с&nbsp;~800 мс p95; веду подготовку, препроцессинг датасета и&nbsp;воркфлоу оценки.</li>
+                <li data-i18n="vocoplay.b8">Веду продукт целиком вместе с&nbsp;инженерией: выбор моделей, бэкенд, мобильный UI/UX, бренд, питч-дек.</li>
+            </ul>
+        </article>
+
+        <!-- Xanavi -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="xanavi.title">Software Engineer</span> — <span class="org">Xanavi</span>
+                    </div>
+                    <div class="role-stack">Python, PyTorch, Hugging Face, STT/TTS, Android, Docker</div>
+                </div>
+                <div class="role-meta" data-i18n="xanavi.dates">Декабрь 2023 — Сентябрь 2025</div>
+            </div>
+            <ul>
+                <li data-i18n="xanavi.b1">Спроектировал кастомные STT/TTS голосовые ассистенты, встроенные в&nbsp;Android-систему серийных автомобилей (3 модельные линии).</li>
+                <li data-i18n="xanavi.b2">Построил Python-пайплайны анализа речи, обрабатывающие ~200 часов автомобильного аудио за&nbsp;цикл обучения&nbsp;— подготовка датасета, препроцессинг, оценка модели end-to-end.</li>
+                <li data-i18n="xanavi.b3">Обучал и&nbsp;адаптировал open-source модели речи под акустику салона&nbsp;— снизил WER на&nbsp;узбекском/русском с&nbsp;~22% до&nbsp;~9%.</li>
+                <li data-i18n="xanavi.b4">Сделал внутренние инструменты, ускорившие локализацию и&nbsp;кастомизацию автомобильного Android на&nbsp;~50%.</li>
+            </ul>
+        </article>
+
+        <!-- PressReader -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="pressreader.title">Software Engineer</span> — <span class="org">PressReader</span>
+                    </div>
+                    <div class="role-stack" data-i18n="pressreader.stack">Ванкувер, BC, Канада · Full-time · JavaScript, TypeScript, React, Node.js</div>
+                </div>
+                <div class="role-meta" data-i18n="pressreader.dates">Май 2022 — Декабрь 2023</div>
+            </div>
+            <ul>
+                <li data-i18n="pressreader.b1">Запустил общекорпоративный редизайн читательского приложения (миллионы ежемесячных читателей по&nbsp;всему миру)&nbsp;— заменил legacy UI современными full-stack флоу.</li>
+                <li data-i18n="pressreader.b2">Сделал 8+ внутренних инструментов и&nbsp;интеграций, поддерживающих приложение и&nbsp;редакционные процессы.</li>
+            </ul>
+        </article>
+
+        <!-- TENNISI -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="tennisi.title">Frontend Developer</span> — <span class="org">TENNISI</span>
+                    </div>
+                    <div class="role-stack" data-i18n="tennisi.stack">Москва, Россия · Next.js, React, SSR</div>
+                </div>
+                <div class="role-meta" data-i18n="tennisi.dates">Январь 2021 — Ноябрь 2021</div>
+            </div>
+            <ul>
+                <li data-i18n="tennisi.b1">Перевёл legacy SSR-кодбазу на&nbsp;новую дизайн-систему по&nbsp;всему продукту (~40 страниц), сократил first-paint на&nbsp;~35%.</li>
+            </ul>
+        </article>
+
+        <!-- OX Group -->
+        <article class="role-block">
+            <div class="role-head">
+                <div>
+                    <div class="role-title">
+                        <span data-i18n="oxgroup.title">JavaScript Developer</span> — <span class="org">OX Group</span>
+                    </div>
+                    <div class="role-stack">React, Node.js, Electron</div>
+                </div>
+                <div class="role-meta" data-i18n="oxgroup.dates">Апрель 2019 — Июнь 2020</div>
+            </div>
+            <ul>
+                <li data-i18n="oxgroup.b1">Построил кросс-платформенную POS-систему с&nbsp;нуля&nbsp;— Electron-клиент, Node.js-бэкенд, React-UI&nbsp;— развёрнуто в&nbsp;50+ розничных точках.</li>
+            </ul>
+        </article>
+    </section>
+
+    <!-- Skills -->
+    <section class="skills">
+        <h2 data-i18n="section.skills">Навыки</h2>
+        <p><strong data-i18n="skills.ai-label">ИИ / ML:</strong> PyTorch, Hugging Face Transformers, <span data-i18n="skills.ai-finetune">LLM-дообучение (SFT, LoRA/QLoRA, PEFT)</span>, RAG, <span data-i18n="skills.ai-embeddings">embedding-модели</span>, <span data-i18n="skills.ai-vectordb">векторные БД (pgvector, Qdrant)</span>, STT/TTS, <span data-i18n="skills.ai-audio">аудиогенерация (FunAudioLLM / FunMusic)</span>, NLP/NLU, <span data-i18n="skills.ai-lowres">языки с&nbsp;ограниченными ресурсами (узбекский)</span>, <span data-i18n="skills.ai-ocr">OCR / Document Understanding</span>, <span data-i18n="skills.ai-data">подготовка и&nbsp;оценка датасетов</span>, <span data-i18n="skills.ai-opt">оптимизация моделей (квантизация, vLLM, TensorRT-LLM)</span></p>
+        <p><strong data-i18n="skills.lang-label">Языки программирования:</strong> Python, JavaScript, TypeScript, SQL</p>
+        <p><strong data-i18n="skills.backend-label">Backend:</strong> FastAPI, Node.js, <span data-i18n="skills.backend-pg">PostgreSQL (индексирование и&nbsp;оптимизация запросов)</span>, MongoDB, Redis, pgvector, RabbitMQ</p>
+        <p><strong data-i18n="skills.frontend-label">Frontend:</strong> React, Next.js, Electron, TailwindCSS</p>
+        <p><strong data-i18n="skills.mobile-label">Mobile / Embedded:</strong> <span data-i18n="skills.mobile-val">Android (автомобильный), Flutter, React Native</span></p>
+        <p><strong data-i18n="skills.infra-label">Infra & DevOps:</strong> Docker, Linux, Git, CI/CD, GitHub Actions</p>
+        <p><strong data-i18n="skills.practice-label">Инженерная практика:</strong> <span data-i18n="skills.practice-val">проектирование систем, распределённые системы, асинхронное программирование, TDD, ревью кода и&nbsp;менторинг</span></p>
+        <p><strong data-i18n="skills.product-label">Продукт:</strong> <span data-i18n="skills.product-val">UI/UX, питч-деки, бренд и&nbsp;логотип, видеомонтаж</span></p>
+        <p><strong data-i18n="skills.other-label">Прочее:</strong> Jira, Agile</p>
+    </section>
+
+    <!-- Languages spoken -->
+    <section>
+        <h2 data-i18n="section.languages">Языки</h2>
+        <p class="languages-spoken" data-i18n="languages.spoken">
+            <strong>Узбекский</strong>&nbsp;— родной · <strong>Русский</strong>&nbsp;— родной · <strong>English</strong>&nbsp;— свободно
+        </p>
+    </section>
+
+    <!-- Education -->
+    <section class="education">
+        <h2 data-i18n="section.education">Образование</h2>
+        <p data-i18n="education.body">Самообразование</p>
+    </section>
+
+    <!-- Projects -->
+    <section class="projects">
+        <h2 data-i18n="section.projects">Избранные проекты</h2>
+        <p>
+            <strong>ARA (AI Resource Assistant)</strong>&nbsp;— <span data-i18n="projects.ara">Self-hosted платформа document-intelligence для государственных архивов; OCR + гибридный поиск + структурированная экстракция с&nbsp;кастомными Qwen 2.5 LoRA/QLoRA адаптерами на&nbsp;Hugging Face (100% JSON-валидность на&nbsp;отложенной выборке, 7.6 ГБ пика VRAM на&nbsp;RTX 4060). Основатель. 2026 — настоящее время.</span> <a href="https://ara-production-baa8.up.railway.app/" target="_blank" rel="noopener">ara-production-baa8.up.railway.app</a> <span data-i18n="projects.beta">(бета)</span> · <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">huggingface.co/bilalsaidumarov/ara-extract-7b-qlora</a>
+        </p>
+        <p>
+            <strong>Vocoplay</strong>&nbsp;— <span data-i18n="projects.vocoplay">ИИ-репетитор узбекского языка (приложение + бот) на&nbsp;self-hosted open-source LLM. Основатель. 2025 — настоящее время.</span> <a href="https://vocoplay.com" target="_blank" rel="noopener">vocoplay.com</a>
+        </p>
+        <p>
+            <strong>Xanavi Voice Assistant & Voice Analytics</strong>&nbsp;— <span data-i18n="projects.xanavi">Автомобильные STT/TTS на&nbsp;кастомных моделях. 2023 — 2025.</span> <a href="https://xanavi-ai.uz" target="_blank" rel="noopener">xanavi-ai.uz</a>
+        </p>
+        <p>
+            <strong>OX Retail POS</strong>&nbsp;— <span data-i18n="projects.oxgroup">Кросс-платформенная розничная POS-система на&nbsp;React + Electron. 2019 — 2020.</span> <a href="https://oxapp.io/en/products/oxretail/pos" target="_blank" rel="noopener">oxapp.io/en/products/oxretail/pos</a>
+        </p>
+    </section>
+
+</main>
+
+<script>
+// ─── i18n dictionary ───────────────────────────────────────────────────
+// Edit translations directly here. Markup (e.g. <a>, &nbsp;) is preserved
+// because we set innerHTML on each tagged element.
+const I18N = {
+    ru: {
+        'page-title': 'Резюме — Билол Саидумаров',
+        'nav.back': 'Назад',
+        'nav.print': 'Скачать PDF',
+        'nav.print-short': 'PDF',
+        'name': 'Билол Саидумаров',
+        'role-line': 'Senior Software Engineer · Основатель',
+        'location': 'Ташкент, Узбекистан',
+
+        'section.summary': 'Краткое резюме',
+        'section.experience': 'Опыт работы',
+        'section.skills': 'Навыки',
+        'section.languages': 'Языки',
+        'section.education': 'Образование',
+        'section.projects': 'Избранные проекты',
+
+        'summary': 'Инженер-программист с&nbsp;более чем 7-летним опытом промышленной разработки в&nbsp;области веба, мобильных приложений и&nbsp;ИИ. Сейчас основатель Vocoplay&nbsp;— ИИ-репетитора узбекского языка на&nbsp;собственных open-source моделях. Параллельно развиваю ARA&nbsp;— платформу document-intelligence для ведомств. Ранее строил автомобильные STT/TTS голосовые ассистенты и&nbsp;Python-пайплайны обработки речи в&nbsp;Xanavi. Носитель узбекского, фокус&nbsp;— NLP и&nbsp;речь для языков с&nbsp;ограниченными ресурсами, где готовые модели не&nbsp;справляются.',
+
+        'ara.title': 'Основатель',
+        'ara.dates': 'Январь 2026 — настоящее время',
+        'ara.b1': 'Self-hosted платформа document-intelligence для архивов ведомственного масштаба&nbsp;— OCR, гибридный поиск, структурированная экстракция и&nbsp;RAG с&nbsp;цитированием. Развёртывание в&nbsp;закрытом контуре, без зависимости от&nbsp;платных API.',
+        'ara.b2': 'Дообучил Qwen 2.5 с&nbsp;LoRA и&nbsp;QLoRA на&nbsp;трёхъязычном (узбекский / русский / английский) корпусе из&nbsp;15 семейств задач&nbsp;— опубликовано как <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> и&nbsp;<a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. На&nbsp;7B QLoRA на&nbsp;отложенной выборке: JSON-валидность 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
+        'ara.b3': 'QLoRA на&nbsp;7B помещается в&nbsp;~7.6 ГБ пика VRAM на&nbsp;одной RTX 4060&nbsp;— ~5 мин wall time, ~40 МБ адаптер; 0.5B LoRA обучается за&nbsp;~20 секунд.',
+        'ara.b4': 'Асинхронный пайплайн end-to-end: FastAPI-шлюз (&lt;200 мс p95), RabbitMQ-воркеры для OCR / embeddings / LLM, PostgreSQL как источник истины (3NF, Alembic), Qdrant + BGE-m3 гибридный BM25 / семантический поиск, append-only журнал аудита.',
+        'ara.b5': 'Веду всю поверхность: выбор моделей, training&nbsp;& eval пайплайны, бэкенд, дашборд, лендинг, документацию, бренд.',
+
+        'vocoplay.title': 'Основатель',
+        'vocoplay.dates': 'Сентябрь 2025 — настоящее время',
+        'vocoplay.b1': 'Строю узбекскую языковую платформу (мобильное приложение + чат-бот) на&nbsp;self-hosted open-source LLM&nbsp;— без зависимости от&nbsp;платных API.',
+        'vocoplay.b2': 'Дообучаю 7B open-source LLM с&nbsp;SFT и&nbsp;LoRA/QLoRA на&nbsp;~20K-парном узбекском корпусе&nbsp;— рост downstream-точности на&nbsp;~18% против базовой модели.',
+        'vocoplay.b3': 'Генерирую аудио уроков через FunAudioLLM (FunMusic)&nbsp;— ~60 часов материала, 12 клонированных голосов&nbsp;— даю учащимся узбекскую речь и&nbsp;музыку нативного качества.',
+        'vocoplay.b4': 'Экономика аудиогенерации: self-hosting FunAudioLLM экономит ~$1k+ на&nbsp;единовременной генерации каталога и&nbsp;~$150/мес на&nbsp;свежем аудио по&nbsp;сравнению с&nbsp;ElevenLabs cloned-voice (~$0.30/1k символов), с&nbsp;нулевой маржинальной стоимостью каждой добавленной минуты, кроме электричества.',
+        'vocoplay.b5': 'Масштабировал GPU генерации с&nbsp;~1 запроса/сек до&nbsp;~25 параллельных (~25× пропускная способность) через микробатчинг и&nbsp;тёплый пул клонированных голосов&nbsp;— p95 на&nbsp;запрос ≤2 сек. Пререндерил топ-200 уроков (~80% трафика) в&nbsp;дисковый кэш с&nbsp;медианой &lt;100 мс&nbsp;— GPU свободен под длинный хвост.',
+        'vocoplay.b6': 'Проектирую NLP-пайплайн уроков, обратной связи и&nbsp;диалога&nbsp;— RAG-слой над ~5K чанков уроков с&nbsp;embedding-поиском, возвращает контекст за&nbsp;&lt;120 мс p95.',
+        'vocoplay.b7': 'Деплою FastAPI-инференс на&nbsp;Docker/Linux на&nbsp;одной GPU с&nbsp;~800 мс p95; веду подготовку, препроцессинг датасета и&nbsp;воркфлоу оценки.',
+        'vocoplay.b8': 'Веду продукт целиком вместе с&nbsp;инженерией: выбор моделей, бэкенд, мобильный UI/UX, бренд, питч-дек.',
+
+        'xanavi.title': 'Software Engineer',
+        'xanavi.dates': 'Декабрь 2023 — Сентябрь 2025',
+        'xanavi.b1': 'Спроектировал кастомные STT/TTS голосовые ассистенты, встроенные в&nbsp;Android-систему серийных автомобилей (3 модельные линии).',
+        'xanavi.b2': 'Построил Python-пайплайны анализа речи, обрабатывающие ~200 часов автомобильного аудио за&nbsp;цикл обучения&nbsp;— подготовка датасета, препроцессинг, оценка модели end-to-end.',
+        'xanavi.b3': 'Обучал и&nbsp;адаптировал open-source модели речи под акустику салона&nbsp;— снизил WER на&nbsp;узбекском/русском с&nbsp;~22% до&nbsp;~9%.',
+        'xanavi.b4': 'Сделал внутренние инструменты, ускорившие локализацию и&nbsp;кастомизацию автомобильного Android на&nbsp;~50%.',
+
+        'pressreader.title': 'Software Engineer',
+        'pressreader.dates': 'Май 2022 — Декабрь 2023',
+        'pressreader.stack': 'Ванкувер, BC, Канада · Full-time · JavaScript, TypeScript, React, Node.js',
+        'pressreader.b1': 'Запустил общекорпоративный редизайн читательского приложения (миллионы ежемесячных читателей по&nbsp;всему миру)&nbsp;— заменил legacy UI современными full-stack флоу.',
+        'pressreader.b2': 'Сделал 8+ внутренних инструментов и&nbsp;интеграций, поддерживающих приложение и&nbsp;редакционные процессы.',
+
+        'tennisi.title': 'Frontend-разработчик',
+        'tennisi.dates': 'Январь 2021 — Ноябрь 2021',
+        'tennisi.stack': 'Москва, Россия · Next.js, React, SSR',
+        'tennisi.b1': 'Перевёл legacy SSR-кодбазу на&nbsp;новую дизайн-систему по&nbsp;всему продукту (~40 страниц), сократил first-paint на&nbsp;~35%.',
+
+        'oxgroup.title': 'JavaScript-разработчик',
+        'oxgroup.dates': 'Апрель 2019 — Июнь 2020',
+        'oxgroup.b1': 'Построил кросс-платформенную POS-систему с&nbsp;нуля&nbsp;— Electron-клиент, Node.js-бэкенд, React-UI&nbsp;— развёрнуто в&nbsp;50+ розничных точках.',
+
+        'skills.ai-label': 'ИИ / ML:',
+        'skills.ai-finetune': 'LLM-дообучение (SFT, LoRA/QLoRA, PEFT)',
+        'skills.ai-embeddings': 'embedding-модели',
+        'skills.ai-vectordb': 'векторные БД (pgvector, Qdrant)',
+        'skills.ai-audio': 'аудиогенерация (FunAudioLLM / FunMusic)',
+        'skills.ai-lowres': 'языки с&nbsp;ограниченными ресурсами (узбекский)',
+        'skills.ai-ocr': 'OCR / Document Understanding',
+        'skills.ai-data': 'подготовка и&nbsp;оценка датасетов',
+        'skills.ai-opt': 'оптимизация моделей (квантизация, vLLM, TensorRT-LLM)',
+        'skills.lang-label': 'Языки программирования:',
+        'skills.backend-label': 'Backend:',
+        'skills.backend-pg': 'PostgreSQL (индексирование и&nbsp;оптимизация запросов)',
+        'skills.frontend-label': 'Frontend:',
+        'skills.mobile-label': 'Mobile / Embedded:',
+        'skills.mobile-val': 'Android (автомобильный), Flutter, React Native',
+        'skills.infra-label': 'Infra & DevOps:',
+        'skills.practice-label': 'Инженерная практика:',
+        'skills.practice-val': 'проектирование систем, распределённые системы, асинхронное программирование, TDD, ревью кода и&nbsp;менторинг',
+        'skills.product-label': 'Продукт:',
+        'skills.product-val': 'UI/UX, питч-деки, бренд и&nbsp;логотип, видеомонтаж',
+        'skills.other-label': 'Прочее:',
+
+        'languages.spoken': '<strong>Узбекский</strong>&nbsp;— родной · <strong>Русский</strong>&nbsp;— родной · <strong>English</strong>&nbsp;— свободно',
+
+        'education.body': 'Самообразование',
+
+        'projects.ara': 'Self-hosted платформа document-intelligence для государственных архивов; OCR + гибридный поиск + структурированная экстракция с&nbsp;кастомными Qwen 2.5 LoRA/QLoRA адаптерами на&nbsp;Hugging Face (100% JSON-валидность на&nbsp;отложенной выборке, 7.6 ГБ пика VRAM на&nbsp;RTX 4060). Основатель. 2026 — настоящее время.',
+        'projects.beta': '(бета)',
+        'projects.vocoplay': 'ИИ-репетитор узбекского языка (приложение + бот) на&nbsp;self-hosted open-source LLM. Основатель. 2025 — настоящее время.',
+        'projects.xanavi': 'Автомобильные STT/TTS на&nbsp;кастомных моделях. 2023 — 2025.',
+        'projects.oxgroup': 'Кросс-платформенная розничная POS-система на&nbsp;React + Electron. 2019 — 2020.'
+    },
+
+    en: {
+        'page-title': 'Resume — Bilol Saidumarov',
+        'nav.back': 'Back',
+        'nav.print': 'Download PDF',
+        'nav.print-short': 'PDF',
+        'name': 'Bilol Saidumarov',
+        'role-line': 'Senior Software Engineer · Founder',
+        'location': 'Tashkent, Uzbekistan',
+
+        'section.summary': 'Summary',
+        'section.experience': 'Experience',
+        'section.skills': 'Skills',
+        'section.languages': 'Languages',
+        'section.education': 'Education',
+        'section.projects': 'Selected Projects',
+
+        'summary': 'Software engineer with 7+ years shipping production systems across web, mobile, and AI. Currently founding Vocoplay&nbsp;— an Uzbek-language AI tutor built on self-hosted open-source models&nbsp;— and previously built in-car STT/TTS voice assistants and Python speech pipelines at Xanavi. Native Uzbek speaker focused on low-resource-language NLP and speech, where off-the-shelf models fall short.',
+
+        'ara.title': 'Founder',
+        'ara.dates': 'January 2026 — Present',
+        'ara.b1': 'Self-hosted document-intelligence platform for ministry-scale archives&nbsp;— OCR, hybrid search, structured extraction, and citation-grounded RAG. Closed-perimeter deployment, no paid-API dependency.',
+        'ara.b2': 'Fine-tuned Qwen 2.5 with LoRA and QLoRA on a trilingual (Uzbek / Russian / English) corpus across 15 task families&nbsp;— published as <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> and <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a>. 7B QLoRA on held-out eval: JSON validity 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
+        'ara.b3': 'QLoRA on the 7B fits in ~7.6 GB peak VRAM on a single RTX 4060&nbsp;— ~5 min wall time, ~40 MB adapter; 0.5B LoRA trains in ~20 sec.',
+        'ara.b4': 'Async pipeline end-to-end: FastAPI gateway (&lt;200 ms p95), RabbitMQ workers for OCR / embedding / LLM, PostgreSQL as source of truth (3NF, Alembic), Qdrant + BGE-m3 hybrid BM25 / semantic retrieval, append-only audit log.',
+        'ara.b5': 'Owns the full surface: model selection, training & eval pipelines, backend, dashboard UI, landing page, docs, brand.',
+
+        'vocoplay.title': 'Founder',
+        'vocoplay.dates': 'September 2025 — Present',
+        'vocoplay.b1': 'Building an Uzbek language-learning platform (mobile app + chat bot) on self-hosted open-source LLMs instead of paid APIs.',
+        'vocoplay.b2': 'Fine-tuning 7B-parameter open-source LLMs with SFT and LoRA/QLoRA on a ~20k-pair Uzbek corpus, lifting downstream eval accuracy ~18% over the base model.',
+        'vocoplay.b3': 'Generating lesson audio with FunAudioLLM (FunMusic)&nbsp;— ~60 hours of material across 12 cloned voices&nbsp;— giving learners native-quality Uzbek speech and music.',
+        'vocoplay.b4': 'Cost-engineered audio generation: self-hosting FunAudioLLM offsets ~$1k+ in one-shot paid-TTS catalog generation and ~$150/month in ongoing fresh-lesson audio vs an ElevenLabs cloned-voice tier (~$0.30 / 1k chars), with zero marginal cost per added minute beyond electricity.',
+        'vocoplay.b5': 'Scaled the audio-gen GPU from ~1 sequential request to ~25 concurrent (~25× throughput) via microbatched inference and a warm voice-clone pool, keeping per-request p95 under ~2s. Pre-rendered the top 200 lessons (~80% of traffic) to a disk cache served at &lt;100ms median&nbsp;— freeing GPU capacity for the long tail.',
+        'vocoplay.b6': 'Designing the NLP pipeline behind lessons, feedback, and conversation&nbsp;— a RAG layer over ~5k lesson chunks with embedding-based retrieval returning context in &lt;120ms p95.',
+        'vocoplay.b7': 'Deploying FastAPI inference services on Docker/Linux, running on a single GPU at ~800ms p95; owning dataset preparation, preprocessing, and evaluation workflows.',
+        'vocoplay.b8': 'Owning the product end-to-end alongside engineering: model selection, backend, mobile UI/UX, brand, and pitch deck.',
+
+        'xanavi.title': 'Software Engineer',
+        'xanavi.dates': 'December 2023 — September 2025',
+        'xanavi.b1': 'Designed custom STT/TTS voice-assistant solutions embedded in the Android system shipped across 3 production vehicle model lines.',
+        'xanavi.b2': 'Built Python speech-analysis pipelines processing ~200 hours of in-car audio per training cycle, owning dataset preparation, preprocessing, and evaluation end-to-end.',
+        'xanavi.b3': 'Trained and adapted open-source speech models for in-car audio conditions&nbsp;— cut WER on Uzbek/Russian speakers from ~22% to ~9%.',
+        'xanavi.b4': 'Built internal tooling that cut localization and customization turnaround for the in-car Android system by ~50%.',
+
+        'pressreader.title': 'Software Engineer',
+        'pressreader.dates': 'May 2022 — December 2023',
+        'pressreader.stack': 'Vancouver, BC, Canada · Full-time · JavaScript, TypeScript, React, Node.js',
+        'pressreader.b1': 'Shipped the company-wide redesign across the reader app (millions of monthly readers globally), replacing legacy UI with modernized full-stack flows.',
+        'pressreader.b2': 'Built 8+ internal tools and integrations supporting the reader app and surrounding editorial workflows.',
+
+        'tennisi.title': 'Frontend Developer',
+        'tennisi.dates': 'January 2021 — November 2021',
+        'tennisi.stack': 'Moscow, Russia · Next.js, React, SSR',
+        'tennisi.b1': 'Migrated ~40 SSR pages onto a new design system across the full product, cutting first-paint by ~35%.',
+
+        'oxgroup.title': 'JavaScript Developer',
+        'oxgroup.dates': 'April 2019 — June 2020',
+        'oxgroup.b1': 'Built a cross-platform POS system from scratch&nbsp;— Electron desktop client, Node.js backend, React UI&nbsp;— deployed across 50+ retail locations.',
+
+        'skills.ai-label': 'AI / ML:',
+        'skills.ai-finetune': 'LLM fine-tuning (SFT, LoRA/QLoRA, PEFT)',
+        'skills.ai-embeddings': 'embedding models',
+        'skills.ai-vectordb': 'vector databases (pgvector, Qdrant)',
+        'skills.ai-audio': 'audio generation (FunAudioLLM / FunMusic)',
+        'skills.ai-lowres': 'low-resource languages (Uzbek)',
+        'skills.ai-ocr': 'OCR / Document Understanding',
+        'skills.ai-data': 'dataset preparation & evaluation',
+        'skills.ai-opt': 'model optimization (quantization, vLLM, TensorRT-LLM)',
+        'skills.lang-label': 'Languages:',
+        'skills.backend-label': 'Backend:',
+        'skills.backend-pg': 'PostgreSQL (indexing & query optimization)',
+        'skills.frontend-label': 'Frontend:',
+        'skills.mobile-label': 'Mobile / Embedded:',
+        'skills.mobile-val': 'Android (automotive), Flutter, React Native',
+        'skills.infra-label': 'Infra & DevOps:',
+        'skills.practice-label': 'Engineering practice:',
+        'skills.practice-val': 'system design, distributed systems, async programming, TDD, code review & mentoring',
+        'skills.product-label': 'Product:',
+        'skills.product-val': 'UI/UX, pitch decks, brand & logo, video editing',
+        'skills.other-label': 'Other:',
+
+        'languages.spoken': '<strong>Uzbek</strong>&nbsp;— native · <strong>Russian</strong>&nbsp;— native · <strong>English</strong>&nbsp;— fluent',
+
+        'education.body': 'Self-taught',
+
+        'projects.ara': 'Self-hosted document-intelligence platform for government archives; OCR + hybrid search + structured extraction with custom Qwen 2.5 LoRA/QLoRA adapters published on Hugging Face (100% JSON validity on held-out eval, 7.6 GB peak VRAM training on an RTX 4060). Founder. 2026 — present.',
+        'projects.beta': '(beta)',
+        'projects.vocoplay': 'Uzbek-language AI tutor (app + bot) on self-hosted open-source LLMs. Founder. 2025 — present.',
+        'projects.xanavi': 'In-car STT/TTS built on custom models. 2023 — 2025.',
+        'projects.oxgroup': 'Cross-platform retail point-of-sale built with React + Electron. 2019 — 2020.'
+    },
+
+    uz: {
+        'page-title': 'Rezyume — Bilol Saidumarov',
+        'nav.back': 'Orqaga',
+        'nav.print': "PDF yuklab olish",
+        'nav.print-short': 'PDF',
+        'name': 'Bilol Saidumarov',
+        'role-line': "Senior Software Engineer · Asoschisi",
+        'location': "Toshkent, O'zbekiston",
+
+        'section.summary': 'Qisqacha',
+        'section.experience': 'Ish tajribasi',
+        'section.skills': "Ko'nikmalar",
+        'section.languages': 'Tillar',
+        'section.education': "Ta'lim",
+        'section.projects': 'Tanlangan loyihalar',
+
+        'summary': "Veb, mobil va sun'iy intellekt sohalarida 7+ yillik tajribaga ega dasturchi. Hozir Vocoplay&nbsp;— o'z serveriga joylashtirilgan open-source modellar asosida o'zbek tilini o'rgatuvchi AI-tyutorni asoschisi. Parallel ravishda ARA&nbsp;— vazirliklar uchun hujjat-intellekt platformasini rivojlantiryapman. Avval Xanavi'da avtomobil ichi STT/TTS ovoz yordamchilarini va Python nutqni qayta ishlash pipeline'larini qurganman. O'zbek tili ona tili&nbsp;— kam-resursli tillar uchun NLP va nutq tanish bo'yicha mutaxassis, bunda tayyor modellar yetishmaydi.",
+
+        'ara.title': 'Asoschisi',
+        'ara.dates': 'Yanvar 2026 — hozirgi vaqt',
+        'ara.b1': "Vazirlik miqyosidagi arxivlar uchun o'z serveriga joylashtirilgan hujjat-intellekt platformasi&nbsp;— OCR, gibrid qidiruv, tuzilmali ekstraksiya va iqtibos asosli RAG. Yopiq perimetrda joylashtirish, pullik API'larga bog'liqliksiz.",
+        'ara.b2': 'Qwen 2.5 ni LoRA va QLoRA bilan uch tilli (o\'zbek / rus / ingliz) korpusda 15 vazifa oilasi bo\'yicha fine-tune qildim&nbsp;— <a href="https://huggingface.co/bilalsaidumarov/ara-extract-v1" target="_blank" rel="noopener">bilalsaidumarov/ara-extract-v1</a> va <a href="https://huggingface.co/bilalsaidumarov/ara-extract-7b-qlora" target="_blank" rel="noopener">ara-extract-7b-qlora</a> sifatida nashr etildi. 7B QLoRA test natijalari: JSON validligi 0%&nbsp;→ 100%, exact-match 0%&nbsp;→ 26.3%, char-similarity 0.166&nbsp;→ 0.610 (~3.7×).',
+        'ara.b3': "7B uchun QLoRA bitta RTX 4060'da ~7.6 GB cho'qqi VRAM'ga sig'adi&nbsp;— ~5 daqiqa, ~40 MB adapter; 0.5B LoRA ~20 soniyada o'qitiladi.",
+        'ara.b4': "End-to-end asinxron pipeline: FastAPI shlyuz (&lt;200 ms p95), OCR / embedding / LLM uchun RabbitMQ ishchilari, manba sifatida PostgreSQL (3NF, Alembic), Qdrant + BGE-m3 gibrid BM25 / semantik qidiruv, faqat qo'shish audit jurnali.",
+        'ara.b5': "Butun sirtni boshqaryapman: model tanlash, training & eval pipeline'lari, backend, dashboard UI, landing page, hujjatlar, brend.",
+
+        'vocoplay.title': 'Asoschisi',
+        'vocoplay.dates': 'Sentyabr 2025 — hozirgi vaqt',
+        'vocoplay.b1': "Pullik API'lar o'rniga o'z serveriga joylashtirilgan open-source LLM'larda o'zbek tilini o'rgatuvchi platforma (mobil app + chat bot) quryapman.",
+        'vocoplay.b2': "7B open-source LLM'larni SFT va LoRA/QLoRA bilan ~20K-juftlik o'zbek korpusida fine-tune qilyapman&nbsp;— bazaga nisbatan downstream aniqligini ~18% oshirgan.",
+        'vocoplay.b3': "FunAudioLLM (FunMusic) orqali darslar uchun audio generatsiya qilyapman&nbsp;— ~60 soat material, 12 klonlangan ovoz&nbsp;— o'rganuvchilarga ona tili sifatida o'zbek nutqi va musiqasi.",
+        'vocoplay.b4': "Audio generatsiyasi iqtisodi: FunAudioLLM ni o'z serverida saqlash ElevenLabs cloned-voice (~$0.30 / 1k belgi) ga nisbatan bir martalik katalog generatsiyada ~$1k+ va doimiy yangi audio uchun ~$150/oy tejaydi, elektrdan tashqari qo'shimcha har bir daqiqaning chegaraviy narxi nol.",
+        'vocoplay.b5': "Audio-gen GPU'sini ~1 ketma-ket so'rovdan ~25 parallelga (~25× o'tkazuvchanlik) microbatch inferens va issiq klonlangan ovoz puli orqali masshtabladim, har bir so'rovda p95 ~2s ostida. Eng mashhur 200 ta darsni (~80% trafik) disk keshiga oldindan rendering qildim, mediana &lt;100ms&nbsp;— GPU uzun quyruq uchun bo'sh.",
+        'vocoplay.b6': "Darslar, feedback va suhbat ortidagi NLP pipeline'ni loyihalashtiryapman&nbsp;— ~5K dars bo'lagi ustidan RAG qatlami, embedding asosli izlash kontekstni &lt;120ms p95'da qaytaradi.",
+        'vocoplay.b7': "FastAPI inferens xizmatlarini Docker/Linux'da, bitta GPU'da ~800ms p95'da deploy qilyapman; datasetni tayyorlash, oldindan ishlov berish va baholash ish jarayonlarini olib boryapman.",
+        'vocoplay.b8': "Mahsulotni mutlaqo o'zim boshqaryapman: model tanlash, backend, mobil UI/UX, brend va pitch deck.",
+
+        'xanavi.title': 'Software Engineer',
+        'xanavi.dates': 'Dekabr 2023 — Sentyabr 2025',
+        'xanavi.b1': "Seriyali avtomobillarning Android tizimiga (3 model liniyasi) o'rnatilgan maxsus STT/TTS ovoz yordamchilarini loyihalashtirdim.",
+        'xanavi.b2': "Har bir o'qitish siklida ~200 soat avtomobil ichi audio qayta ishlaydigan Python nutq tahlili pipeline'larini qurdim&nbsp;— datasetni tayyorlash, oldindan ishlov berish va model baholash end-to-end.",
+        'xanavi.b3': "Salon akustikasi sharoitlari uchun open-source nutq modellarini o'qitdim va moslashtirdim&nbsp;— o'zbek/rus tilida WER ni ~22%'dan ~9%'ga tushirdim.",
+        'xanavi.b4': "Avtomobil Android'ni mahalliylashtirish va kastomlashtirish vaqtini ~50% qisqartirgan ichki vositalarni qurdim.",
+
+        'pressreader.title': 'Software Engineer',
+        'pressreader.dates': 'May 2022 — Dekabr 2023',
+        'pressreader.stack': "Vankuver, BC, Kanada · To'liq stavka · JavaScript, TypeScript, React, Node.js",
+        'pressreader.b1': "Kompaniya bo'ylab reader app redizaynini (oyiga millionlab o'quvchilar bilan) chiqardim, eski UI'ni zamonaviy full-stack oqimlar bilan almashtirdim.",
+        'pressreader.b2': "Reader app va atrofdagi tahririyat oqimlarini qo'llab-quvvatlovchi 8+ ichki vositalar va integratsiyalar qurdim.",
+
+        'tennisi.title': 'Frontend dasturchi',
+        'tennisi.dates': 'Yanvar 2021 — Noyabr 2021',
+        'tennisi.stack': 'Moskva, Rossiya · Next.js, React, SSR',
+        'tennisi.b1': "~40 SSR sahifani butun mahsulot bo'ylab yangi dizayn tizimiga ko'chirdim, first-paint vaqtini ~35% qisqartirdim.",
+
+        'oxgroup.title': 'JavaScript dasturchi',
+        'oxgroup.dates': 'Aprel 2019 — Iyun 2020',
+        'oxgroup.b1': "Noldan kross-platforma POS tizimini qurdim&nbsp;— Electron desktop klient, Node.js backend, React UI&nbsp;— 50+ chakana savdo nuqtalarida joylashtirildi.",
+
+        'skills.ai-label': "AI / ML:",
+        'skills.ai-finetune': "LLM fine-tuning (SFT, LoRA/QLoRA, PEFT)",
+        'skills.ai-embeddings': "embedding modellari",
+        'skills.ai-vectordb': "vektor ma'lumotlar bazalari (pgvector, Qdrant)",
+        'skills.ai-audio': "audio generatsiya (FunAudioLLM / FunMusic)",
+        'skills.ai-lowres': "kam-resursli tillar (o'zbek)",
+        'skills.ai-ocr': "OCR / Hujjatlarni tushunish",
+        'skills.ai-data': "datasetni tayyorlash va baholash",
+        'skills.ai-opt': "model optimizatsiyasi (kvantlash, vLLM, TensorRT-LLM)",
+        'skills.lang-label': "Dasturlash tillari:",
+        'skills.backend-label': "Backend:",
+        'skills.backend-pg': "PostgreSQL (indekslash va so'rov optimizatsiyasi)",
+        'skills.frontend-label': "Frontend:",
+        'skills.mobile-label': "Mobil / Embedded:",
+        'skills.mobile-val': "Android (avtomobil), Flutter, React Native",
+        'skills.infra-label': "Infra & DevOps:",
+        'skills.practice-label': "Muhandislik amaliyoti:",
+        'skills.practice-val': "tizim dizayni, taqsimlangan tizimlar, asinxron dasturlash, TDD, kod review va mentorlik",
+        'skills.product-label': "Mahsulot:",
+        'skills.product-val': "UI/UX, pitch deck, brend va logotip, video tahrirlash",
+        'skills.other-label': "Boshqalar:",
+
+        'languages.spoken': "<strong>O'zbek</strong>&nbsp;— ona tili · <strong>Rus</strong>&nbsp;— ona tili · <strong>English</strong>&nbsp;— erkin",
+
+        'education.body': "Mustaqil ta'lim",
+
+        'projects.ara': "Davlat arxivlari uchun o'z serveriga joylashtirilgan hujjat-intellekt platformasi; OCR + gibrid qidiruv + tuzilmali ekstraksiya, Hugging Face'da nashr etilgan maxsus Qwen 2.5 LoRA/QLoRA adapterlari (test natijalarida 100% JSON validligi, RTX 4060'da 7.6 GB cho'qqi VRAM). Asoschisi. 2026 — hozirgi vaqt.",
+        'projects.beta': "(beta)",
+        'projects.vocoplay': "O'z serveriga joylashtirilgan open-source LLM'lar asosida o'zbek tilini o'rgatuvchi AI tyutor (app + bot). Asoschisi. 2025 — hozirgi vaqt.",
+        'projects.xanavi': "Maxsus modellar asosida avtomobil ichi STT/TTS. 2023 — 2025.",
+        'projects.oxgroup': "React + Electron asosida kross-platforma chakana POS tizimi. 2019 — 2020."
+    }
+};
+
+// ─── i18n engine ───────────────────────────────────────────────────────
+function applyLang(lang) {
+    if (!I18N[lang]) lang = 'ru';
+    const dict = I18N[lang];
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] != null) el.innerHTML = dict[key];
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+
+    if (dict['page-title']) document.title = dict['page-title'];
+
+    try { localStorage.setItem('site-lang', lang); } catch (e) {}
+}
+
+document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => applyLang(b.getAttribute('data-lang')));
+});
+
+document.getElementById('print-btn').addEventListener('click', () => {
+    // Slight delay so the active language fully renders before the print
+    // dialog snapshots the document on slower mobile browsers.
+    setTimeout(() => window.print(), 50);
+});
+
+// Initial language: ?lang= → localStorage → 'ru'
+(function init() {
+    const params = new URLSearchParams(location.search);
+    const urlLang = params.get('lang');
+    let stored = null;
+    try { stored = localStorage.getItem('site-lang'); } catch (e) {}
+    const lang = (urlLang && I18N[urlLang]) ? urlLang
+               : (stored && I18N[stored]) ? stored
+               : 'ru';
+    applyLang(lang);
+})();
+</script>
+</body>
+</html>
