@@ -1,6 +1,6 @@
 # Bilol Saidumarov
 
-**Senior Software Engineer · Founder**
+**AI Architect · Software Engineer**
 
 · 00bilal@gmail.com
 · +998909366692
