@@ -601,12 +601,13 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-2">
                         <span class="stat-num text-xs principle-num mono font-semibold">04</span>
-                        <h3 data-i18n="principles.p4.title" class="font-semibold text-slate-900">Сначала данные, потом — всё остальное</h3>
+                        <h3 data-i18n="principles.p4.title" class="font-semibold text-slate-900">Сначала люди, потом — всё остальное</h3>
                     </div>
                     <p data-i18n="principles.p4.body" class="text-slate-600 leading-relaxed">
-                        Перед красивым интерфейсом и модным ИИ стоит правильно спроектированная база данных.
-                        Если данные хранятся аккуратно — система проработает десятилетия без переписывания.
-                        Если нет — каждое обновление становится болью.
+                        Перед базой данных, бэкендом и модным ИИ стоят люди, которые этим будут
+                        пользоваться. Что они на&nbsp;самом деле пытаются сделать. Зачем они&nbsp;включают
+                        эту систему по&nbsp;утрам. Без этого даже идеально спроектированная архитектура
+                        решает не&nbsp;ту задачу. С&nbsp;этим — даже простая система становится незаменимой.
                     </p>
                 </div>
             </div>
@@ -1067,8 +1068,8 @@ const I18N = {
         'principles.p2.body': 'Любая система должна быть готова к реальной нагрузке и реальным проверкам сразу, а не «доделаем потом». Резервное копирование, мониторинг, журнал аудита, защита от сбоев, восстановление после аварий — это не вторая фаза проекта. Это фундамент. Без него через год система превращается в источник проблем, который страшно трогать.',
         'principles.p3.title': 'Сложность — только там, где без неё нельзя',
         'principles.p3.body': 'Дополнительные серверы, очереди задач, резервные узлы — добавляются, когда без них действительно не справиться. Не потому, что «так модно». Простое решение, которое работает, лучше сложного, которое выглядит впечатляюще.',
-        'principles.p4.title': 'Сначала данные, потом — всё остальное',
-        'principles.p4.body': 'Перед красивым интерфейсом и модным ИИ стоит правильно спроектированная база данных. Если данные хранятся аккуратно — система проработает десятилетия без переписывания. Если нет — каждое обновление становится болью.',
+        'principles.p4.title': 'Сначала люди, потом — всё остальное',
+        'principles.p4.body': 'Перед базой данных, бэкендом и модным ИИ стоят люди, которые этим будут пользоваться. Что они на&nbsp;самом деле пытаются сделать. Зачем они&nbsp;включают эту систему по&nbsp;утрам. Без этого даже идеально спроектированная архитектура решает не&nbsp;ту задачу. С&nbsp;этим — даже простая система становится незаменимой.',
 
         'angle.eyebrow': 'Угол зрения',
         'angle.heading': 'Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.',
@@ -1190,8 +1191,8 @@ const I18N = {
         'principles.p2.body': "Any system has to be ready for real load and real audits from the start&nbsp;— not as a «we'll do it later» afterthought. Backups, monitoring, audit logs, fault tolerance, disaster recovery&nbsp;— these aren't phase two. They're the foundation. Without them, a year in, the system becomes a problem nobody wants to touch.",
         'principles.p3.title': "Complexity only where it's truly needed",
         'principles.p3.body': "Extra servers, task queues, redundant nodes&nbsp;— added when there's no other way. Not because «it's trendy». A simple solution that works beats an impressive-looking one that doesn't.",
-        'principles.p4.title': 'Data first, everything else later',
-        'principles.p4.body': "Before a slick interface and trendy AI comes a properly designed database. If the data is stored cleanly, the system will run for decades without rewrites. If not, every update becomes painful.",
+        'principles.p4.title': 'People first, everything else later',
+        'principles.p4.body': "Before the database, the backend, and the trendy AI come the people who'll actually use it. What they're really trying to do. Why they open the system in the morning. Without that, even a perfectly designed architecture solves the wrong problem. With it&nbsp;— even a simple system becomes indispensable.",
 
         'angle.eyebrow': 'Angle',
         'angle.heading': 'Looks strange&nbsp;—<br class="hidden sm:inline" />until you look closer.',
@@ -1313,8 +1314,8 @@ const I18N = {
         'principles.p2.body': "Har qanday tizim real yuk va real tekshiruvlarga darhol tayyor bo'lishi kerak, «keyin qilamiz» deb emas. Zaxira nusxa, monitoring, audit jurnali, xatolardan himoya, halokatlardan tiklanish&nbsp;— bular loyihaning ikkinchi bosqichi emas. Bu poydevor. Usiz bir yildan keyin tizim tegishga qo'rqiladigan muammolar manbasiga aylanadi.",
         'principles.p3.title': "Murakkablik&nbsp;— faqat zarur joylarda",
         'principles.p3.body': "Qo'shimcha serverlar, vazifa navbatlari, zaxira tugunlar&nbsp;— ulardan boshqa iloji bo'lmaganda qo'shiladi. «Mashhur» bo'lgani uchun emas. Ishlovchi sodda yechim ta'sirli ko'rinadigan murakkab yechimdan yaxshi.",
-        'principles.p4.title': "Avval ma'lumot, keyin&nbsp;— qolgan hammasi",
-        'principles.p4.body': "Chiroyli interfeys va modan AI'dan oldin to'g'ri loyihalashtirilgan ma'lumotlar bazasi turadi. Agar ma'lumotlar tartibli saqlansa&nbsp;— tizim o'nlab yillar qayta yozishlarsiz ishlaydi. Aks holda&nbsp;— har bir yangilanish azobga aylanadi.",
+        'principles.p4.title': "Avval odamlar, keyin&nbsp;— qolgan hammasi",
+        'principles.p4.body': "Ma'lumotlar bazasi, backend va modan AI'dan oldin shu tizimdan foydalanadigan odamlar turadi. Ular aslida nima qilishni xohlaydi. Tizimni ertalab nima uchun ochishadi. Bunsiz hatto ideal loyihalashtirilgan arxitektura noto'g'ri vazifani hal qiladi. U bilan&nbsp;— hatto sodda tizim ham almashtirib bo'lmas bo'lib qoladi.",
 
         'angle.eyebrow': "Nigoh burchagi",
         'angle.heading': "G'alati ko'rinadi&nbsp;—<br class=\"hidden sm:inline\" />tushunib olguningizcha.",
