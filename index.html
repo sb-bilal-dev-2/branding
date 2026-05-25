@@ -637,7 +637,7 @@
             <div>
                 <div data-i18n="angle.eyebrow" class="eyebrow mb-3">Угол зрения</div>
                 <h2 data-i18n="angle.heading" class="text-2xl font-semibold text-slate-900 tracking-tight leading-tight">
-                    Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.
+                    Кажется неважным —<br class="hidden sm:inline" />и работает дольше всего.
                 </h2>
                 <p data-i18n="angle.subhead" class="text-sm text-slate-500 mt-4 leading-relaxed">
                     Это база. Многие просто<br class="hidden sm:inline" />не знают.
@@ -802,9 +802,9 @@
                     <h3 data-i18n="services.s2.title" class="font-semibold text-slate-900">ИИ как инструмент</h3>
                 </div>
                 <p data-i18n="services.s2.body" class="text-sm text-slate-600 leading-relaxed">
-                    LLM fine-tuning, OCR, STT/TTS, генерация аудио&nbsp;— практическая работа
-                    с&nbsp;open-source моделями. Дообучаю на&nbsp;ваших данных, оцениваю метриками,
-                    держу классическое решение рядом&nbsp;— на&nbsp;случай, когда модель ошибается.
+                    LLM, OCR, STT/TTS, генерация аудио на&nbsp;open-source моделях. Архитектура
+                    с&nbsp;тестами на&nbsp;регрессию, метриками качества и&nbsp;классическим решением
+                    рядом&nbsp;— на&nbsp;случай, когда модель ошибается. Без слепой веры в&nbsp;чужой API.
                 </p>
             </div>
             <div>
@@ -821,12 +821,13 @@
             <div>
                 <div class="flex items-baseline gap-3 mb-3">
                     <span class="stat-num text-xs principle-num mono font-semibold">04</span>
-                    <h3 data-i18n="services.s4.title" class="font-semibold text-slate-900">Закрытое развёртывание</h3>
+                    <h3 data-i18n="services.s4.title" class="font-semibold text-slate-900">Стратегия зависимостей</h3>
                 </div>
                 <p data-i18n="services.s4.body" class="text-sm text-slate-600 leading-relaxed">
-                    Данные не&nbsp;покидают сервер ведомства. Модели работают локально, без чужого
-                    облака. Журнал аудита, шифрование, разграничение доступа&nbsp;— готовы к&nbsp;проверке
-                    с&nbsp;первого дня.
+                    Зависимости&nbsp;— это инструмент, а&nbsp;не зло. SaaS, API, готовое решение иногда
+                    экономят месяцы. Вопрос не&nbsp;«брать или нет», а&nbsp;«какие можно откатить через
+                    год, а&nbsp;какие въедутся в&nbsp;архитектуру навсегда». Покажу, где можно срезать
+                    ради скорости, а&nbsp;где это будет стоить пяти лет жизни.
                 </p>
             </div>
         </div>
@@ -1072,7 +1073,7 @@ const I18N = {
         'principles.p4.body': 'Языковые модели иногда ошибаются и&nbsp;сочиняют факты. Поэтому в&nbsp;серьёзной системе ИИ закрыт тестами и&nbsp;метриками качества, а&nbsp;рядом всегда есть проверенное классическое решение&nbsp;— на&nbsp;случай, когда модель ошибается. Чудес здесь нет&nbsp;— есть инженерия.',
 
         'angle.eyebrow': 'Угол зрения',
-        'angle.heading': 'Кажется странным —<br class="hidden sm:inline" />пока не разберёшься.',
+        'angle.heading': 'Кажется неважным —<br class="hidden sm:inline" />и работает дольше всего.',
         'angle.subhead': 'Это база. Многие просто<br class="hidden sm:inline" />не знают.',
         'angle.p1': 'Я использую подходы, которые иногда выглядят непривычно. <strong>Например, музыку для изучения языка.</strong> Это не оригинальность — это фундамент. Английский алфавит взрослые помнят не из учебника, а из песенки «ABCDEFG». Считать дети учатся не по таблице, а через «раз-два-три-четыре-пять, вышел зайчик погулять». «Billie Jean» помнят миллиарды людей наизусть — а лекцию из университета не помнит почти никто. Это не случайность.',
         'angle.p2': 'Мозг изначально устроен под ритм, мелодию и&nbsp;повторение&nbsp;— а&nbsp;не&nbsp;под параграфы и&nbsp;таблицы. Первый язык ребёнок осваивает через песни и&nbsp;интонацию, не&nbsp;через грамматику. <strong>В&nbsp;серьёзном обучении взрослых эта база чаще всего пропущена.</strong>',
@@ -1104,11 +1105,11 @@ const I18N = {
         'services.s1.title': 'Долговечная архитектура',
         'services.s1.body': 'Базы данных, которые не&nbsp;теряют записи. Очереди задач, которые помнят каждое задание. Восстановление после сбоев&nbsp;— встроенное, а&nbsp;не приклеенное. Фундамент, на&nbsp;котором держится всё остальное.',
         'services.s2.title': 'ИИ как инструмент',
-        'services.s2.body': 'LLM fine-tuning, OCR, STT/TTS, генерация аудио&nbsp;— практическая работа с&nbsp;open-source моделями. Дообучаю на&nbsp;ваших данных, оцениваю метриками, держу классическое решение рядом&nbsp;— на&nbsp;случай, когда модель ошибается.',
+        'services.s2.body': 'LLM, OCR, STT/TTS, генерация аудио на&nbsp;open-source моделях. Архитектура с&nbsp;тестами на&nbsp;регрессию, метриками качества и&nbsp;классическим решением рядом&nbsp;— на&nbsp;случай, когда модель ошибается. Без слепой веры в&nbsp;чужой API.',
         'services.s3.title': 'Продукт целиком',
         'services.s3.body': 'От&nbsp;идеи до&nbsp;запуска: бэкенд, мобильное приложение, бот, дашборд, бренд. Не&nbsp;«MVP за&nbsp;выходные», а&nbsp;продукт, который человек захочет открыть второй раз. Архитектура, инженерия, UX, текст, логотип.',
-        'services.s4.title': 'Закрытое развёртывание',
-        'services.s4.body': 'Данные не&nbsp;покидают сервер ведомства. Модели работают локально, без чужого облака. Журнал аудита, шифрование, разграничение доступа&nbsp;— готовы к&nbsp;проверке с&nbsp;первого дня.',
+        'services.s4.title': 'Стратегия зависимостей',
+        'services.s4.body': 'Зависимости&nbsp;— это инструмент, а&nbsp;не зло. SaaS, API, готовое решение иногда экономят месяцы. Вопрос не&nbsp;«брать или нет», а&nbsp;«какие можно откатить через год, а&nbsp;какие въедутся в&nbsp;архитектуру навсегда». Покажу, где можно срезать ради скорости, а&nbsp;где это будет стоить пяти лет жизни.',
         'services.cta-prefix': 'Узнаёте свою задачу в одном из направлений? ',
         'services.cta-link': 'Обсудим в Telegram →',
 
@@ -1195,7 +1196,7 @@ const I18N = {
         'principles.p4.body': "Language models sometimes get it wrong and invent facts. So in any serious system, the AI is wrapped in tests and quality metrics, with a proven classical fallback right next to it&nbsp;— for when the model fails. There are no miracles here&nbsp;— there's engineering.",
 
         'angle.eyebrow': 'Angle',
-        'angle.heading': 'Looks strange&nbsp;—<br class="hidden sm:inline" />until you look closer.',
+        'angle.heading': 'Looks unimportant&nbsp;—<br class="hidden sm:inline" />and lasts the longest.',
         'angle.subhead': 'This is the foundation. Most<br class="hidden sm:inline" />people just don’t know it.',
         'angle.p1': "I use approaches that sometimes look unconventional. <strong>For example, music for learning a language.</strong> That isn't novelty&nbsp;— that's foundation. Adults don't remember the English alphabet from a textbook; they remember the «ABCDEFG» song. Kids don't learn to count from a table; they learn through nursery rhymes. Billions of people know «Billie Jean» by heart&nbsp;— almost nobody remembers a university lecture. That isn't an accident.",
         'angle.p2': "The brain is wired for rhythm, melody, and repetition&nbsp;— not paragraphs and tables. A child's first language comes from songs and intonation, not grammar. <strong>In serious adult learning, this foundation is the part most often skipped.</strong>",
@@ -1227,11 +1228,11 @@ const I18N = {
         'services.s1.title': 'Enduring architecture',
         'services.s1.body': "Databases that don't lose records. Task queues that remember every job. Disaster recovery built in, not bolted on. The foundation everything else stands on.",
         'services.s2.title': 'AI as a tool',
-        'services.s2.body': "LLM fine-tuning, OCR, STT/TTS, audio generation&nbsp;— hands-on work with open-source models. Adapted to your data, measured by metrics, with a classical fallback alongside&nbsp;— for when the model fails.",
+        'services.s2.body': "LLM, OCR, STT/TTS, audio generation on open-source models. Architecture with regression tests, quality metrics, and a classical fallback alongside&nbsp;— for when the model fails. No blind faith in a black-box API.",
         'services.s3.title': 'The whole product',
         'services.s3.body': "From idea to launch: backend, mobile app, bot, dashboard, brand. Not a \"weekend MVP,\" but a product someone will open a second time. Architecture, engineering, UX, copy, logo.",
-        'services.s4.title': 'Closed-perimeter deployment',
-        'services.s4.body': "Data doesn't leave the ministry's server. Models run locally, no third-party cloud. Audit log, encryption, access control&nbsp;— ready for review from day one.",
+        'services.s4.title': 'Architecture without the trap',
+        'services.s4.body': "Dependencies aren't the enemy. SaaS, APIs, off-the-shelf solutions&nbsp;— sometimes they save six months. The question isn't whether to take them, but which ones you can swap out a year later and which ones will eat into your architecture for the next five. I'll tell you where you can move fast without setting the trap.",
         'services.cta-prefix': 'Recognize your problem in one of these areas? ',
         'services.cta-link': 'Let’s talk on Telegram →',
 
@@ -1318,7 +1319,7 @@ const I18N = {
         'principles.p4.body': "Til modellari ba'zan xato qiladi va faktlarni o'ylab topadi. Shuning uchun jiddiy tizimda AI testlar va sifat metrikalari bilan qoplanadi, yonida esa har doim sinab ko'rilgan klassik yechim turadi&nbsp;— model xato qilganda tayanish uchun. Bu yerda mo''jizalar yo'q&nbsp;— muhandislik bor.",
 
         'angle.eyebrow': "Nigoh burchagi",
-        'angle.heading': "G'alati ko'rinadi&nbsp;—<br class=\"hidden sm:inline\" />tushunib olguningizcha.",
+        'angle.heading': "Ahamiyatsiz ko'rinadi&nbsp;—<br class=\"hidden sm:inline\" />lekin uzoq siz bilan qoladi.",
         'angle.subhead': "Bu poydevor. Ko'pchilik shunchaki<br class=\"hidden sm:inline\" />bilmaydi.",
         'angle.p1': "Men ba'zan g'ayrioddiy ko'ringan yondashuvlardan foydalanaman. <strong>Masalan, til o'rganish uchun musiqa.</strong> Bu originallik emas&nbsp;— bu poydevor. Kattalar ingliz alifbosini darslikdan emas, «ABCDEFG» qo'shig'idan eslashadi. Bolalar sanashni jadvaldan emas, bolalar qo'shiqlaridan o'rganadi. «Billie Jean»'ni millionlab odamlar yoddan biladi&nbsp;— universitet ma'ruzasini esa deyarli hech kim eslamaydi. Bu tasodif emas.",
         'angle.p2': "Miya dastlabdan ritm, melodiya va takrorlash uchun mo'ljallangan&nbsp;— paragraf va jadvallar uchun emas. Birinchi tilni bola qo'shiqlar va intonatsiya orqali o'zlashtiradi, grammatika orqali emas. <strong>Kattalarning jiddiy ta'limida bu poydevor ko'pincha o'tkazib yuboriladi.</strong>",
@@ -1347,14 +1348,14 @@ const I18N = {
         'services.eyebrow': "Nima qilaman",
         'services.heading': "Ish yo'nalishlari",
         'services.subhead': "Men natijani to'liq o'z zimmamga oladigan to'rtta soha.",
-        'services.s1.title': "Raqamli infratuzilma",
-        'services.s1.body': "Tizim kechasi ham ishlashi kerak&nbsp;— aloqada sysadminsiz va yo'qotilgan yozuvlarsiz. Bu endi g'oya emas, bu muhandislik. Serverlar, ma'lumotlar bazalari, zaxiralar, har qanday halokatdan tiklanish.",
-        'services.s2.title': "Hujjat AI",
-        'services.s2.body': "Yigirma yillik shartnoma fotosurati bilan to'la qog'oz arxiv&nbsp;— bir hafta oxiriga qidirish bazasiga aylanadi. O'zbek, rus, ingliz. Summalar, sanalar, rekvizitlar&nbsp;— o'zi chiqariladi.",
-        'services.s3.title': "Qidiruv va tahlil",
-        'services.s3.body': "Xodim so'rov kiritadi va ikki soniyada millionlab hujjatlar orasidan kerakli hujjatni oladi. So'z bo'yicha, ma'no bo'yicha yoki shart bo'yicha qidiradi. Savol beradi&nbsp;— sahifa va paragrafga havola bilan javob oladi.",
-        'services.s4.title': "Xavfsiz joylashtirish",
-        'services.s4.body': "Ma'lumotlar vazirlik serveridan chiqmaydi. AI modeli sizda ishlaydi, boshqalarning bulutida emas. Audit jurnali, shifrlash, kirishni cheklash&nbsp;— birinchi kundanoq tekshiruvga tayyor.",
+        'services.s1.title': "Bardoshli arxitektura",
+        'services.s1.body': "Yozuvlarni yo'qotmaydigan ma'lumotlar bazalari. Har bir vazifani eslab qoladigan navbatlar. Halokatlardan tiklanish&nbsp;— boshidanoq qurilgan, keyin yopishtirilmagan. Boshqa hammasi turadigan poydevor.",
+        'services.s2.title': "Vosita sifatida AI",
+        'services.s2.body': "LLM, OCR, STT/TTS, audio generatsiya open-source modellarda. Arxitektura regressiya testlari, sifat metrikalari va klassik yechim bilan&nbsp;— model xato qilganda tayanish uchun. Begona API'ga ko'r-ko'rona ishonch yo'q.",
+        'services.s3.title': "To'liq mahsulot",
+        'services.s3.body': "G'oyadan ishga tushirishgacha: backend, mobil ilova, bot, dashboard, brend. «Dam olish kunlari MVP» emas, odam ikkinchi marta ochmoqchi bo'ladigan mahsulot. Arxitektura, muhandislik, UX, matn, logotip.",
+        'services.s4.title': "Tuzoqsiz arxitektura",
+        'services.s4.body': "Bog'liqliklar dushman emas. SaaS, API, tayyor yechim&nbsp;— ba'zan olti oyni tejaydi. Savol «olishmi yoki yo'qmi» emas, balki «qaysi birini bir yildan keyin almashtira olamiz, qaysi biri keyingi besh yilga arxitekturaga singib qoladi». Tezlik uchun qayerda chetlab o'tish mumkinligini va qayerda tuzoq borligini aytaman.",
         'services.cta-prefix': "O'z vazifangizni shu yo'nalishlardan birida taniysizmi? ",
         'services.cta-link': "Telegram'da gaplashamiz →",
 
