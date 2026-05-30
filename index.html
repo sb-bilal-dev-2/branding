@@ -479,7 +479,7 @@
          architecture "rises" from the foundation as the principles unfold. -->
     <div class="registan absolute pointer-events-none text-slate-300"
          aria-hidden="true"
-         style="left: 50%; transform: translateX(-50%); bottom: 0; width: clamp(520px, 92%, 1080px); z-index: 0;">
+         style="left: 50%; transform: translateX(-50%); bottom: 0; width: clamp(520px, 90vw, 1800px); z-index: 0;">
         <svg viewBox="0 0 600 240" class="block w-full h-auto" preserveAspectRatio="xMidYEnd meet">
             <g>
                 <!-- Ground line -->
@@ -700,14 +700,14 @@
                 </div>
                 <p data-i18n="projects.ara.p1" class="text-sm text-slate-600 leading-relaxed">
                     <strong class="text-slate-900">Загрузите 10 000 документов. Через час
-                    они проиндексированы, размечены и готовы к ИИ-вопросам.</strong>
+                    они проиндексированы, размечены и готовы к <a href="/posts/llm-doobuchili-zachem" class="link-accent hover:underline">ИИ-вопросам</a>.</strong>
                     Три языка: узбекский, русский, английский. PDF, фотографии, сканы.
-                    Поиск по словам, по смыслу или вместе. Суммы, даты, реквизиты,
+                    <a href="/posts/gov-doc-ai-cases" class="link-accent hover:underline">Поиск по словам, по смыслу или вместе</a>. Суммы, даты, реквизиты,
                     номера договоров — извлекаются автоматически.
                 </p>
                 <p data-i18n="projects.ara.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
-                    Развёртывается на ваших собственных серверах — документы не уходят
-                    в чужие облака. Журнал аудита фиксирует каждое действие пользователя
+                    Развёртывается на ваших собственных серверах — <a href="/posts/pgvector-vs-qdrant" class="link-accent hover:underline">документы не уходят
+                    в чужие облака</a>. Журнал аудита фиксирует каждое действие пользователя
                     и переживает проверку через десять лет.
                 </p>
                 <div class="mt-auto pt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
@@ -736,7 +736,7 @@
                     каждый из нас выучил первый язык.
                 </p>
                 <p data-i18n="projects.vocoplay.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
-                    Я сам учу через него китайский. Это про то самое — заметить очевидное,
+                    Я сам учу через него <a href="/posts/china-vs-uz" class="link-accent hover:underline">китайский</a>. Это про то самое — заметить очевидное,
                     мимо которого все прошли, и превратить в продукт.
                 </p>
                 <div class="mt-auto pt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
@@ -759,9 +759,9 @@
                 <p data-i18n="projects.biomed.p1" class="text-sm text-slate-600 leading-relaxed">
                     <strong class="text-slate-900">Лабораторная и&nbsp;R&amp;D-инфраструктура,
                     которая проходит GxP с&nbsp;первого аудита.</strong> Биоинженерия
-                    и&nbsp;нанотех, биохимия и&nbsp;биотехнология, mRNA и&nbsp;секвенирование генов,
+                    и&nbsp;<a href="/posts/nano-ai-medicine" class="link-accent hover:underline">нанотех</a>, биохимия и&nbsp;биотехнология, mRNA и&nbsp;секвенирование генов,
                     картирование белков, computer-aided design&nbsp;— данные с&nbsp;приборов,
-                    версионированные протоколы, аудит-след по&nbsp;ALCOA+ и&nbsp;21&nbsp;CFR
+                    версионированные протоколы, <a href="/posts/audit-log-llm" class="link-accent hover:underline">аудит-след</a> по&nbsp;ALCOA+ и&nbsp;21&nbsp;CFR
                     Part&nbsp;11. Встроено, а&nbsp;не приклеено.
                 </p>
                 <p data-i18n="projects.biomed.p2" class="text-sm text-slate-500 leading-relaxed mt-4">
@@ -1095,16 +1095,16 @@ const I18N = {
         'projects.heading': 'Над чем работаю',
         'projects.subhead': 'ARA должна работать без сбоев десятилетие. Vocoplay — удерживать внимание три минуты в день. Третье направление — открытое приглашение научным командам в био, нано и регулируемом R&amp;D.',
         'projects.ara.tag': 'Document-intelligence · AI',
-        'projects.ara.p1': '<strong class="text-slate-900">Загрузите 10 000 документов. Через час они проиндексированы, размечены и готовы к ИИ-вопросам.</strong> Три языка: узбекский, русский, английский. PDF, фотографии, сканы. Поиск по словам, по смыслу или вместе. Суммы, даты, реквизиты, номера договоров — извлекаются автоматически.',
-        'projects.ara.p2': 'Развёртывается на ваших собственных серверах — документы не уходят в чужие облака. Журнал аудита фиксирует каждое действие пользователя и переживает проверку через десять лет.',
+        'projects.ara.p1': '<strong class="text-slate-900">Загрузите 10 000 документов. Через час они проиндексированы, размечены и готовы к <a href="/posts/llm-doobuchili-zachem" class="link-accent hover:underline">ИИ-вопросам</a>.</strong> Три языка: узбекский, русский, английский. PDF, фотографии, сканы. <a href="/posts/gov-doc-ai-cases" class="link-accent hover:underline">Поиск по словам, по смыслу или вместе</a>. Суммы, даты, реквизиты, номера договоров — извлекаются автоматически.',
+        'projects.ara.p2': 'Развёртывается на ваших собственных серверах — <a href="/posts/pgvector-vs-qdrant" class="link-accent hover:underline">документы не уходят в чужие облака</a>. Журнал аудита фиксирует каждое действие пользователя и переживает проверку через десять лет.',
         'projects.ara.cta1': 'Открыть демо',
         'projects.ara.cta2': 'Запросить доступ',
         'projects.vocoplay.tag': 'ИИ для людей',
         'projects.vocoplay.p1': '<strong class="text-slate-900">Учите язык так же, как ребёнок — через песни, которые ИИ генерирует под вас.</strong> Shadowing (повторение за носителем) превращает прослушивание в активную тренировку. Скучное упражнение становится тем, к чему возвращаются добровольно. Подход выглядит несерьёзно — а это именно та база, через которую каждый из нас выучил первый язык.',
-        'projects.vocoplay.p2': 'Я сам учу через него китайский. Это про то самое — заметить очевидное, мимо которого все прошли, и превратить в продукт.',
+        'projects.vocoplay.p2': 'Я сам учу через него <a href="/posts/china-vs-uz" class="link-accent hover:underline">китайский</a>. Это про то самое — заметить очевидное, мимо которого все прошли, и превратить в продукт.',
         'projects.biomed.title': 'Био · Нано · GxP',
         'projects.biomed.tag': 'Коллаборация',
-        'projects.biomed.p1': '<strong class="text-slate-900">Лабораторная и&nbsp;R&amp;D-инфраструктура, которая проходит GxP с&nbsp;первого аудита.</strong> Биоинженерия и&nbsp;нанотех, биохимия и&nbsp;биотехнология, mRNA и&nbsp;секвенирование генов, картирование белков, computer-aided design&nbsp;— данные с&nbsp;приборов, версионированные протоколы, аудит-след по&nbsp;ALCOA+ и&nbsp;21&nbsp;CFR Part&nbsp;11. Встроено, а&nbsp;не приклеено.',
+        'projects.biomed.p1': '<strong class="text-slate-900">Лабораторная и&nbsp;R&amp;D-инфраструктура, которая проходит GxP с&nbsp;первого аудита.</strong> Биоинженерия и&nbsp;<a href="/posts/nano-ai-medicine" class="link-accent hover:underline">нанотех</a>, биохимия и&nbsp;биотехнология, mRNA и&nbsp;секвенирование генов, картирование белков, computer-aided design&nbsp;— данные с&nbsp;приборов, версионированные протоколы, <a href="/posts/audit-log-llm" class="link-accent hover:underline">аудит-след</a> по&nbsp;ALCOA+ и&nbsp;21&nbsp;CFR Part&nbsp;11. Встроено, а&nbsp;не приклеено.',
         'projects.biomed.p2': 'Это направление я&nbsp;не&nbsp;веду в&nbsp;одиночку&nbsp;— ищу научных партнёров: биоинженеров, биохимиков, молекулярных биологов и&nbsp;генетиков, разработчиков CAD-моделей, специалистов по&nbsp;нанотех и&nbsp;медоборудованию. Моя часть&nbsp;— инженерная: сбор данных с&nbsp;приборов, версионирование протоколов, валидированное хранилище, аудит-журнал. Партнёрская часть&nbsp;— наука и&nbsp;клинический контекст. Если у&nbsp;вас лаборатория, R&amp;D-проект или продукт на&nbsp;пути к&nbsp;регуляторному одобрению&nbsp;— напишите.',
         'projects.biomed.cta': 'Написать о коллаборации',
         'projects.biomed.meta': 'биоинженеры · биохим · нанотех · CAD · GxP',
@@ -1218,16 +1218,16 @@ const I18N = {
         'projects.heading': 'What I’m working on',
         'projects.subhead': "ARA has to run without failure for a decade. Vocoplay has to hold attention for three minutes a day. The third track&nbsp;— an open invitation to science teams in bio, nano, and regulated R&amp;D.",
         'projects.ara.tag': 'Document intelligence · AI',
-        'projects.ara.p1': '<strong class="text-slate-900">Upload 10,000 documents. An hour later they’re indexed, tagged, and ready for AI-driven questions.</strong> Three languages: Uzbek, Russian, English. PDFs, photos, scans. Search by keyword, by meaning, or both. Amounts, dates, identifiers, contract numbers&nbsp;— extracted automatically.',
-        'projects.ara.p2': "Deployed on your own servers&nbsp;— documents don't leave for someone else's cloud. The audit log captures every user action and holds up to a review ten years later.",
+        'projects.ara.p1': '<strong class="text-slate-900">Upload 10,000 documents. An hour later they’re indexed, tagged, and ready for <a href="/posts/llm-doobuchili-zachem" class="link-accent hover:underline">AI-driven questions</a>.</strong> Three languages: Uzbek, Russian, English. PDFs, photos, scans. <a href="/posts/gov-doc-ai-cases" class="link-accent hover:underline">Search by keyword, by meaning, or both</a>. Amounts, dates, identifiers, contract numbers&nbsp;— extracted automatically.',
+        'projects.ara.p2': "Deployed on your own servers&nbsp;— <a href=\"/posts/pgvector-vs-qdrant\" class=\"link-accent hover:underline\">documents don't leave for someone else's cloud</a>. The audit log captures every user action and holds up to a review ten years later.",
         'projects.ara.cta1': 'Open demo',
         'projects.ara.cta2': 'Request access',
         'projects.vocoplay.tag': 'Product · AI for humans',
         'projects.vocoplay.p1': "<strong class=\"text-slate-900\">Learn a language the way a child does&nbsp;— through songs the AI generates for you.</strong> Shadowing (repeating after a native speaker) turns listening into active practice. A boring exercise becomes something you come back to willingly. The approach looks unserious&nbsp;— and it's exactly the foundation each of us learned our first language through.",
-        'projects.vocoplay.p2': "I'm learning Chinese with it myself. This is about noticing the obvious that everyone walked past, and turning it into a product.",
+        'projects.vocoplay.p2': "I'm learning <a href=\"/posts/china-vs-uz\" class=\"link-accent hover:underline\">Chinese</a> with it myself. This is about noticing the obvious that everyone walked past, and turning it into a product.",
         'projects.biomed.title': 'Bio · Nano · GxP',
         'projects.biomed.tag': 'Collaboration',
-        'projects.biomed.p1': '<strong class="text-slate-900">Lab and R&amp;D infrastructure that passes GxP on the first audit.</strong> Bioengineering and nanotech, biochemistry and biotechnology, mRNA and gene sequencing, protein mapping, computer-aided design&nbsp;— instrument data, versioned protocols, an audit trail compliant with ALCOA+ and 21&nbsp;CFR Part&nbsp;11. Built in, not bolted on.',
+        'projects.biomed.p1': '<strong class="text-slate-900">Lab and R&amp;D infrastructure that passes GxP on the first audit.</strong> Bioengineering and <a href="/posts/nano-ai-medicine" class="link-accent hover:underline">nanotech</a>, biochemistry and biotechnology, mRNA and gene sequencing, protein mapping, computer-aided design&nbsp;— instrument data, versioned protocols, an <a href="/posts/audit-log-llm" class="link-accent hover:underline">audit trail</a> compliant with ALCOA+ and 21&nbsp;CFR Part&nbsp;11. Built in, not bolted on.',
         'projects.biomed.p2': "I don't run this track alone&nbsp;— I'm looking for science partners: bioengineers, biochemists, molecular biologists and geneticists, CAD modelers, nanotech and medical-device people. My part is engineering: instrument data capture, protocol versioning, validated storage, audit log. The partner part is science and clinical context. If you've got a lab, an R&amp;D program, or a product on the road to regulatory approval&nbsp;— write.",
         'projects.biomed.cta': 'Write about a collaboration',
         'projects.biomed.meta': 'bioengineers · biochem · nanotech · CAD · GxP',
@@ -1341,16 +1341,16 @@ const I18N = {
         'projects.heading': "Nima ustida ishlayapman",
         'projects.subhead': "ARA o'n yil davomida nosozliklarsiz ishlashi kerak. Vocoplay&nbsp;— kuniga uch daqiqa diqqatni ushlab turishi. Uchinchi yo'nalish&nbsp;— bio, nano va regulator R&amp;D sohasidagi ilmiy jamoalar uchun ochiq taklif.",
         'projects.ara.tag': "Document-intelligence · AI",
-        'projects.ara.p1': "<strong class=\"text-slate-900\">10 000 ta hujjatni yuklang. Bir soatdan keyin ular indekslangan, belgilangan va AI savollarga tayyor.</strong> Uch til: o'zbek, rus, ingliz. PDF, suratlar, skanlar. So'z bo'yicha, ma'no bo'yicha yoki birga qidirish. Summalar, sanalar, rekvizitlar, shartnoma raqamlari&nbsp;— avtomatik chiqariladi.",
-        'projects.ara.p2': "Sizning o'z serverlaringizda joylashtiriladi&nbsp;— hujjatlar boshqalarning bulutiga ketmaydi. Audit jurnali har bir foydalanuvchi harakatini qayd etadi va o'n yildan keyin tekshiruvga bardosh beradi.",
+        'projects.ara.p1': "<strong class=\"text-slate-900\">10 000 ta hujjatni yuklang. Bir soatdan keyin ular indekslangan, belgilangan va <a href=\"/posts/llm-doobuchili-zachem\" class=\"link-accent hover:underline\">AI savollarga</a> tayyor.</strong> Uch til: o'zbek, rus, ingliz. PDF, suratlar, skanlar. <a href=\"/posts/gov-doc-ai-cases\" class=\"link-accent hover:underline\">So'z bo'yicha, ma'no bo'yicha yoki birga qidirish</a>. Summalar, sanalar, rekvizitlar, shartnoma raqamlari&nbsp;— avtomatik chiqariladi.",
+        'projects.ara.p2': "Sizning o'z serverlaringizda joylashtiriladi&nbsp;— <a href=\"/posts/pgvector-vs-qdrant\" class=\"link-accent hover:underline\">hujjatlar boshqalarning bulutiga ketmaydi</a>. Audit jurnali har bir foydalanuvchi harakatini qayd etadi va o'n yildan keyin tekshiruvga bardosh beradi.",
         'projects.ara.cta1': "Demoni ochish",
         'projects.ara.cta2': "Dostup so'rash",
         'projects.vocoplay.tag': "Mahsulot · Odamlar uchun AI",
         'projects.vocoplay.p1': "<strong class=\"text-slate-900\">Tilni xuddi bolalar kabi o'rganing&nbsp;— sizning ehtiyojingizga moslab AI yaratayotgan qo'shiqlar orqali.</strong> Shadowing (ona tilida so'zlovchidan keyin takrorlash) tinglashni faol mashqqa aylantiradi. Zerikarli mashq ixtiyoriy qaytib keladigan narsaga aylanadi. Yondashuv jiddiy ko'rinmaydi&nbsp;— lekin bu aynan biz birinchi tilimizni o'rgangan poydevor.",
-        'projects.vocoplay.p2': "Men o'zim xitoy tilini shu orqali o'rganyapman. Bu&nbsp;— ko'pchilik o'tib ketgan ravshan narsani sezish va uni mahsulotga aylantirish haqida.",
+        'projects.vocoplay.p2': "Men o'zim <a href=\"/posts/china-vs-uz\" class=\"link-accent hover:underline\">xitoy tilini</a> shu orqali o'rganyapman. Bu&nbsp;— ko'pchilik o'tib ketgan ravshan narsani sezish va uni mahsulotga aylantirish haqida.",
         'projects.biomed.title': "Bio · Nano · GxP",
         'projects.biomed.tag': "Hamkorlik",
-        'projects.biomed.p1': "<strong class=\"text-slate-900\">Birinchi auditdayoq GxP'dan o'tadigan laboratoriya va R&amp;D infratuzilmasi.</strong> Bioinjiniring va nanotex, biokimyo va biotexnologiya, mRNA va gen sekvenlash, protein xaritasi, computer-aided design&nbsp;— asboblardan ma'lumotlar, versiyalangan protokollar, ALCOA+ va 21&nbsp;CFR Part&nbsp;11 bo'yicha audit izi. Boshidanoq qurilgan, keyin yopishtirilmagan.",
+        'projects.biomed.p1': "<strong class=\"text-slate-900\">Birinchi auditdayoq GxP'dan o'tadigan laboratoriya va R&amp;D infratuzilmasi.</strong> Bioinjiniring va <a href=\"/posts/nano-ai-medicine\" class=\"link-accent hover:underline\">nanotex</a>, biokimyo va biotexnologiya, mRNA va gen sekvenlash, protein xaritasi, computer-aided design&nbsp;— asboblardan ma'lumotlar, versiyalangan protokollar, ALCOA+ va 21&nbsp;CFR Part&nbsp;11 bo'yicha <a href=\"/posts/audit-log-llm\" class=\"link-accent hover:underline\">audit izi</a>. Boshidanoq qurilgan, keyin yopishtirilmagan.",
         'projects.biomed.p2': "Bu yo'nalishni yolg'iz olib bormayman&nbsp;— ilmiy hamkorlar qidiryapman: bioinjenerlar, biokimyogarlar, molekulyar biologlar va genetiklar, CAD modeli ishlab chiquvchilar, nanotex va med-uskuna mutaxassislari. Mening qismim&nbsp;— muhandislik: asboblardan ma'lumot olish, protokollarni versiyalash, tasdiqlangan saqlash, audit jurnali. Hamkor qismi&nbsp;— ilm va klinik kontekst. Agar sizda laboratoriya, R&amp;D loyiha yoki regulator tasdig'iga yo'l olgan mahsulot bo'lsa&nbsp;— yozing.",
         'projects.biomed.cta': "Hamkorlik haqida yozish",
         'projects.biomed.meta': "bioinjenerlar · biokimyo · nanotex · CAD · GxP",
